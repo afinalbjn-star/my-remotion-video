@@ -24,11 +24,12 @@ jobs:
         run: npm install
 
       - name: Render Video
-        uses: remotion-dev/github-action@v2
+        uses: remotion-dev/github-action@v4
         with:
           composition: BusinessStats
           entry-point: src/index.ts
           output-location: out/video.mp4
+          extra-args: --overwrite
 
       - name: Upload Video
         uses: actions/upload-artifact@v4

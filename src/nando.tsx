@@ -21,7 +21,7 @@ export const Nando: React.FC = () => {
 	const { fps, height, width } = useVideoConfig();
 
 	return (
-		<AbsoluteFill className="bg-slate-950 flex flex-col items-center justify-center p-20" style={{ fontSize: '1.5rem' }}>
+		<AbsoluteFill className="bg-slate-950 flex flex-col items-center justify-center p-20" style={{ fontSize: '2rem' }}>
 			{/* Background Glow */}
 			<div className="absolute inset-0 overflow-hidden">
 				<div className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] bg-blue-900/20 blur-[120px] rounded-full" />
@@ -51,8 +51,8 @@ export const Nando: React.FC = () => {
 				</p>
 			</div>
 
-			{/* Chart Container */}
-			<div className="z-10 w-full max-w-4xl h-[400px] flex items-end justify-between gap-8 px-10 relative">
+			{/* Chart Container - Enlarged for 2.5K resolution */}
+			<div className="z-10 w-full max-w-7xl h-[700px] flex items-end justify-between gap-12 px-10 relative">
 				{/* Grid Lines */}
 				{[0, 0.25, 0.5, 0.75, 1].map((p) => (
 					<div
@@ -86,7 +86,7 @@ export const Nando: React.FC = () => {
 									style={{
 										height: `${barHeight}%`,
 										background: `linear-gradient(to top, ${colorStart}, ${colorEnd})`,
-										boxShadow: `0 0 40px -10px ${colorStart}88`
+										boxShadow: `0 0 60px -5px ${colorStart}66`
 									}}
 								>
 									{/* Shine & Depth */}
@@ -96,7 +96,7 @@ export const Nando: React.FC = () => {
 
 								{/* Value Label */}
 								<div
-									className="absolute -top-16 left-1/2 -translate-x-1/2 text-white font-black text-3xl whitespace-nowrap"
+									className="absolute -top-20 left-1/2 -translate-x-1/2 text-white font-black text-5xl whitespace-nowrap"
 									style={{
 										opacity: progress,
 										transform: `translateX(-50%) translateY(${interpolate(progress, [0, 1], [20, 0])}px)`,
