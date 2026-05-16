@@ -1,30 +1,44 @@
-name: Render Remotion Video
+name: Render Video
 
 on:
   push:
     branches:
       - main
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   render:
+    name: Render Remotion Video
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
       - name: Install Dependencies
         run: npm install
 
       - name: Render Video
-        uses: remotion-dev/render-video@v1
+        uses: remotion-dev/github-action@v4
         with:
-          # ID komposisi yang ingin kamu render (sesuai di Root.tsx)
-          composition-id: BusinessStats
+          composition: BusinessStats
           entry-point: src/index.ts
-          output-location: out/business-growth.mp4
+          output-location: out/video.mp4
+          # Bitrate tinggi untuk resolusi 1440p
+          extra-args: --overwrite --bitrate=16M
 
       - name: Upload Video
         uses: actions/upload-artifact@v4
         with:
-          name: rendered-video
-          path: out/business-growth.mp4
+          name: remotion-video
+          path: out/video.mp4
