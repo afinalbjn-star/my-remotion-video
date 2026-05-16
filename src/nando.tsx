@@ -63,6 +63,7 @@ export const Nando: React.FC = () => {
 				))}
 
 				{data.map((item, i) => {
+					const [colorStart, colorEnd] = item.color.split(' ');
 					const delay = i * 15;
 					const progress = spring({
 						frame: frame - 40 - delay,
@@ -84,8 +85,8 @@ export const Nando: React.FC = () => {
 									className="w-full rounded-t-xl shadow-2xl transition-all duration-300"
 									style={{
 										height: `${barHeight}%`,
-										background: `linear-gradient(to top, ${item.color.split(' ')[0]}, ${item.color.split(' ')[1]})`,
-										boxShadow: `0 0 40px -10px ${item.color.split(' ')[0]}88`
+										background: `linear-gradient(to top, ${colorStart}, ${colorEnd})`,
+										boxShadow: `0 0 40px -10px ${colorStart}88`
 									}}
 								>
 									{/* Shine & Depth */}
