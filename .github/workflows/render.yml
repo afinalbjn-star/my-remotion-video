@@ -4,45 +4,28 @@ on:
   push:
     branches:
       - main
-      - master
-  workflow_dispatch:
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   render:
-    name: Render Remotion Video
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: List files for debugging
-        run: ls -R
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
           cache: 'npm'
 
       - name: Install Dependencies
         run: npm install
 
       - name: Render Video
-        # Gunakan @v1 agar GitHub secara otomatis mencari versi stabil terbaru
-        uses: remotion-dev/github-action@v1
-        with:
-          composition: BusinessStats
-          entry-point: src/index.ts
-          output-location: out/video.mp4
-          # Bitrate tinggi untuk resolusi 1440p
-          extra-args: --overwrite --bitrate=16M
+        run: npx remotion render src/index.ts out/video.mp4 --composition=Main
 
       - name: Upload Video
         uses: actions/upload-artifact@v4
         with:
-          name: remotion-video
+          name: rendered-video
           path: out/video.mp4
