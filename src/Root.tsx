@@ -10,6 +10,7 @@ import { SwirlingVortex } from "./SwirlingVortex";
 import { NeuralGridLoop } from "./NeuralGridLoop";
 import { DataVizComposition } from "./DataVizComposition";
 import { FinancialChart } from "./FinancialChart";
+import { LoopingDashboard } from "./looping";
 
 
 export const RemotionRoot: React.FC = () => {
@@ -20,77 +21,77 @@ export const RemotionRoot: React.FC = () => {
         component={MyComposition}
         durationInFrames={60}
         fps={30}
-        width={1280}
-        height={720}
+        width={1920}
+        height={1080}
       />
       <Composition
         id="BusinessStats"
         component={Nando}
         durationInFrames={300}
-        fps={60}
-        width={2560}
-        height={1440}
+        fps={30}
+        width={1920}
+        height={1080}
       />
       <Composition
         id="DataStatsVideo"
         component={Vidku}
         durationInFrames={480}
-        fps={60}
-        width={2560}
-        height={1440}
+        fps={30}
+        width={1920}
+        height={1080}
       />
       <Composition
         id="TheDataPulse"
         component={DataPulse}
         durationInFrames={600}
-        fps={60}
-        width={2560}
-        height={1440}
+        fps={30}
+        width={1920}
+        height={1080}
       />
       <Composition
         id="CorporateGrowth"
         component={CorporateGrowth}
         durationInFrames={600}
-        fps={60}
-        width={2560}
-        height={1440}
+        fps={30}
+        width={1920}
+        height={1080}
       />
       <Composition
         id="ArchitecturalDigitalFlow"
         component={ArchitecturalDigitalFlow}
         durationInFrames={600}
-        fps={60}
-        width={2560}
-        height={1440}
+        fps={30}
+        width={1920}
+        height={1080}
       />
       <Composition
         id="RetroVortex"
         component={SwirlingVortex}
         durationInFrames={600}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Looping-Crypto-Dashboard-4K"
+        component={LoopingDashboard}
+        durationInFrames={2400}
         fps={60}
-        width={2560}
-        height={1440}
+        width={3840}
+        height={2160}
       />
       <Composition
-        id="NeuralGridLoop"
+        id="Tech-Neural-Grid-2K"
         component={NeuralGridLoop}
-        durationInFrames={300}
+        durationInFrames={600}
         fps={30}
         width={1920}
         height={1080}
       />
       <Composition
-        id="DataViz"
+        id="Social-Growth-Stats"
         component={DataVizComposition}
-        durationInFrames={300}
-        fps={30}
-        width={1920}
-        height={1080}
-      />
-      <Composition
-        id="FinancialChart"
-        component={FinancialChart}
-        durationInFrames={900}
+        durationInFrames={600}
         fps={30}
         width={1920}
         height={1080}

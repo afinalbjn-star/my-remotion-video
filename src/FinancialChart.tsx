@@ -8,9 +8,9 @@ export const FinancialChart: React.FC = () => {
     const { width, height, durationInFrames } = useVideoConfig();
 
     // Pengaturan grafik
-    const candleWidth = 40;
-    const gap = 20;
-    const chartPadding = 40; // Mengurangi padding agar grafik mengisi lebih banyak ruang vertikal
+    const candleWidth = 80; // Diperbesar untuk 4K
+    const gap = 40; // Diperbesar untuk 4K
+    const chartPadding = 80; // Diperbesar untuk 4K agar tidak terpotong di tepi layar
     const candleStep = candleWidth + gap;
 
     // TEKNIK SEAMLESS: Mirroring data agar titik awal dan akhir bertemu di harga yang sama
@@ -90,22 +90,22 @@ export const FinancialChart: React.FC = () => {
             {/* Price Tag Overlay */}
             <div style={{
                 position: 'absolute',
-                left: focusX + 20,
-                top: currentY - 25,
+                left: focusX + 40,
+                top: currentY - 50,
                 backgroundColor: currentPrice >= currentCandle.open ? '#22c55e' : '#ef4444',
-                padding: '10px 20px',
-                borderRadius: '8px',
+                padding: '20px 40px',
+                borderRadius: '16px',
                 fontWeight: 'bold',
-                fontSize: '24px',
-                boxShadow: '0 10px 25px rgba(0,0,0,0.5)'
+                fontSize: '48px',
+                boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
             }}>
                 ${currentPrice.toFixed(2)}
             </div>
 
             {/* Header Info */}
-            <div style={{ position: 'absolute', top: 60, left: 60 }}>
-                <div style={{ fontSize: 40, fontWeight: 'bold', letterSpacing: 2 }}>BTC / USDT</div>
-                <div style={{ fontSize: 20, color: '#94a3b8', marginTop: 5 }}>MARKET VOLATILITY INDEX</div>
+            <div style={{ position: 'absolute', top: 120, left: 120 }}>
+                <div style={{ fontSize: 80, fontWeight: 'bold', letterSpacing: 4 }}>BTC / USDT</div>
+                <div style={{ fontSize: 40, color: '#94a3b8', marginTop: 10 }}>MARKET VOLATILITY INDEX</div>
             </div>
         </AbsoluteFill>
     );
