@@ -1,0 +1,36 @@
+name: Render Remotion Video
+
+on:
+  workflow_dispatch:
+    inputs:
+      composition:
+        description: 'ID Komposisi yang akan dirender'
+        required: true
+        default: 'FinancialChart'
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout data
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Render Video
+        run: |
+          npx remotion render ${{ github.event.inputs.composition }} out/video.mp4 --chromium-flags="--no-sandbox"
+
+      - name: Upload Video Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: remotion-video
+          path: out/video.mp4
+          retention-days: 7
