@@ -24,11 +24,11 @@ const startRender = async () => {
         },
         codec: "h265",
         privacy: "public",
-        crf: 14,
-        framesPerLambda: 30,
+        crf: 10, // Menurunkan CRF untuk kualitas lebih tinggi dan ukuran file lebih besar
+        framesPerLambda: 60, // Meningkatkan framesPerLambda untuk potensi render lebih cepat
         downloadBehavior: {
             type: "download",
-            fileName: "institutional-liquidity-pulse-4k.mp4" // Updated filename
+            fileName: "institutional-liquidity-pulse-4k-super-quality.mp4" // Nama file baru
         }
     });
 
