@@ -24,7 +24,7 @@ const startRender = async () => {
         // inputProps: { coinSymbol: "BTC" }, // Hapus atau sesuaikan inputProps jika komposisi tidak memerlukannya
         codec: "h265",
         privacy: "public",
-        videoBitrate: "50M", // Menentukan bitrate tinggi secara eksplisit untuk standar 4K profesional
+        videoBitrate: "100M", // Ditingkatkan untuk memaksa ukuran file lebih besar
         framesPerLambda: 60, // Meningkatkan framesPerLambda untuk potensi render lebih cepat
         downloadBehavior: {
             type: "download",

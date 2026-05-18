@@ -20,7 +20,7 @@ jobs:
           composition-id: CyberIntelligenceGrid
           output-location: out.mp4
           codec: h265
-          video-bitrate: 50M
+          video-bitrate: 100M # Ditingkatkan untuk memaksa ukuran file lebih besar
 
       - name: Upload Video
         uses: actions/upload-artifact@v4
