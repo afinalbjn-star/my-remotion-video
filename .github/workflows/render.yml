@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Render Video
-        run: npx remotion render src/index.ts out/video.mp4 --composition=Looping-Crypto-Dashboard-4K
+        run: npx remotion render CorporateGrowth-Seamless out/video.mp4 --chromium-flags="--no-sandbox"
 
       - name: Upload Video
         uses: actions/upload-artifact@v4
