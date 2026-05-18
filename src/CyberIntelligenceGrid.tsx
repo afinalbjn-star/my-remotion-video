@@ -47,6 +47,17 @@ export const CyberIntelligenceGrid: React.FC = () => {
         }));
     }, [nodes]);
 
+    // Generate 200 random particles for high-entropy background
+    const backgroundParticles = useMemo(() => {
+        return Array.from({ length: 200 }).map((_, i) => ({
+            x: random(`bg-p-x-${i}`) * width,
+            y: random(`bg-p-y-${i}`) * height,
+            size: random(`bg-p-s-${i}`) * 3 + 1,
+            speed: random(`bg-p-sp-${i}`) * 2 + 0.5,
+            opacity: random(`bg-p-o-${i}`) * 0.5 + 0.2,
+        }));
+    }, [width, height]);
+
     return (
         <AbsoluteFill style={{ backgroundColor: colors.bg, overflow: 'hidden', fontFamily: 'monospace' }}>
             {/* 1. Deep Background Grid with Parallax */}
@@ -63,6 +74,23 @@ export const CyberIntelligenceGrid: React.FC = () => {
                 `,
                 opacity: 0.5,
             }} />
+
+            {/* Floating Particles - Memaksa Bitrate Tinggi */}
+            {backgroundParticles.map((p, i) => (
+                <div
+                    key={i}
+                    style={{
+                        position: 'absolute',
+                        left: p.x,
+                        top: (p.y + frame * p.speed) % height,
+                        width: p.size * scale,
+                        height: p.size * scale,
+                        backgroundColor: colors.primary,
+                        opacity: p.opacity,
+                        borderRadius: '50%',
+                    }}
+                />
+            ))}
 
             {/* 2. Neural Connections Layer */}
             <svg width={width} height={height} style={{ position: 'absolute', zIndex: 10 }}>
@@ -195,18 +223,28 @@ export const CyberIntelligenceGrid: React.FC = () => {
                 }} />
             </div>
 
-            {/* 4.2 Noise Layer - Memaksa High Bitrate & High Detail */}
-            <div style={{
-                position: 'absolute',
-                inset: -50,
-                opacity: 0.12,
-                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-                zIndex: 400,
-                pointerEvents: 'none',
-                mixBlendMode: 'overlay',
-                // Pergerakan acak setiap frame untuk menghancurkan kompresi encoder
-                transform: `translate(${random(frame) * 20}px, ${random(frame + 1) * 20}px) scale(1.1)`,
-            }} />
+            {/* 4.2 DYNAMIC NOISE ENGINE - Memaksa setiap piksel berubah tiap frame */}
+            <svg
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    opacity: 0.15,
+                    mixBlendMode: 'overlay',
+                    pointerEvents: 'none',
+                    zIndex: 999,
+                }}
+            >
+                <filter id="heavyNoise">
+                    <feTurbulence
+                        type="fractalNoise"
+                        baseFrequency="0.5"
+                        seed={frame}
+                    />
+                </filter>
+                <rect width="100%" height="100%" filter="url(#heavyNoise)" />
+            </svg>
 
             {/* 4.1 Horizontal Scanline */}
             <div style={{

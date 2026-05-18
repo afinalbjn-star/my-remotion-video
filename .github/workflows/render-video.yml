@@ -18,11 +18,12 @@ jobs:
         with:
           entry-point: src/index.ts
           composition-id: CyberIntelligenceGrid
-          output-location: out.mov
-          codec: prores
+          output-location: out.mp4
+          codec: h264
+          video-bitrate: 200M
 
       - name: Upload Video
         uses: actions/upload-artifact@v4
         with:
           name: rendered-video
-          path: out.mov
+          path: out.mp4
