@@ -18,18 +18,17 @@ const startRender = async () => {
         region,
         functionName,
         serveUrl,
-        composition: "InstitutionalLiquidityPulse", // Updated to the correct composition ID
         composition: "CyberIntelligenceGrid", // Mengubah komposisi yang akan dirender ke CyberIntelligenceGrid
         // Jika Anda ingin merender komposisi lain, ganti "CyberIntelligenceGrid" dengan ID komposisi yang diinginkan.
         // Contoh: composition: "InstitutionalLiquidityPulse",
         // inputProps: { coinSymbol: "BTC" }, // Hapus atau sesuaikan inputProps jika komposisi tidak memerlukannya
         codec: "h265",
         privacy: "public",
-        crf: 10, // Menurunkan CRF untuk kualitas lebih tinggi dan ukuran file lebih besar
+        videoBitrate: "50M", // Menentukan bitrate tinggi secara eksplisit untuk standar 4K profesional
         framesPerLambda: 60, // Meningkatkan framesPerLambda untuk potensi render lebih cepat
         downloadBehavior: {
             type: "download",
-            fileName: "institutional-liquidity-pulse-4k-super-quality.mp4" // Nama file baru
+            fileName: "cyber-intelligence-grid-4k-50mbps.mp4" // Menyesuaikan nama file dengan komposisi
         }
     });
 
