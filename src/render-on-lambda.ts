@@ -19,7 +19,11 @@ const startRender = async () => {
         functionName,
         serveUrl,
         composition: "BusinessStats",
-        inputProps: {}, // Jika ingin mengirim data dinamis
+        inputProps: {
+            coinSymbol: "BTC",
+            theme: "dark",
+            showLottie: true
+        },
         codec: "h264",
         privacy: "public",
     });
