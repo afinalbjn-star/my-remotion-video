@@ -6,7 +6,7 @@ on:
       composition:
         description: 'ID Komposisi yang akan dirender'
         required: true
-        default: 'FinancialChart'
+        default: 'InstitutionalLiquidityPulse' # Updated default composition
 
 jobs:
   render:
@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 20
           cache: 'npm'
 
       - name: Install Dependencies
@@ -28,7 +28,7 @@ jobs:
 
       - name: Render Video
         run: |
-          npx remotion render ${{ github.event.inputs.composition }} out/video.mp4 --chromium-flags="--no-sandbox"
+          npx remotion render ${{ github.event.inputs.composition }} out/video.mp4 --chromium-flags="--no-sandbox --disable-setuid-sandbox"
 
       - name: Upload Video Artifact
         uses: actions/upload-artifact@v4

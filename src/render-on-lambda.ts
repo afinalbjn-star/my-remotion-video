@@ -13,24 +13,22 @@ const startRender = async () => {
         region,
     });
 
-    // 2. Trigger render for composition 'CorporateGrowth-Seamless'
+    // 2. Trigger render for composition 'InstitutionalLiquidityPulse'
     const { renderId, bucketName } = await renderMediaOnLambda({
         region,
         functionName,
         serveUrl,
-        composition: "CorporateGrowth-Seamless",
+        composition: "InstitutionalLiquidityPulse", // Updated to the correct composition ID
         inputProps: {
             coinSymbol: "BTC",
-            theme: "dark",
-            showLottie: true
         },
-        codec: "h265", // H.265 jauh lebih tajam untuk resolusi 4K dibanding H.264
+        codec: "h265",
         privacy: "public",
-        crf: 14, // CRF 14 memberikan kualitas visual yang hampir lossless tanpa membuat file terlalu raksasa
-        framesPerLambda: 30, // Membagi tugas lebih kecil agar render jauh lebih cepat
+        crf: 14,
+        framesPerLambda: 30,
         downloadBehavior: {
             type: "download",
-            fileName: "render-4k-terbaik.mp4"
+            fileName: "institutional-liquidity-pulse-4k.mp4" // Updated filename
         }
     });
 
