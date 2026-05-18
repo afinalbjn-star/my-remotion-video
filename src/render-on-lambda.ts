@@ -19,9 +19,10 @@ const startRender = async () => {
         functionName,
         serveUrl,
         composition: "InstitutionalLiquidityPulse", // Updated to the correct composition ID
-        inputProps: {
-            coinSymbol: "BTC",
-        },
+        composition: "CyberIntelligenceGrid", // Mengubah komposisi yang akan dirender ke CyberIntelligenceGrid
+        // Jika Anda ingin merender komposisi lain, ganti "CyberIntelligenceGrid" dengan ID komposisi yang diinginkan.
+        // Contoh: composition: "InstitutionalLiquidityPulse",
+        // inputProps: { coinSymbol: "BTC" }, // Hapus atau sesuaikan inputProps jika komposisi tidak memerlukannya
         codec: "h265",
         privacy: "public",
         crf: 10, // Menurunkan CRF untuk kualitas lebih tinggi dan ukuran file lebih besar

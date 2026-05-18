@@ -1,6 +1,7 @@
 import { Composition } from 'remotion';
 import { InstitutionalLiquidityPulse } from './InstitutionalLiquidityPulse';
 import { CorporateGrowthSeamless } from './CorporateGrowthSeamless';
+import { CyberIntelligenceGrid } from './CyberIntelligenceGrid';
 import { autoLoadFont } from './AssetManager';
 
 export const RemotionRoot: React.FC = () => {
@@ -22,6 +23,14 @@ export const RemotionRoot: React.FC = () => {
         component={CorporateGrowthSeamless}
         durationInFrames={300}
         fps={30}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="CyberIntelligenceGrid"
+        component={CyberIntelligenceGrid}
+        durationInFrames={1200} // 20 seconds * 60 fps
+        fps={60}
         width={3840}
         height={2160}
       />

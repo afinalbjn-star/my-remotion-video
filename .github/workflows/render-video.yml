@@ -1,38 +1,27 @@
-name: Render Remotion Video
+name: Render Cyber Intelligence Video
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
-    inputs:
-      composition:
-        description: 'ID Komposisi yang akan dirender'
-        required: true
-        default: 'InstitutionalLiquidityPulse' # Updated default composition
 
 jobs:
   render:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
-      - name: Checkout data
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: npm install
-
       - name: Render Video
-        run: |
-          npx remotion render ${{ github.event.inputs.composition }} out/video.mp4 --chromium-flags="--no-sandbox --disable-setuid-sandbox"
+        uses: remotion-dev/github-action@v1
+        with:
+          entry-point: src/index.ts
+          composition-id: CyberIntelligenceGrid
+          output-location: out.mp4
 
-      - name: Upload Video Artifact
+      - name: Upload Video
         uses: actions/upload-artifact@v4
         with:
-          name: remotion-video
-          path: out/video.mp4
-          retention-days: 7
+          name: rendered-video
+          path: out.mp4
