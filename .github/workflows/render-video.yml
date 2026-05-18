@@ -19,8 +19,8 @@ jobs:
           entry-point: src/index.ts
           composition-id: CyberIntelligenceGrid
           output-location: out.mp4
-          codec: h265
-          video-bitrate: 100M # Ditingkatkan untuk memaksa ukuran file lebih besar
+          codec: h264
+          crf: 10
 
       - name: Upload Video
         uses: actions/upload-artifact@v4

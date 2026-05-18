@@ -195,6 +195,17 @@ export const CyberIntelligenceGrid: React.FC = () => {
                 }} />
             </div>
 
+            {/* 4.2 Noise Layer - Memaksa High Bitrate & High Detail */}
+            <div style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0.08,
+                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+                zIndex: 400,
+                pointerEvents: 'none',
+                mixBlendMode: 'overlay'
+            }} />
+
             {/* 4.1 Horizontal Scanline */}
             <div style={{
                 position: 'absolute',
