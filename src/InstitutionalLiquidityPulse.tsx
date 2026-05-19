@@ -141,44 +141,43 @@ export const InstitutionalLiquidityPulse: React.FC<InstitutionalLiquidityPulsePr
                     const dataIndex = Math.floor(curveProgress * (curve.points.length - 1));
                     const currentPoint = curve.points[dataIndex];
 
-                    if (!currentPoint) {
-                        return null;
-                    }
-
                     return (
                         <React.Fragment key={curve.id}>
-                            <path
-                                d={curve.path}
-                                fill="none"
-                                stroke={curve.color}
-                                strokeWidth={4 * scale}
-                                strokeDasharray={curve.stats.total}
-                                strokeDashoffset={curve.stats.total - currentDist}
-                                style={{ filter: `drop-shadow(0 0 ${5 * scale}px ${curve.color}50)` }}
-                            />
-                            {curveProgress > 0 && (
+                            {currentPoint && (
                                 <>
-                                    <circle
-                                        cx={currentPoint.x}
-                                        cy={currentPoint.y}
-                                        r={8 * scale}
-                                        fill={curve.color}
-                                        style={{ filter: `drop-shadow(0 0 ${12 * scale}px ${curve.color})` }}
+                                    <path
+                                        d={curve.path}
+                                        fill="none"
+                                        stroke={curve.color}
+                                        strokeWidth={4 * scale}
+                                        strokeDasharray={curve.stats.total}
+                                        strokeDashoffset={curve.stats.total - currentDist}
+                                        style={{ filter: `drop-shadow(0 0 ${5 * scale}px ${curve.color}50)` }}
                                     />
-                                    {/* Dynamic Floating Values */}
-                                    <text
-                                        x={currentPoint.x + 15}
-                                        y={currentPoint.y - 15}
-                                        fill={curve.color}
-                                        fontSize={22 * scale}
-                                        fontWeight="900"
-                                        style={{ textShadow: '0 0 10px rgba(0,0,0,0.8)' }}
-                                    >
-                                        {curve.id === 'white' && `$${priceHistory[dataIndex].value.toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
-                                        {curve.id === 'yellow' && `${liquidityHistory[dataIndex].value.toLocaleString()} BTC`}
-                                        {curve.id === 'green' && `VOL: ${volumeHistory[dataIndex].value.toFixed(0)}`}
-                                        {curve.id === 'red' && `${volatilityHistory[dataIndex].value.toFixed(1)}%`}
-                                    </text>
+                                    {curveProgress > 0 && (
+                                        <>
+                                            <circle
+                                                cx={currentPoint.x}
+                                                cy={currentPoint.y}
+                                                r={8 * scale}
+                                                fill={curve.color}
+                                                style={{ filter: `drop-shadow(0 0 ${12 * scale}px ${curve.color})` }}
+                                            />
+                                            <text
+                                                x={currentPoint.x + 15}
+                                                y={currentPoint.y - 15}
+                                                fill={curve.color}
+                                                fontSize={22 * scale}
+                                                fontWeight="900"
+                                                style={{ textShadow: '0 0 10px rgba(0,0,0,0.8)' }}
+                                            >
+                                                {curve.id === 'white' && `$${priceHistory[dataIndex].value.toLocaleString(undefined, { maximumFractionDigits: 0 })}`}
+                                                {curve.id === 'yellow' && `${liquidityHistory[dataIndex].value.toLocaleString()} BTC`}
+                                                {curve.id === 'green' && `VOL: ${volumeHistory[dataIndex].value.toFixed(0)}`}
+                                                {curve.id === 'red' && `${volatilityHistory[dataIndex].value.toFixed(1)}%`}
+                                            </text>
+                                        </>
+                                    )}
                                 </>
                             )}
                         </React.Fragment>

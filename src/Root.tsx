@@ -7,6 +7,9 @@ import { QuantumCandlestickFlow } from './QuantumCandlestickFlow';
 import { CorporateGrowth } from './CorporateGrowth';
 import { LoopingDashboard } from './looping';
 import { Nando } from './nando';
+import { NeuralDataCore } from './NeuralDataCore';
+import { CognitiveArchitecture } from './CognitiveArchitecture';
+import { HoloGeometricSynchronicity } from './HoloGeometricSynchronicity';
 import { autoLoadFont } from './AssetManager';
 
 export const RemotionRoot: React.FC = () => {
@@ -87,6 +90,33 @@ export const RemotionRoot: React.FC = () => {
         fps={60}
         width={7680}
         height={4320}
+      />
+
+      <Composition
+        id="NeuralDataCore-8K"
+        component={NeuralDataCore}
+        durationInFrames={1200}
+        fps={60}
+        width={3840}
+        height={2160}
+      />
+
+      <Composition
+        id="CognitiveArchitecture-4K"
+        component={CognitiveArchitecture}
+        durationInFrames={1200} // 20 detik @ 60fps untuk loop seamless yang halus
+        fps={60}
+        width={3840}
+        height={2160}
+      />
+
+      <Composition
+        id="HoloGeometric-4K"
+        component={HoloGeometricSynchronicity}
+        durationInFrames={1200} // 20 detik @ 60fps
+        fps={60}
+        width={3840}
+        height={2160}
       />
     </>
   );

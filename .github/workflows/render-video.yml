@@ -1,4 +1,4 @@
-name: Render Cyber Intelligence Video
+name: Render Holo Geometric Video
 
 on:
   push:
@@ -26,7 +26,7 @@ jobs:
           # Masukkan secret jika Anda menggunakannya di kode untuk ElevenLabs
           ELEVEN_LABS_API_KEY: ${{ secrets.ELEVEN_LABS_API_KEY }}
         run: |
-          npx remotion render CyberIntelligenceGrid out.mp4 --codec h264 --crf 0 --preset slow --log-level verbose
+          npx remotion render HoloGeometric-4K out.mp4 --codec h264 --crf 18 --preset slow --log-level verbose
 
       - name: Upload Video
         uses: actions/upload-artifact@v4

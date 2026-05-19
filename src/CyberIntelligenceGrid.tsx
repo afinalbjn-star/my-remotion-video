@@ -246,19 +246,6 @@ export const CyberIntelligenceGrid: React.FC = () => {
                 <rect width="100%" height="100%" filter="url(#heavyNoise)" />
             </svg>
 
-            {/* 4.1 Horizontal Scanline */}
-            <div style={{
-                position: 'absolute',
-                width: '100%',
-                height: 4 * scale,
-                background: `linear-gradient(90deg, transparent, ${colors.secondary}, transparent)`,
-                top: `${(loopProgress * 100)}%`,
-                opacity: 0.3,
-                zIndex: 200,
-                filter: 'blur(2px)',
-                pointerEvents: 'none',
-            }} />
-
             {/* 5. Center Core Title */}
             <div style={{
                 position: 'absolute',
