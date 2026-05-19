@@ -27,12 +27,12 @@ export const CyberOceanWave: React.FC = () => {
   const t = progress * Math.PI * 8; 
 
   // High-density grid coordinates to pack the screen with thousands of jaring-jaring and nodes
-  const cols = 48;
-  const rows = 36;
+  const cols = 60;
+  const rows = 45;
 
   // Ultra-wide grid dimensions to completely overshoot borders and cover the full screen
-  const gridWidth = width * 2.8;
-  const gridDepth = 3200;
+  const gridWidth = width * 3.6;
+  const gridDepth = 6000;
   const scaleFactor = height / 2160;
 
   // Gigantic/Dahsyat Wave Superposition (High-amplitude, fast-moving ocean swells)
@@ -46,10 +46,10 @@ export const CyberOceanWave: React.FC = () => {
     // Wave 3: Strong sharp secondary wind crests (Amplitude 60)
     const w3 = Math.sin(x * 0.006 + z * 0.006 + tVal * 3.0) * 60;
 
-    // Boundary attenuation with a fractional power curve
-    // This allows the waves to remain massive and active almost all the way to the very edges of the screen
+    // Boundary attenuation with an extremely flat fractional power curve
+    // This allows the waves to remain massive and active all the way to the edges of the grid
     const borderFade = Math.sin((x / gridWidth) * Math.PI) * Math.sin((z / gridDepth) * Math.PI);
-    const wideBorderFade = Math.pow(Math.max(0, borderFade), 0.28);
+    const wideBorderFade = Math.pow(Math.max(0, borderFade), 0.02);
 
     return (w1 + w2 + w3) * wideBorderFade * scaleFactor;
   };
@@ -104,7 +104,7 @@ export const CyberOceanWave: React.FC = () => {
 
         // Map to 2D screen positions centered vertically to cover top and bottom edges fully
         const screenX = width / 2 + xRot * perspectiveScale;
-        const screenY = height / 2 + yRot * perspectiveScale + 250 * scaleFactor;
+        const screenY = height / 2 + yRot * perspectiveScale;
 
         points.push({
           row: r,
@@ -179,7 +179,7 @@ export const CyberOceanWave: React.FC = () => {
             const nextDown = pointLookup[`${pt.row + 1}_${pt.col}`];
             
             // Strong grid presence from foreground all the way to the horizon
-            const depthFade = interpolate(pt.depth, [-gridDepth/2, gridDepth/2], [0.95, 0.35], {
+            const depthFade = interpolate(pt.depth, [-1500, 1500], [0.95, 0.35], {
               extrapolateLeft: 'clamp',
               extrapolateRight: 'clamp',
             });
@@ -187,7 +187,7 @@ export const CyberOceanWave: React.FC = () => {
             const lineStroke = getWaveColor(pt.yRaw);
 
             // Robust line thickness for massive, sharp visual presence
-            const strokeWidth = interpolate(pt.depth, [-gridDepth/2, gridDepth/2], [7.5, 2.8]) * scaleFactor;
+            const strokeWidth = interpolate(pt.depth, [-1500, 1500], [7.5, 2.8]) * scaleFactor;
 
             return (
               <React.Fragment key={`lines-${pt.row}-${pt.col}`}>
@@ -223,13 +223,13 @@ export const CyberOceanWave: React.FC = () => {
         {/* 2. RENDERING MAPPED node.svg GRAPHIC AT VERTICES WITH INTENSE GLOW */}
         <g>
           {projectedPoints.map((pt) => {
-            const opacity = interpolate(pt.depth, [-gridDepth/2, gridDepth/2], [0.98, 0.45], {
+            const opacity = interpolate(pt.depth, [-1500, 1500], [0.98, 0.45], {
               extrapolateLeft: 'clamp',
               extrapolateRight: 'clamp',
             });
 
-            // Scaled perspective size of each node
-            const size = 70 * pt.scale;
+            // Scaled perspective size of each node (refined for higher density)
+            const size = 55 * pt.scale;
 
             // Highly pronounced peak highlights
             const isPeak = pt.yRaw < -120 * scaleFactor;
@@ -255,7 +255,7 @@ export const CyberOceanWave: React.FC = () => {
                 <circle
                   cx={size / 2}
                   cy={size / 2}
-                  r={7.0 * pt.scale}
+                  r={6.0 * pt.scale}
                   fill={nodeFill}
                   style={{
                     filter: 'drop-shadow(0 0 8px #00f2ff)',
