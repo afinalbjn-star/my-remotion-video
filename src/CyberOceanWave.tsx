@@ -7,14 +7,14 @@ import {
   staticFile,
 } from 'remotion';
 
-// Curated Sleek Dark Tech & Cyberpunk Ocean Color Palette
+// Sleek Cyberpunk Neon Ocean Color Palette
 const colors = {
-  bg: '#010206',
-  primary: '#00f2ff',      // Cyan Wave Crests
-  accent: '#7b2cbf',       // Deep Royal Violet
-  foam: '#ffffff',         // Bright White Peak accents
-  darkWater: '#030712',    // Deep Sea Floor
-  gridLines: 'rgba(0, 242, 255, 0.08)',
+  bg: '#010105',
+  primary: '#00f2ff',      // Neon Cyan
+  midWater: '#0077b6',     // Ocean Blue
+  accent: '#9d00ff',       // Quantum Purple
+  foam: '#ffffff',         // White Peak Highlight
+  gridLines: 'rgba(0, 242, 255, 0.15)',
 };
 
 export const CyberOceanWave: React.FC = () => {
@@ -23,72 +23,94 @@ export const CyberOceanWave: React.FC = () => {
 
   // Loop progress perfectly calibrated from 0.0 to 1.0 (seamless loops)
   const progress = frame / durationInFrames;
-  const t = progress * Math.PI * 2; // Time variable for 360-degree looping math
+  
+  // To double the speed and maintain a perfect loop, we multiply the progress by 2 cycles (4 * PI)
+  const t = progress * Math.PI * 4; 
 
-  // Dimensions of the 3D mesh grid
-  const cols = 28;
-  const rows = 16;
+  // Increased dimensions of the 3D mesh grid for a richer, denser surface
+  const cols = 30;
+  const rows = 20;
 
   // Projection engine parameters
-  const gridWidth = width * 1.5;
-  const gridDepth = 1200;
+  const gridWidth = width * 1.6;
+  const gridDepth = 1800;
   const scaleFactor = height / 2160;
 
-  // Multi-layered Wave Superposition (Sum of 3 distinct complex sine waves)
+  // High-intensity Wave Superposition (Sum of 3 distinct high-amplitude sine/cosine waves)
   const calculateWaveHeight = (x: number, z: number, tVal: number) => {
-    // Wave 1: Large directional swells moving forward-right
-    const w1 = Math.sin(x * 0.0018 + z * 0.001 + tVal) * 90;
+    // Wave 1: Large active swells moving diagonally (Amplitude 240)
+    const w1 = Math.sin(x * 0.0022 + z * 0.0014 + tVal) * 240;
     
-    // Wave 2: Shorter, fast counter-current ripples
-    const w2 = Math.cos(x * -0.003 + z * 0.0025 - tVal * 2) * 35;
+    // Wave 2: Faster cross-current ripples (Amplitude 80, double speed)
+    const w2 = Math.cos(x * -0.004 + z * 0.003 - tVal * 2) * 80;
     
-    // Wave 3: Fine micro-turbulence (adds fluid detail)
-    const w3 = Math.sin(x * 0.006 + z * 0.007 + tVal * 3) * 12;
+    // Wave 3: Sharp secondary wind waves (Amplitude 30, triple speed)
+    const w3 = Math.sin(x * 0.008 + z * 0.008 + tVal * 3) * 30;
 
-    // Amplitude attenuation toward boundaries for standard perspective frame fit
+    // Smooth boundary attenuation to keep the edges clean
     const borderFade = Math.sin((x / gridWidth) * Math.PI) * Math.sin((z / gridDepth) * Math.PI);
 
     return (w1 + w2 + w3) * borderFade * scaleFactor;
   };
 
-  // Generate 3D grid points dynamically and project them onto 2D viewport
+  // Helper to color segments dynamically based on vertex height
+  const getWaveColor = (yRaw: number) => {
+    // High peaks (negative Y in Remotion coordinate space) are Cyan, deep troughs are Purple
+    const normalizedHeight = interpolate(yRaw, [-180 * scaleFactor, 180 * scaleFactor], [1, 0], {
+      extrapolateLeft: 'clamp',
+      extrapolateRight: 'clamp',
+    });
+
+    if (normalizedHeight > 0.7) {
+      return colors.primary; // Bright Cyan peaks
+    } else if (normalizedHeight > 0.35) {
+      return colors.midWater; // Deep Ocean Blue mid-waves
+    } else {
+      return colors.accent; // Vibrant Purple troughs
+    }
+  };
+
+  // Generate 3D grid points dynamically and project them onto 2D viewport (Top-Down View)
   const projectedPoints = useMemo(() => {
     const points = [];
+    
+    // Steep Camera Pitch from above: 72 degrees (1.25 radians)
+    const pitch = (72 * Math.PI) / 180;
+    const cosP = Math.cos(pitch);
+    const sinP = Math.sin(pitch);
 
     for (let r = 0; r < rows; r++) {
-      // Z runs from far away (depth 100) to near camera (depth 0)
       const zPercent = r / (rows - 1);
-      const zRaw = zPercent * gridDepth;
+      // Center the depth coordinates to rotate around grid center
+      const zRaw = (zPercent - 0.5) * gridDepth;
 
       for (let c = 0; c < cols; c++) {
         const xPercent = c / (cols - 1);
         const xRaw = (xPercent - 0.5) * gridWidth;
 
-        // Apply wave displacement
-        const yRaw = calculateWaveHeight(xRaw + (gridWidth * 0.5), zRaw, t);
+        // Apply high-intensity wave displacement
+        const yRaw = calculateWaveHeight(xPercent * gridWidth, zPercent * gridDepth, t);
 
-        // 3D Isometric Projection with depth distortion
-        // Camera perspective calibration parameters:
-        const fov = 1000;
-        const cameraY = -550 * scaleFactor; // Position camera above the surface
-        const cameraZ = -300;               // Put camera slightly back
+        // Apply X-axis pitch rotation for steep top-down camera look
+        const xRot = xRaw;
+        const yRot = yRaw * cosP - zRaw * sinP;
+        const zRot = yRaw * sinP + zRaw * cosP;
 
-        const relativeY = yRaw - cameraY;
-        const relativeZ = zRaw - cameraZ;
+        // Perspective Camera setup looking down from center
+        const fov = 1500;
+        const cameraDist = 1800;
+        const perspectiveScale = fov / (fov + zRot + cameraDist);
 
-        // Standard perspective scale multiplier
-        const perspectiveScale = fov / (fov + relativeZ);
-
-        // Map to 2D coordinates centered in canvas
-        const screenX = width / 2 + xRaw * perspectiveScale;
-        const screenY = height / 2 + relativeY * perspectiveScale + 250 * scaleFactor;
+        // Map to 2D screen positions with vertical shift to center the high-angle grid
+        const screenX = width / 2 + xRot * perspectiveScale;
+        const screenY = height / 2 + yRot * perspectiveScale + 200 * scaleFactor;
 
         points.push({
           row: r,
           col: c,
           x: screenX,
           y: screenY,
-          depth: relativeZ, // Track depth for correct SVG paint-order sorting (Painter's Algorithm)
+          depth: zRot, // Depth value for Painter's Algorithm sorting
           yRaw,
           zRaw,
           scale: perspectiveScale * scaleFactor,
@@ -96,11 +118,11 @@ export const CyberOceanWave: React.FC = () => {
       }
     }
 
-    // Sort nodes back-to-front (highest depth drawn first) to ensure correct visual overlap
+    // Sort back-to-front so objects in background are drawn first
     return points.sort((a, b) => b.depth - a.depth);
   }, [frame, width, height, scaleFactor]);
 
-  // Construct a lookup map for instant connectivity line drawing
+  // Construct a lookup map for grid connections
   const pointLookup = useMemo(() => {
     const map: Record<string, typeof projectedPoints[0]> = {};
     projectedPoints.forEach((pt) => {
@@ -117,14 +139,14 @@ export const CyberOceanWave: React.FC = () => {
         fontFamily: "'Inter', sans-serif",
       }}
     >
-      {/* Deep Sea Ambient Volumetric Backlight */}
+      {/* Dynamic Ambient Ocean Backdrop Glow */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background: `radial-gradient(circle at 50% 30%, rgba(0, 242, 255, 0.15) 0%, rgba(123, 44, 191, 0.08) 50%, transparent 100%)`,
-          filter: 'blur(80px)',
-          opacity: 0.9 + Math.sin(frame * 0.05) * 0.08,
+          background: `radial-gradient(circle at 50% 45%, rgba(0, 242, 255, 0.22) 0%, rgba(157, 0, 255, 0.12) 55%, transparent 100%)`,
+          filter: 'blur(90px)',
+          opacity: 0.95 + Math.sin(frame * 0.08) * 0.05,
           pointerEvents: 'none',
         }}
       />
@@ -140,12 +162,8 @@ export const CyberOceanWave: React.FC = () => {
         }}
       >
         <defs>
-          <radialGradient id="waveGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor={colors.primary} stopOpacity="1" />
-            <stop offset="100%" stopColor={colors.accent} stopOpacity="0" />
-          </radialGradient>
-          <filter id="meshGlow">
-            <feGaussianBlur stdDeviation={10 * scaleFactor} result="blur" />
+          <filter id="ultraGlow">
+            <feGaussianBlur stdDeviation={12 * scaleFactor} result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
@@ -153,24 +171,29 @@ export const CyberOceanWave: React.FC = () => {
           </filter>
         </defs>
 
-        {/* 1. DRAW GRID LINES (Threads/Structural Connections) */}
-        <g opacity="0.65">
+        {/* 1. DRAW ENHANCED GRID LINES (Vibrant, Thicker Cyberpunk Threads) */}
+        <g opacity="0.95">
           {projectedPoints.map((pt) => {
             const nextRight = pointLookup[`${pt.row}_${pt.col + 1}`];
             const nextDown = pointLookup[`${pt.row + 1}_${pt.col}`];
             
-            // Grid Line Opacity naturally decays as coordinates go deeper into horizon
-            const depthFade = interpolate(pt.depth, [0, gridDepth], [0.85, 0.05], {
+            // Bright visibility even for distant points to emphasize the entire grid
+            const depthFade = interpolate(pt.depth, [-gridDepth/2, gridDepth/2], [0.95, 0.25], {
               extrapolateLeft: 'clamp',
               extrapolateRight: 'clamp',
             });
 
-            // Color shift: higher points look brighter, lower look darker purple
-            const lineStroke = pt.yRaw > 30 * scaleFactor ? colors.primary : colors.accent;
+            const lineStroke = getWaveColor(pt.yRaw);
+
+            // Double the line thickness range for outstanding definition
+            const strokeWidth = interpolate(pt.depth, [-gridDepth/2, gridDepth/2], [8.0, 2.5], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+            }) * scaleFactor;
 
             return (
               <React.Fragment key={`lines-${pt.row}-${pt.col}`}>
-                {/* Horizontal Thread */}
+                {/* Horizontal Wave Thread */}
                 {nextRight && (
                   <line
                     x1={pt.x}
@@ -178,11 +201,11 @@ export const CyberOceanWave: React.FC = () => {
                     x2={nextRight.x}
                     y2={nextRight.y}
                     stroke={lineStroke}
-                    strokeWidth={interpolate(pt.depth, [0, gridDepth], [4.5, 0.8]) * scaleFactor}
+                    strokeWidth={strokeWidth}
                     opacity={depthFade}
                   />
                 )}
-                {/* Vertical Thread */}
+                {/* Vertical Wave Thread */}
                 {nextDown && (
                   <line
                     x1={pt.x}
@@ -190,7 +213,7 @@ export const CyberOceanWave: React.FC = () => {
                     x2={nextDown.x}
                     y2={nextDown.y}
                     stroke={lineStroke}
-                    strokeWidth={interpolate(pt.depth, [0, gridDepth], [4.5, 0.8]) * scaleFactor}
+                    strokeWidth={strokeWidth}
                     opacity={depthFade}
                   />
                 )}
@@ -199,20 +222,19 @@ export const CyberOceanWave: React.FC = () => {
           })}
         </g>
 
-        {/* 2. RENDERING MAPPED node.svg GRAPHIC AT VERTICES */}
+        {/* 2. RENDERING MAPPED node.svg GRAPHIC AT VERTICES WITH GLOW */}
         <g>
           {projectedPoints.map((pt) => {
-            // Opacity curve mimicking real light reflection
-            const opacity = interpolate(pt.depth, [0, gridDepth], [0.95, 0.1], {
+            const opacity = interpolate(pt.depth, [-gridDepth/2, gridDepth/2], [0.98, 0.35], {
               extrapolateLeft: 'clamp',
               extrapolateRight: 'clamp',
             });
 
-            // Vertex Scaling based on 3D depth perspective
-            const size = 64 * pt.scale;
+            // Enhanced vertex scaling for absolute clarity
+            const size = 80 * pt.scale;
 
-            // Highlight peaks (crests) with clean high-contrast white reflection glow
-            const isPeak = pt.yRaw < -40 * scaleFactor;
+            // Clean high-contrast white reflection glow for peaks
+            const isPeak = pt.yRaw < -70 * scaleFactor;
             const nodeFill = isPeak ? colors.foam : colors.primary;
 
             return (
@@ -221,22 +243,25 @@ export const CyberOceanWave: React.FC = () => {
                 transform={`translate(${pt.x - size / 2}, ${pt.y - size / 2})`}
                 opacity={opacity}
               >
-                {/* Render the core system SVG shape overlaying the mesh junctions */}
+                {/* User's custom node.svg */}
                 <image
                   href={staticFile('node.svg')}
                   width={size}
                   height={size}
                   style={{
-                    filter: isPeak ? 'drop-shadow(0 0 12px #fff)' : 'drop-shadow(0 0 8px rgba(0, 242, 255, 0.7))',
+                    filter: isPeak ? 'drop-shadow(0 0 14px #fff)' : 'drop-shadow(0 0 10px rgba(0, 242, 255, 0.85))',
                   }}
                 />
                 
-                {/* Visual Vertex Highlight for additional depth accent */}
+                {/* Pronounced neon core circle in the center of the node */}
                 <circle
                   cx={size / 2}
                   cy={size / 2}
-                  r={4 * pt.scale}
+                  r={7.5 * pt.scale}
                   fill={nodeFill}
+                  style={{
+                    filter: 'drop-shadow(0 0 8px #00f2ff)',
+                  }}
                 />
               </g>
             );
@@ -244,7 +269,7 @@ export const CyberOceanWave: React.FC = () => {
         </g>
       </svg>
 
-      {/* Futuristic Telemetry HUD overlays to align with existing visuals */}
+      {/* Modern HUD Overlays */}
       <div
         style={{
           position: 'absolute',
@@ -257,7 +282,7 @@ export const CyberOceanWave: React.FC = () => {
           opacity: 0.8,
         }}
       >
-        [ SIMULATION_SECTOR: CYBER_OCEAN_V1 ]
+        [ SIMULATION_SECTOR: CYBER_OCEAN_V2 ]
       </div>
 
       <div
@@ -273,10 +298,10 @@ export const CyberOceanWave: React.FC = () => {
           textAlign: 'right',
         }}
       >
-        [ WAVE_HEIGHT: MAX_SWELLS_4K ]
+        [ ANGLE: HIGH_PITCH_TOP_DOWN // WAVE_SPEED: ACTIVE ]
       </div>
 
-      {/* Atmospheric Cinematic Vignette */}
+      {/* Cinematic Vignette */}
       <div
         style={{
           position: 'absolute',
