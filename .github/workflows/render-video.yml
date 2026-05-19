@@ -13,14 +13,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Render Video
-        uses: remotion-dev/github-action@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          entry-point: src/index.ts
-          composition-id: CyberIntelligenceGrid
-          output-location: out.mp4
-          codec: h264
-          video-bitrate: 200M
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Render Video (High Quality Lossless)
+        env:
+          # Masukkan secret jika Anda menggunakannya di kode untuk ElevenLabs
+          ELEVEN_LABS_API_KEY: ${{ secrets.ELEVEN_LABS_API_KEY }}
+        run: |
+          npx remotion render CyberIntelligenceGrid out.mp4 --codec h264 --crf 0 --preset slow --log-level verbose
 
       - name: Upload Video
         uses: actions/upload-artifact@v4
