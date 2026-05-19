@@ -28,11 +28,7 @@ jobs:
         run: npm install
 
       - name: Render Video
-        uses: remotion-dev/github-action@v2
-        with:
-          composition-id: QuantumCandlestickFlow
-          out-name: out/quantum-candlestick-4k.mp4
-          crf: 18
+        run: npx remotion render QuantumCandlestickFlow out/quantum-candlestick-4k.mp4 --crf 18
 
       - name: Upload Video
         uses: actions/upload-artifact@v4
