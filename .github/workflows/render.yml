@@ -8,6 +8,9 @@ on:
 
 jobs:
   render:
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     name: Render Remotion Video
     runs-on: ubuntu-latest
     steps:
