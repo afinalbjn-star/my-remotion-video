@@ -4,11 +4,18 @@ import {
     useCurrentFrame,
     useVideoConfig,
     interpolate,
+    random,
     Easing,
 } from 'remotion';
 
+interface StockPoint {
+    price: number;
+    vol: number;
+    sma?: number; // Simple Moving Average
+}
+
 // Data simulasi bursa
-const stockData = [
+const stockData: StockPoint[] = [
     { price: 4200, vol: 1.2 }, { price: 4250, vol: 1.5 }, { price: 4220, vol: 1.1 },
     { price: 4300, vol: 2.1 }, { price: 4350, vol: 2.5 }, { price: 4320, vol: 1.8 },
     { price: 4400, vol: 3.0 }, { price: 4380, vol: 2.2 }, { price: 4450, vol: 2.8 },
@@ -20,18 +27,26 @@ const colors = {
     up: '#10b981',
     down: '#ef4444',
     accent: '#3b82f6',
+    secondary: '#6366f1', // Warna untuk Moving Average
     text: '#f8fafc',
 };
 
 export const StockMarketSeamless: React.FC = () => {
     const frame = useCurrentFrame();
     const { width, height, durationInFrames } = useVideoConfig();
-    const scale = height / 2160; // Basis 4K
+    const scale = height / 1080; // Skala proporsional yang lebih tajam
 
     // Mirroring data agar loop tidak terputus (A -> B -> A)
-    const mirroredData = useMemo(() => {
-        const reversed = [...stockData].reverse().slice(1, -1);
-        return [...stockData, ...reversed];
+    const mirroredData = useMemo<StockPoint[]>(() => {
+        const base = [...stockData];
+        // Kalkulasi SMA-3 sederhana
+        const withSma = base.map((d, i) => {
+            if (i < 2) return d;
+            const avg = (base[i].price + base[i - 1].price + base[i - 2].price) / 3;
+            return { ...d, sma: avg };
+        });
+        const reversed = [...withSma].reverse().slice(1, -1);
+        return [...withSma, ...reversed];
     }, []);
 
     const maxPrice = Math.max(...mirroredData.map(d => d.price));
@@ -52,7 +67,17 @@ export const StockMarketSeamless: React.FC = () => {
         }));
     }, [mirroredData, maxPrice, minPrice, width, height, chartWidth, chartHeight, step]);
 
+    const smaPoints = useMemo(() => {
+        return mirroredData.map((d, i) => d.sma ? ({
+            x: (width - chartWidth) / 2 + i * step,
+            y: height / 2 + (chartHeight / 2) - ((d.sma - minPrice) / (maxPrice - minPrice)) * chartHeight
+        }) : null).filter(Boolean) as { x: number, y: number }[];
+    }, [mirroredData, maxPrice, minPrice, width, height, chartWidth, chartHeight, step]);
+
     const linePath = points.reduce((acc, p, i) =>
+        i === 0 ? `M ${p.x},${p.y}` : `${acc} L ${p.x},${p.y}`, '');
+
+    const smaPath = smaPoints.reduce((acc, p, i) =>
         i === 0 ? `M ${p.x},${p.y}` : `${acc} L ${p.x},${p.y}`, '');
 
     // Animasi "Ular" atau jalur yang berjalan
@@ -63,6 +88,9 @@ export const StockMarketSeamless: React.FC = () => {
     const currentIndex = Math.floor(loopProgress * (mirroredData.length - 1));
     const currentItem = mirroredData[currentIndex];
     const isPositive = currentIndex > 0 ? currentItem.price >= mirroredData[currentIndex - 1].price : true;
+
+    // Menggunakan fungsi random() dari Remotion agar persentase tetap konsisten (deterministik)
+    const dynamicChange = (random(`change-${currentIndex}`) * 2.5).toFixed(2);
 
     return (
         <AbsoluteFill style={{ backgroundColor: colors.bg, fontFamily: 'Inter, sans-serif' }}>
@@ -88,7 +116,7 @@ export const StockMarketSeamless: React.FC = () => {
                         {currentItem.price.toFixed(2)}
                     </div>
                     <div style={{ color: isPositive ? colors.up : colors.down, fontSize: 32 * scale, fontWeight: 'bold' }}>
-                        {isPositive ? '▲' : '▼'} +{(Math.random() * 2).toFixed(2)}%
+                        {isPositive ? '▲' : '▼'} +{dynamicChange}%
                     </div>
                 </div>
             </div>
@@ -114,6 +142,15 @@ export const StockMarketSeamless: React.FC = () => {
                     d={`${linePath} L ${points[points.length - 1].x},${height} L ${points[0].x},${height} Z`}
                     fill="url(#grad)"
                     opacity={0.3}
+                />
+
+                {/* 3.1 Moving Average Line */}
+                <path
+                    d={smaPath}
+                    fill="none"
+                    stroke={colors.secondary}
+                    strokeWidth={4 * scale}
+                    opacity={0.5}
                 />
 
                 {/* Garis Utama */}

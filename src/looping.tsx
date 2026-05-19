@@ -53,11 +53,13 @@ export const LoopingDashboard: React.FC = () => {
     const frame = useCurrentFrame();
     const { width, height, durationInFrames } = useVideoConfig();
 
+    const scale = height / 2160; // Scaling UI untuk resolusi 8K
+
     // Konfigurasi Visual
-    const candleWidth = 120;
-    const gap = 60;
+    const candleWidth = 120 * scale;
+    const gap = 60 * scale;
     const step = candleWidth + gap;
-    const volumeHeight = 500;
+    const volumeHeight = 500 * scale;
 
     // Teknik Seamless Mirroring
     const mirroredData = useMemo(() => [
@@ -254,7 +256,7 @@ export const LoopingDashboard: React.FC = () => {
                         background: 'rgba(15, 23, 42, 0.6)',
                         borderRadius: 60,
                         border: '2px solid rgba(255,255,255,0.1)',
-                        backdropFilter: 'blur(20px)',
+                        backdropFilter: 'blur(8px)', // Mengurangi beban kalkulasi blur
                         boxShadow: '0 40px 100px rgba(0,0,0,0.3)',
                     }}>
                         <h2 style={{ fontSize: 80, margin: 0, color: '#94a3b8' }}>BTC / USDT</h2>
@@ -281,10 +283,10 @@ export const LoopingDashboard: React.FC = () => {
                     background: 'rgba(59, 130, 246, 0.1)',
                     borderRadius: 40,
                     border: '2px solid rgba(59, 130, 246, 0.3)',
-                    backdropFilter: 'blur(12px)',
+                    backdropFilter: 'blur(4px)', // Optimasi UI mikro
                 }}>
                     <div style={{ fontSize: 40, color: '#3b82f6', fontWeight: 'bold', letterSpacing: 8 }}>STOK VIDEO PREMIUM</div>
-                    <div style={{ fontSize: 28, color: '#94a3b8', marginTop: 10 }}>3840x2160 | 60FPS | SEAMLESS LOOP</div>
+                    <div style={{ fontSize: 28 * scale, color: '#94a3b8', marginTop: 10 * scale }}>7680x4320 | 60FPS | SEAMLESS LOOP</div>
                 </div>
             </div>
 

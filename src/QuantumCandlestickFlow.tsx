@@ -7,6 +7,7 @@ import {
     Easing,
     random,
     spring,
+    Series,
 } from 'remotion';
 
 // Data lebih padat untuk detail yang lebih kecil
@@ -23,6 +24,11 @@ const generateData = () => {
     }
     return data;
 };
+// Anda dapat mendefinisikan props komponen Anda di sini jika diperlukan
+interface QuantumCandlestickFlowProps {
+    titleText?: string;
+    titleColor?: string;
+}
 
 const baseData = generateData();
 
@@ -34,7 +40,10 @@ const colors = {
     grid: 'rgba(88, 86, 214, 0.1)',
 };
 
-export const QuantumCandlestickFlow: React.FC = () => {
+export const QuantumCandlestickFlow: React.FC<QuantumCandlestickFlowProps> = ({
+    titleText = 'Quantum Candlestick Flow',
+    titleColor = 'white',
+}) => {
     const frame = useCurrentFrame();
     const { width, height, durationInFrames, fps } = useVideoConfig();
 

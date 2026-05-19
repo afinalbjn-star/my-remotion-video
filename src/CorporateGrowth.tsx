@@ -3,7 +3,9 @@ import React, { useMemo } from "react";
 
 export const CorporateGrowth: React.FC = () => {
   const frame = useCurrentFrame();
-  const { width, height } = useVideoConfig();
+  const { width, height, durationInFrames } = useVideoConfig();
+
+  const scale = height / 1440; // Faktor skala untuk mendukung 8K
 
   // Colors
   const bgMidnightBlue = "#0A0F1F";
@@ -12,8 +14,8 @@ export const CorporateGrowth: React.FC = () => {
 
   // --- Grid Animation (Fly-through effect) ---
   // We move the grid on the Y axis in 3D space to simulate moving forward.
-  // We'll move it by 1000px over 600 frames.
-  const gridOffset = interpolate(frame, [0, 600], [0, 2000]);
+  // Bergerak lebih jauh seiring bertambahnya durasi
+  const gridOffset = interpolate(frame, [0, durationInFrames], [0, 4000 * scale]);
 
   // --- Particles Data ---
   const particles = useMemo(() => {
@@ -30,37 +32,36 @@ export const CorporateGrowth: React.FC = () => {
 
   // --- SVG Path Animation ---
   const pathLength = 3500; // Approximate length of the SVG path
-  const drawProgress = interpolate(frame, [0, 450], [pathLength, 0], {
+  const drawProgress = interpolate(frame, [0, durationInFrames * 0.75], [pathLength, 0], {
     extrapolateRight: "clamp",
     extrapolateLeft: "clamp",
   });
 
   // --- Typography Timings ---
-  // ANALYZE: 0 - 200
-  // OPTIMIZE: 200 - 400
-  // SCALE: 400 - 600
-  
+  // Bagi teks secara proporsional ke dalam 3 bagian
+  const segment = durationInFrames / 3;
+
   const getWordStyle = (startFrame: number, endFrame: number) => {
     const opacityIn = interpolate(frame, [startFrame, startFrame + 30], [0, 1], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
     const opacityOut = interpolate(frame, [endFrame - 30, endFrame], [1, 0], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
     const opacity = frame < (startFrame + endFrame) / 2 ? opacityIn : opacityOut;
-    
+
     const translateY = interpolate(frame, [startFrame, endFrame], [50, -50], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
     const letterSpacing = interpolate(frame, [startFrame, endFrame], [10, 40], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
 
     return { opacity, translateY, letterSpacing };
   };
 
-  const word1 = getWordStyle(0, 200);
-  const word2 = getWordStyle(200, 400);
-  const word3 = getWordStyle(400, 600);
+  const word1 = getWordStyle(0, segment);
+  const word2 = getWordStyle(segment, segment * 2);
+  const word3 = getWordStyle(segment * 2, durationInFrames);
 
   // Intense glow on SCALE
-  const scaleGlow = interpolate(frame, [400, 600], [0, 50], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
+  const scaleGlow = interpolate(frame, [segment * 2, durationInFrames], [0, 50], { extrapolateRight: "clamp", extrapolateLeft: "clamp" });
 
   return (
     <AbsoluteFill style={{ backgroundColor: bgMidnightBlue, overflow: "hidden" }}>
-      
+
       {/* 3D Grid Floor */}
       <div
         style={{

@@ -240,7 +240,7 @@ export const CyberIntelligenceGrid: React.FC = () => {
                     <feTurbulence
                         type="fractalNoise"
                         baseFrequency="0.5"
-                        seed={frame}
+                        seed={1} // Menggunakan seed statis agar tidak dihitung ulang tiap frame
                     />
                 </filter>
                 <rect width="100%" height="100%" filter="url(#heavyNoise)" />
