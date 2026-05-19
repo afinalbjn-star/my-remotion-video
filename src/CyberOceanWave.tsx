@@ -10,11 +10,10 @@ import {
 // Sleek Cyberpunk Neon Ocean Color Palette
 const colors = {
   bg: '#010105',
-  primary: '#00f2ff',      // Neon Cyan
-  midWater: '#0077b6',     // Ocean Blue
-  accent: '#9d00ff',       // Quantum Purple
+  primary: '#00f2ff',      // Neon Cyan (Crests)
+  midWater: '#0077b6',     // Ocean Blue (Mids)
+  accent: '#9d00ff',       // Quantum Purple (Valleys)
   foam: '#ffffff',         // White Peak Highlight
-  gridLines: 'rgba(0, 242, 255, 0.15)',
 };
 
 export const CyberOceanWave: React.FC = () => {
@@ -24,58 +23,60 @@ export const CyberOceanWave: React.FC = () => {
   // Loop progress perfectly calibrated from 0.0 to 1.0 (seamless loops)
   const progress = frame / durationInFrames;
   
-  // To double the speed and maintain a perfect loop, we multiply the progress by 2 cycles (4 * PI)
-  const t = progress * Math.PI * 4; 
+  // Quadrupled propagation speed for intense, majestic ocean currents (8 * PI loops 4 times in 10s)
+  const t = progress * Math.PI * 8; 
 
-  // Increased dimensions of the 3D mesh grid for a richer, denser surface
-  const cols = 30;
-  const rows = 20;
+  // High-density grid coordinates to pack the screen with thousands of jaring-jaring and nodes
+  const cols = 48;
+  const rows = 36;
 
-  // Projection engine parameters
-  const gridWidth = width * 1.6;
-  const gridDepth = 1800;
+  // Ultra-wide grid dimensions to completely overshoot borders and cover the full screen
+  const gridWidth = width * 2.8;
+  const gridDepth = 3200;
   const scaleFactor = height / 2160;
 
-  // High-intensity Wave Superposition (Sum of 3 distinct high-amplitude sine/cosine waves)
+  // Gigantic/Dahsyat Wave Superposition (High-amplitude, fast-moving ocean swells)
   const calculateWaveHeight = (x: number, z: number, tVal: number) => {
-    // Wave 1: Large active swells moving diagonally (Amplitude 240)
-    const w1 = Math.sin(x * 0.0022 + z * 0.0014 + tVal) * 240;
+    // Wave 1: Gigantic ocean swells (Amplitude 480 - extremely powerful)
+    const w1 = Math.sin(x * 0.0016 + z * 0.001 + tVal) * 480;
     
-    // Wave 2: Faster cross-current ripples (Amplitude 80, double speed)
-    const w2 = Math.cos(x * -0.004 + z * 0.003 - tVal * 2) * 80;
+    // Wave 2: Powerful cross-current tidal waves (Amplitude 160)
+    const w2 = Math.cos(x * -0.003 + z * 0.002 - tVal * 2.0) * 160;
     
-    // Wave 3: Sharp secondary wind waves (Amplitude 30, triple speed)
-    const w3 = Math.sin(x * 0.008 + z * 0.008 + tVal * 3) * 30;
+    // Wave 3: Strong sharp secondary wind crests (Amplitude 60)
+    const w3 = Math.sin(x * 0.006 + z * 0.006 + tVal * 3.0) * 60;
 
-    // Smooth boundary attenuation to keep the edges clean
+    // Boundary attenuation with a fractional power curve
+    // This allows the waves to remain massive and active almost all the way to the very edges of the screen
     const borderFade = Math.sin((x / gridWidth) * Math.PI) * Math.sin((z / gridDepth) * Math.PI);
+    const wideBorderFade = Math.pow(Math.max(0, borderFade), 0.28);
 
-    return (w1 + w2 + w3) * borderFade * scaleFactor;
+    return (w1 + w2 + w3) * wideBorderFade * scaleFactor;
   };
 
   // Helper to color segments dynamically based on vertex height
   const getWaveColor = (yRaw: number) => {
-    // High peaks (negative Y in Remotion coordinate space) are Cyan, deep troughs are Purple
-    const normalizedHeight = interpolate(yRaw, [-180 * scaleFactor, 180 * scaleFactor], [1, 0], {
+    // Crests are Cyan/White, valleys are Purple
+    const normalizedHeight = interpolate(yRaw, [-350 * scaleFactor, 350 * scaleFactor], [1, 0], {
       extrapolateLeft: 'clamp',
       extrapolateRight: 'clamp',
     });
 
-    if (normalizedHeight > 0.7) {
-      return colors.primary; // Bright Cyan peaks
-    } else if (normalizedHeight > 0.35) {
-      return colors.midWater; // Deep Ocean Blue mid-waves
+    if (normalizedHeight > 0.72) {
+      return colors.primary; // Neon Cyan
+    } else if (normalizedHeight > 0.38) {
+      return colors.midWater; // Ocean Blue
     } else {
-      return colors.accent; // Vibrant Purple troughs
+      return colors.accent; // Vibrant Purple
     }
   };
 
-  // Generate 3D grid points dynamically and project them onto 2D viewport (Top-Down View)
+  // Generate 3D grid points dynamically and project them onto 2D viewport (Steep Top-Down View)
   const projectedPoints = useMemo(() => {
     const points = [];
     
-    // Steep Camera Pitch from above: 72 degrees (1.25 radians)
-    const pitch = (72 * Math.PI) / 180;
+    // Steep Camera Pitch from above: 76 degrees (1.32 radians) to emphasize top-down grid layout
+    const pitch = (76 * Math.PI) / 180;
     const cosP = Math.cos(pitch);
     const sinP = Math.sin(pitch);
 
@@ -96,21 +97,21 @@ export const CyberOceanWave: React.FC = () => {
         const yRot = yRaw * cosP - zRaw * sinP;
         const zRot = yRaw * sinP + zRaw * cosP;
 
-        // Perspective Camera setup looking down from center
-        const fov = 1500;
-        const cameraDist = 1800;
+        // Balanced Perspective setup looking down to span the entire screen
+        const fov = 1600;
+        const cameraDist = 2000;
         const perspectiveScale = fov / (fov + zRot + cameraDist);
 
-        // Map to 2D screen positions with vertical shift to center the high-angle grid
+        // Map to 2D screen positions centered vertically to cover top and bottom edges fully
         const screenX = width / 2 + xRot * perspectiveScale;
-        const screenY = height / 2 + yRot * perspectiveScale + 200 * scaleFactor;
+        const screenY = height / 2 + yRot * perspectiveScale + 250 * scaleFactor;
 
         points.push({
           row: r,
           col: c,
           x: screenX,
           y: screenY,
-          depth: zRot, // Depth value for Painter's Algorithm sorting
+          depth: zRot, // Depth value for back-to-front sorting
           yRaw,
           zRaw,
           scale: perspectiveScale * scaleFactor,
@@ -139,14 +140,14 @@ export const CyberOceanWave: React.FC = () => {
         fontFamily: "'Inter', sans-serif",
       }}
     >
-      {/* Dynamic Ambient Ocean Backdrop Glow */}
+      {/* Massive Volumetric Ocean Ambient Glow */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background: `radial-gradient(circle at 50% 45%, rgba(0, 242, 255, 0.22) 0%, rgba(157, 0, 255, 0.12) 55%, transparent 100%)`,
-          filter: 'blur(90px)',
-          opacity: 0.95 + Math.sin(frame * 0.08) * 0.05,
+          background: `radial-gradient(circle at 50% 50%, rgba(0, 242, 255, 0.25) 0%, rgba(157, 0, 255, 0.15) 60%, transparent 100%)`,
+          filter: 'blur(100px)',
+          opacity: 0.95 + Math.sin(frame * 0.1) * 0.05,
           pointerEvents: 'none',
         }}
       />
@@ -171,25 +172,22 @@ export const CyberOceanWave: React.FC = () => {
           </filter>
         </defs>
 
-        {/* 1. DRAW ENHANCED GRID LINES (Vibrant, Thicker Cyberpunk Threads) */}
+        {/* 1. DRAW ENHANCED GRID LINES (Denser, ultra-vibrant connecting threads) */}
         <g opacity="0.95">
           {projectedPoints.map((pt) => {
             const nextRight = pointLookup[`${pt.row}_${pt.col + 1}`];
             const nextDown = pointLookup[`${pt.row + 1}_${pt.col}`];
             
-            // Bright visibility even for distant points to emphasize the entire grid
-            const depthFade = interpolate(pt.depth, [-gridDepth/2, gridDepth/2], [0.95, 0.25], {
+            // Strong grid presence from foreground all the way to the horizon
+            const depthFade = interpolate(pt.depth, [-gridDepth/2, gridDepth/2], [0.95, 0.35], {
               extrapolateLeft: 'clamp',
               extrapolateRight: 'clamp',
             });
 
             const lineStroke = getWaveColor(pt.yRaw);
 
-            // Double the line thickness range for outstanding definition
-            const strokeWidth = interpolate(pt.depth, [-gridDepth/2, gridDepth/2], [8.0, 2.5], {
-              extrapolateLeft: 'clamp',
-              extrapolateRight: 'clamp',
-            }) * scaleFactor;
+            // Robust line thickness for massive, sharp visual presence
+            const strokeWidth = interpolate(pt.depth, [-gridDepth/2, gridDepth/2], [7.5, 2.8]) * scaleFactor;
 
             return (
               <React.Fragment key={`lines-${pt.row}-${pt.col}`}>
@@ -222,19 +220,19 @@ export const CyberOceanWave: React.FC = () => {
           })}
         </g>
 
-        {/* 2. RENDERING MAPPED node.svg GRAPHIC AT VERTICES WITH GLOW */}
+        {/* 2. RENDERING MAPPED node.svg GRAPHIC AT VERTICES WITH INTENSE GLOW */}
         <g>
           {projectedPoints.map((pt) => {
-            const opacity = interpolate(pt.depth, [-gridDepth/2, gridDepth/2], [0.98, 0.35], {
+            const opacity = interpolate(pt.depth, [-gridDepth/2, gridDepth/2], [0.98, 0.45], {
               extrapolateLeft: 'clamp',
               extrapolateRight: 'clamp',
             });
 
-            // Enhanced vertex scaling for absolute clarity
-            const size = 80 * pt.scale;
+            // Scaled perspective size of each node
+            const size = 70 * pt.scale;
 
-            // Clean high-contrast white reflection glow for peaks
-            const isPeak = pt.yRaw < -70 * scaleFactor;
+            // Highly pronounced peak highlights
+            const isPeak = pt.yRaw < -120 * scaleFactor;
             const nodeFill = isPeak ? colors.foam : colors.primary;
 
             return (
@@ -243,7 +241,7 @@ export const CyberOceanWave: React.FC = () => {
                 transform={`translate(${pt.x - size / 2}, ${pt.y - size / 2})`}
                 opacity={opacity}
               >
-                {/* User's custom node.svg */}
+                {/* Custom node SVG */}
                 <image
                   href={staticFile('node.svg')}
                   width={size}
@@ -253,11 +251,11 @@ export const CyberOceanWave: React.FC = () => {
                   }}
                 />
                 
-                {/* Pronounced neon core circle in the center of the node */}
+                {/* Neon core focal point circle */}
                 <circle
                   cx={size / 2}
                   cy={size / 2}
-                  r={7.5 * pt.scale}
+                  r={7.0 * pt.scale}
                   fill={nodeFill}
                   style={{
                     filter: 'drop-shadow(0 0 8px #00f2ff)',
@@ -269,44 +267,12 @@ export const CyberOceanWave: React.FC = () => {
         </g>
       </svg>
 
-      {/* Modern HUD Overlays */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 80 * scaleFactor,
-          left: 80 * scaleFactor,
-          color: colors.primary,
-          fontSize: 16 * scaleFactor,
-          letterSpacing: 4 * scaleFactor,
-          fontWeight: 'bold',
-          opacity: 0.8,
-        }}
-      >
-        [ SIMULATION_SECTOR: CYBER_OCEAN_V2 ]
-      </div>
-
-      <div
-        style={{
-          position: 'absolute',
-          top: 80 * scaleFactor,
-          right: 80 * scaleFactor,
-          color: colors.primary,
-          fontSize: 16 * scaleFactor,
-          letterSpacing: 4 * scaleFactor,
-          fontWeight: 'bold',
-          opacity: 0.8,
-          textAlign: 'right',
-        }}
-      >
-        [ ANGLE: HIGH_PITCH_TOP_DOWN // WAVE_SPEED: ACTIVE ]
-      </div>
-
-      {/* Cinematic Vignette */}
+      {/* Atmospheric Cinematic Vignette */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          boxShadow: `inset 0 0 ${400 * scaleFactor}px rgba(0,0,0,0.9)`,
+          boxShadow: `inset 0 0 ${400 * scaleFactor}px rgba(0,0,0,0.95)`,
           pointerEvents: 'none',
         }}
       />
