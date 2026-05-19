@@ -1,6 +1,7 @@
 import { Composition } from 'remotion';
 import { HoloGeometricSynchronicity } from './HoloGeometricSynchronicity';
 import { RetroBlackHole } from './RetroBlackHole';
+import { AITechnologyTunnel } from './AITechnologyTunnel';
 import { autoLoadFont } from './AssetManager';
 
 export const RemotionRoot: React.FC = () => {
@@ -8,6 +9,14 @@ export const RemotionRoot: React.FC = () => {
 
   return (
     <>
+      <Composition
+        id="AITechnologyTunnel-4K"
+        component={AITechnologyTunnel}
+        durationInFrames={600} // 10 detik @ 60fps
+        fps={60}
+        width={3840}
+        height={2160}
+      />
       <Composition
         id="HoloGeometric-4K"
         component={HoloGeometricSynchronicity}
