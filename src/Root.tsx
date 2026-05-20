@@ -7,6 +7,9 @@ import { QuantumHologramCore } from './QuantumHologramCore';
 import { DistributedOrchestrator } from './DistributedOrchestrator';
 import { PathogenMicroverse } from './PathogenMicroverse';
 import { SocialMediaGrowth } from './SocialMediaGrowth';
+import { MolecularHelix } from './MolecularHelix';
+import { SynapticNetwork } from './SynapticNetwork';
+import { CardioPulse } from './CardioPulse';
 import { autoLoadFont } from './AssetManager';
 
 export const RemotionRoot: React.FC = () => {
@@ -74,6 +77,30 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="SocialMediaGrowth-4K"
         component={SocialMediaGrowth}
+        durationInFrames={600} // 10 detik @ 60fps
+        fps={60}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="MolecularHelix"
+        component={MolecularHelix}
+        durationInFrames={600} // 10 detik @ 60fps
+        fps={60}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="SynapticNetwork"
+        component={SynapticNetwork}
+        durationInFrames={600} // 10 detik @ 60fps
+        fps={60}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="CardioPulse"
+        component={CardioPulse}
         durationInFrames={600} // 10 detik @ 60fps
         fps={60}
         width={3840}
