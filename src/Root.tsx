@@ -4,6 +4,7 @@ import { RetroBlackHole } from './RetroBlackHole';
 import { AITechnologyTunnel } from './AITechnologyTunnel';
 import { CyberOceanWave } from './CyberOceanWave';
 import { QuantumHologramCore } from './QuantumHologramCore';
+import { DistributedOrchestrator } from './DistributedOrchestrator';
 import { autoLoadFont } from './AssetManager';
 
 export const RemotionRoot: React.FC = () => {
@@ -12,6 +13,14 @@ export const RemotionRoot: React.FC = () => {
 
   return (
     <>
+      <Composition
+        id="DistributedOrchestrator-4K"
+        component={DistributedOrchestrator}
+        durationInFrames={600} // 10 detik @ 60fps
+        fps={60}
+        width={3840}
+        height={2160}
+      />
       <Composition
         id="QuantumHologramCore-4K"
         component={QuantumHologramCore}
