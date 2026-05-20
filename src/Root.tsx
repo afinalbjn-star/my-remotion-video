@@ -6,6 +6,7 @@ import { CyberOceanWave } from './CyberOceanWave';
 import { QuantumHologramCore } from './QuantumHologramCore';
 import { DistributedOrchestrator } from './DistributedOrchestrator';
 import { PathogenMicroverse } from './PathogenMicroverse';
+import { SocialMediaGrowth } from './SocialMediaGrowth';
 import { autoLoadFont } from './AssetManager';
 
 export const RemotionRoot: React.FC = () => {
@@ -66,6 +67,14 @@ export const RemotionRoot: React.FC = () => {
         id="RetroBlackHole-4K"
         component={RetroBlackHole}
         durationInFrames={1200} // 20 detik total (2 loop x 10 detik)
+        fps={60}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="SocialMediaGrowth-4K"
+        component={SocialMediaGrowth}
+        durationInFrames={600} // 10 detik @ 60fps
         fps={60}
         width={3840}
         height={2160}
