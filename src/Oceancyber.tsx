@@ -4,7 +4,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
   interpolate,
-  interpolateColor,
+  interpolateColors,
 } from 'remotion';
 
 // Elegant Deep Navy & Luminous Blue/Cyan Palette (Exactly matching the reference image)
@@ -16,7 +16,7 @@ const colors = {
   foam: '#ffffff',         // Pristine White Crest Peaks
 };
 
-export const CyberOceanWave: React.FC = () => {
+export const Oceancyber: React.FC = () => {
   const frame = useCurrentFrame();
   const { width, height, durationInFrames } = useVideoConfig();
 
@@ -135,9 +135,9 @@ export const CyberOceanWave: React.FC = () => {
     });
 
     if (normalizedHeight < 0.5) {
-      return interpolateColor(normalizedHeight * 2, colors.accent, colors.midWater);
+      return interpolateColors(normalizedHeight * 2, [0, 1], [colors.accent, colors.midWater]);
     } else {
-      return interpolateColor((normalizedHeight - 0.5) * 2, colors.midWater, colors.primary);
+      return interpolateColors((normalizedHeight - 0.5) * 2, [0, 1], [colors.midWater, colors.primary]);
     }
   };
 
@@ -254,12 +254,12 @@ export const CyberOceanWave: React.FC = () => {
               glowOpacity = 0.85;
             } else if (heightPercent > 0.4) {
               // Mid-water: Luminous Cyan
-              nodeColor = interpolateColor((heightPercent - 0.4) / 0.4, '#00d2ff', '#ffffff');
+              nodeColor = interpolateColors((heightPercent - 0.4) / 0.4, [0, 1], ['#00d2ff', '#ffffff']);
               glowColor = '#00d2ff';
               glowOpacity = 0.55;
             } else {
               // Troughs: Deep Ocean Blue
-              nodeColor = interpolateColor(heightPercent / 0.4, '#0d5fa6', '#00d2ff');
+              nodeColor = interpolateColors(heightPercent / 0.4, [0, 1], ['#0d5fa6', '#00d2ff']);
               glowColor = '#0d5fa6';
               glowOpacity = 0.25;
             }

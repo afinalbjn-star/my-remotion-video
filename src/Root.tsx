@@ -2,7 +2,7 @@ import { Composition } from 'remotion';
 import { HoloGeometricSynchronicity } from './HoloGeometricSynchronicity';
 import { RetroBlackHole } from './RetroBlackHole';
 import { AITechnologyTunnel } from './AITechnologyTunnel';
-import { CyberOceanWave } from './CyberOceanWave';
+import { Oceancyber } from './Oceancyber';
 import { QuantumHologramCore } from './QuantumHologramCore';
 import { DistributedOrchestrator } from './DistributedOrchestrator';
 import { PathogenMicroverse } from './PathogenMicroverse';
@@ -40,8 +40,8 @@ export const RemotionRoot: React.FC = () => {
         height={2160}
       />
       <Composition
-        id="CyberOceanWave-4K"
-        component={CyberOceanWave}
+        id="Oceancyber"
+        component={Oceancyber}
         durationInFrames={600} // 10 detik @ 60fps
         fps={60}
         width={3840}
