@@ -5,7 +5,6 @@ import {
     useVideoConfig,
     interpolate,
     random,
-    Easing,
 } from 'remotion';
 
 const colors = {

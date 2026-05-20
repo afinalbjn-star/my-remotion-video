@@ -5,7 +5,6 @@ import {
     useVideoConfig,
     interpolate,
     Easing,
-    random,
 } from 'remotion';
 
 /**
@@ -67,12 +66,10 @@ export const RetroBlackHole: React.FC = () => {
                     // Putaran spiral
                     const rotation = interpolate(p, [0, 1], [0, 720]);
 
-                    // Variasi bentuk tumpahan cat yang berubah-ubah (wobble)
-                    const wobble = Math.sin(frame * 0.05 + seed) * 10;
                     // Amplitude wobble meningkat saat mendekati pusat (p mendekati 1)
                     const wobbleAmplitude = interpolate(p, [0, 0.5, 1], [0, 1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }) * 20;
                     const dynamicWobble = Math.sin(frame * 0.05 + seed) * (10 + wobbleAmplitude);
-                    const borderRadius = `${40 + wobble}% ${60 - wobble}% ${50 + wobble}% ${50 - wobble}% / ${55 - wobble}% ${45 + wobble}% ${65 - wobble}% ${35 + wobble}%`;
+                    const borderRadius = `${40 + dynamicWobble}% ${60 - dynamicWobble}% ${50 + dynamicWobble}% ${50 - dynamicWobble}% / ${55 - dynamicWobble}% ${45 + dynamicWobble}% ${65 - dynamicWobble}% ${35 + dynamicWobble}%`;
 
                     // Efek distorsi riak air (ripple)
                     // Ini akan menambahkan sedikit pergeseran radial yang bergelombang

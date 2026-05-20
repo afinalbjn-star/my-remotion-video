@@ -31,13 +31,13 @@ export const QuantumHologramCore: React.FC = () => {
   const t = progress * Math.PI * 2;
 
   // 1. GENERATE STATIC 3D CORE LATTICE NODES
-  // Double-helix spherical shell structure of 44 quantum nodes
+  // Double-helix spherical shell structure of 60 quantum nodes with massive core
   const latticeNodes = useMemo(() => {
     const nodes = [];
-    // Outer Shell (32 nodes)
+    // Outer Shell (40 nodes)
     const latitudeRings = 4;
-    const nodesPerRing = 8;
-    const outerRadius = 260;
+    const nodesPerRing = 10;
+    const outerRadius = 1050; // Scaled up significantly to dominate the 4K viewport
 
     for (let r = 0; r < latitudeRings; r++) {
       const latPct = (r + 0.5) / latitudeRings;
@@ -56,17 +56,19 @@ export const QuantumHologramCore: React.FC = () => {
           x,
           y,
           z,
-          radius: 12,
+          radius: 18,
           color: (r + n) % 3 === 0 ? colors.cyan : (r + n) % 3 === 1 ? colors.magenta : colors.gold,
           isInner: false,
+          isCentral: false,
+          particleIndex: 0,
         });
       }
     }
 
-    // Inner Core (12 nodes)
-    const innerRadius = 110;
-    const innerRings = 3;
-    const nodesPerInnerRing = 4;
+    // Inner Core (24 nodes)
+    const innerRadius = 550; // Scaled up proportionally
+    const innerRings = 4;
+    const nodesPerInnerRing = 6;
 
     for (let r = 0; r < innerRings; r++) {
       const latPct = (r + 0.5) / innerRings;
@@ -85,9 +87,42 @@ export const QuantumHologramCore: React.FC = () => {
           x,
           y,
           z,
-          radius: 8,
+          radius: 12,
           color: colors.white,
           isInner: true,
+          isCentral: false,
+          particleIndex: 0,
+        });
+      }
+    }
+
+    // Deep Central Pulsing Quantum Particles (24 nodes)
+    const centralRadius = 240; // Scaled up proportionally
+    const centralRings = 4;
+    const nodesPerCentralRing = 6;
+
+    for (let r = 0; r < centralRings; r++) {
+      const latPct = (r + 0.5) / centralRings;
+      const phi = Math.acos(2 * latPct - 1);
+
+      for (let n = 0; n < nodesPerCentralRing; n++) {
+        const lonPct = n / nodesPerCentralRing;
+        const theta = lonPct * Math.PI * 2;
+
+        const x = centralRadius * Math.sin(phi) * Math.cos(theta);
+        const y = centralRadius * Math.sin(phi) * Math.sin(theta);
+        const z = centralRadius * Math.cos(phi);
+
+        nodes.push({
+          id: `cent-${r}-${n}`,
+          x,
+          y,
+          z,
+          radius: 7,
+          color: (r + n) % 2 === 0 ? colors.green : colors.white,
+          isInner: true,
+          isCentral: true,
+          particleIndex: r * nodesPerCentralRing + n,
         });
       }
     }
@@ -99,7 +134,7 @@ export const QuantumHologramCore: React.FC = () => {
   // Connect closest points to form a beautiful holographic wireframe mesh
   const latticeThreads = useMemo(() => {
     const threads = [];
-    const maxDist = 180; // Distance threshold to connect points
+    const maxDist = 750; // Distance threshold to connect points (scaled up for larger radius)
 
     for (let i = 0; i < latticeNodes.length; i++) {
       for (let j = i + 1; j < latticeNodes.length; j++) {
@@ -112,12 +147,12 @@ export const QuantumHologramCore: React.FC = () => {
         const dz = n1.z - n2.z;
         const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-        if (dist < maxDist && (n1.isInner === n2.isInner || dist < 120)) {
+        if (dist < maxDist && (n1.isInner === n2.isInner || dist < 500)) {
           threads.push({
             id: `thread-${i}-${j}`,
             fromIndex: i,
             toIndex: j,
-            type: n1.isInner && n2.isInner ? 'inner' : 'outer',
+            type: n1.isCentral && n2.isCentral ? 'central' : (n1.isInner && n2.isInner ? 'inner' : 'outer'),
           });
         }
       }
@@ -141,9 +176,21 @@ export const QuantumHologramCore: React.FC = () => {
 
     // Transform points
     const points2D = latticeNodes.map((n) => {
-      const xRaw = n.x * pulseScale;
-      const yRaw = n.y * pulseScale;
-      const zRaw = n.z * pulseScale;
+      let xRaw = n.x * pulseScale;
+      let yRaw = n.y * pulseScale;
+      let zRaw = n.z * pulseScale;
+
+      // High-frequency radial pulsing offset inside the deep core
+      if (n.isCentral) {
+        const innerPulse = Math.sin(t * 8 + n.particleIndex * 0.8) * 80; // Dynamic pulse magnitude scaled up
+        const len = Math.sqrt(n.x * n.x + n.y * n.y + n.z * n.z) || 1;
+        const nx = n.x / len;
+        const ny = n.y / len;
+        const nz = n.z / len;
+        xRaw = (n.x + nx * innerPulse) * pulseScale;
+        yRaw = (n.y + ny * innerPulse) * pulseScale;
+        zRaw = (n.z + nz * innerPulse) * pulseScale;
+      }
 
       // Rotate around X (pitch)
       const y1 = yRaw * cosX - zRaw * sinX;
@@ -174,13 +221,94 @@ export const QuantumHologramCore: React.FC = () => {
         color: n.color,
         radius: n.radius,
         isInner: n.isInner,
+        isCentral: n.isCentral,
       };
     });
 
     return points2D;
   }, [latticeNodes, t, width, height, scaleFactor]);
 
+  // 3D Rotating Scientific Calibration Axes
+  const projectedAxes = useMemo(() => {
+    // Sharing the exact rotation of the core
+    const rotX = t * 1;
+    const rotY = t * 2;
+    const rotZ = t * 1;
 
+    const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+    const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+    const cosZ = Math.cos(rotZ), sinZ = Math.sin(rotZ);
+
+    const length = 1150; // extend slightly beyond outer radius
+    
+    // Define 3D lines: X, Y, Z axes
+    const axesRaw = [
+      { name: 'X', from: { x: -length, y: 0, z: 0 }, to: { x: length, y: 0, z: 0 }, color: colors.cyan },
+      { name: 'Y', from: { x: 0, y: -length, z: 0 }, to: { x: 0, y: length, z: 0 }, color: colors.magenta },
+      { name: 'Z', from: { x: 0, y: 0, z: -length }, to: { x: 0, y: 0, z: length }, color: colors.gold }
+    ];
+
+    const projectPoint = (pt3D: { x: number, y: number, z: number }) => {
+      const y1 = pt3D.y * cosX - pt3D.z * sinX;
+      const z1 = pt3D.y * sinX + pt3D.z * cosX;
+      const x2 = pt3D.x * cosY - z1 * sinY;
+      const z2 = pt3D.x * sinY + z1 * cosY;
+      const x3 = x2 * cosZ - y1 * sinZ;
+      const y3 = x2 * sinZ + y1 * cosZ;
+
+      const fov = 1800;
+      const cameraDist = 2200;
+      const scale = fov / (fov + z2 + cameraDist);
+
+      const screenX = width / 2 + x3 * scale;
+      const screenY = height / 2 + y3 * scale;
+
+      return { x: screenX, y: screenY, depth: z2 };
+    };
+
+    const projected = axesRaw.map((axis) => {
+      const start = projectPoint(axis.from);
+      const end = projectPoint(axis.to);
+      
+      const ticks = [];
+      const numTicks = 6;
+      for (let i = 1; i <= numTicks; i++) {
+        const pct = (i / (numTicks + 1)) * 2 - 1; // -0.7 to 0.7
+        const ptVal = length * pct;
+        
+        let tickPt3D = { x: 0, y: 0, z: 0 };
+        let offsetPt3D = { x: 0, y: 0, z: 0 };
+        
+        if (axis.name === 'X') {
+          tickPt3D = { x: ptVal, y: 0, z: 0 };
+          offsetPt3D = { x: ptVal, y: 15, z: 0 };
+        } else if (axis.name === 'Y') {
+          tickPt3D = { x: 0, y: ptVal, z: 0 };
+          offsetPt3D = { x: 15, y: ptVal, z: 0 };
+        } else {
+          tickPt3D = { x: 0, y: 0, z: ptVal };
+          offsetPt3D = { x: 0, y: 15, z: ptVal };
+        }
+
+        const tStart = projectPoint(tickPt3D);
+        const tEnd = projectPoint(offsetPt3D);
+        ticks.push({ x1: tStart.x, y1: tStart.y, x2: tEnd.x, y2: tEnd.y, label: `${Math.round(pct * 100)}` });
+      }
+
+      return {
+        name: axis.name,
+        x1: start.x,
+        y1: start.y,
+        x2: end.x,
+        y2: end.y,
+        color: axis.color,
+        ticks,
+        depth: (start.depth + end.depth) / 2
+      };
+    });
+
+    return projected;
+  }, [t, width, height]);
 
   // 3D Projected Threads for Painter's Sorting
   const projectedThreads = useMemo(() => {
@@ -196,20 +324,21 @@ export const QuantumHologramCore: React.FC = () => {
         y2: n2.y,
         depth: (n1.depth + n2.depth) / 2, // Average depth
         type: th.type,
-        color: th.type === 'inner' ? colors.white : colors.cyan,
+        color: th.type === 'central' ? colors.green : (th.type === 'inner' ? colors.white : colors.cyan),
       };
     });
   }, [latticeThreads, projectedCore]);
 
-  // Combined sorting for proper Z-buffer depth layout (Nodes & Wireframes interleaved)
+  // Combined sorting for proper Z-buffer depth layout (Nodes, Wireframes, & Calibration Axes interleaved)
   const zBufferDepthItems = useMemo(() => {
     const items = [
       ...projectedCore.map((p) => ({ type: 'node' as const, data: p, depth: p.depth })),
       ...projectedThreads.map((t) => ({ type: 'thread' as const, data: t, depth: t.depth })),
+      ...projectedAxes.map((a) => ({ type: 'axis' as const, data: a, depth: a.depth })),
     ];
     // Sort back-to-front
     return items.sort((a, b) => b.depth - a.depth);
-  }, [projectedCore, projectedThreads]);
+  }, [projectedCore, projectedThreads, projectedAxes]);
 
   // 4. MATHEMATICAL 3D SPINNING GYROSCOPIC HUD RINGS
   // Function to calculate SVG Path of a 3D-rotated circle
@@ -289,7 +418,7 @@ export const QuantumHologramCore: React.FC = () => {
     return [
       {
         id: 'ring-1',
-        radius: 360,
+        radius: 1200, // scaled up for massive core
         pitch: 35,
         yaw: angleOffset * 2,
         roll: 10,
@@ -300,7 +429,7 @@ export const QuantumHologramCore: React.FC = () => {
       },
       {
         id: 'ring-2',
-        radius: 410,
+        radius: 1350, // scaled up for massive core
         pitch: -40,
         yaw: -angleOffset,
         roll: 30,
@@ -311,7 +440,7 @@ export const QuantumHologramCore: React.FC = () => {
       },
       {
         id: 'ring-3',
-        radius: 480,
+        radius: 1500, // scaled up for massive core
         pitch: 65,
         yaw: angleOffset * 1,
         roll: -angleOffset * 1,
@@ -322,7 +451,7 @@ export const QuantumHologramCore: React.FC = () => {
       },
       {
         id: 'ring-4',
-        radius: 540,
+        radius: 1680, // scaled up for massive core
         pitch: 0,
         yaw: 0,
         roll: -angleOffset * 0.5,
@@ -333,7 +462,7 @@ export const QuantumHologramCore: React.FC = () => {
       },
       {
         id: 'ring-5',
-        radius: 610,
+        radius: 1850, // scaled up for massive core
         pitch: -75,
         yaw: angleOffset * 1.5,
         roll: 45,
@@ -351,14 +480,19 @@ export const QuantumHologramCore: React.FC = () => {
     const orbitAngle1 = t * 4;
     const orbitAngle2 = -t * 2;
 
-    const sat1 = getProjectedPointOnRing(360, 35, progress * 360 * 2, 10, orbitAngle1);
-    const sat2 = getProjectedPointOnRing(540, 0, 0, -progress * 360 * 0.5, orbitAngle2);
+    const sat1 = getProjectedPointOnRing(1200, 35, progress * 360 * 2, 10, orbitAngle1);
+    const sat2 = getProjectedPointOnRing(1680, 0, 0, -progress * 360 * 0.5, orbitAngle2);
 
     return [
       { id: 'sat-1', coords: sat1, color: colors.cyan, size: 14 },
       { id: 'sat-2', coords: sat2, color: colors.magenta, size: 16 },
     ];
   }, [t, progress]);
+
+  // 4b. Deep Core Fast-Spinning Vector Accelerator Ring
+  const innerVectorRingPath = useMemo(() => {
+    return getProjectedCirclePath(340, 45, progress * 360 * 6, -progress * 360 * 3);
+  }, [progress, width, height]);
 
   // 5. DIAGNOSTIC telemetry variables that cycle seamlessly
   const telemetry = useMemo(() => {
@@ -535,13 +669,25 @@ export const QuantumHologramCore: React.FC = () => {
           })}
         </g>
 
+        {/* Deep Core Fast-Spinning Vector Accelerator Ring */}
+        <g style={{ filter: 'url(#holoGlow)' }}>
+          <path
+            d={innerVectorRingPath}
+            fill="none"
+            stroke={colors.gold}
+            strokeWidth={1 * scaleFactor}
+            strokeDasharray="16, 8, 4, 8"
+            opacity={0.65}
+          />
+        </g>
+
         {/* 2. RENDER Z-SORTED 3D QUANTUM CORE ITEMS (Painter's Algorithm) */}
         <g style={{ filter: 'url(#holoGlow)' }}>
           {zBufferDepthItems.map((item) => {
             if (item.type === 'thread') {
               const th = item.data as typeof projectedThreads[0];
               // Deeper wires fade out dramatically
-              const opacity = interpolate(th.depth, [-280, 280], [0.9, 0.18], {
+              const opacity = interpolate(th.depth, [-1150, 1150], [0.9, 0.15], {
                 extrapolateLeft: 'clamp',
                 extrapolateRight: 'clamp',
               });
@@ -554,13 +700,58 @@ export const QuantumHologramCore: React.FC = () => {
                   x2={th.x2}
                   y2={th.y2}
                   stroke={th.color}
-                  strokeWidth={(th.type === 'inner' ? 2 : 4) * scaleFactor}
+                  strokeWidth={(th.type === 'central' ? 1.5 : (th.type === 'inner' ? 3 : 6)) * scaleFactor}
                   opacity={opacity}
                 />
               );
+            } else if (item.type === 'axis') {
+              const ax = item.data as any;
+              const opacity = interpolate(ax.depth, [-1150, 1150], [0.65, 0.12], {
+                extrapolateLeft: 'clamp',
+                extrapolateRight: 'clamp',
+              });
+
+              return (
+                <g key={`axis-${ax.name}`} opacity={opacity}>
+                  {/* The main axis line */}
+                  <line
+                    x1={ax.x1}
+                    y1={ax.y1}
+                    x2={ax.x2}
+                    y2={ax.y2}
+                    stroke={ax.color}
+                    strokeWidth={1.5 * scaleFactor}
+                    strokeDasharray="4, 6"
+                  />
+                  {/* Ticks */}
+                  {ax.ticks.map((tick: any, idx: number) => (
+                    <g key={`tick-${ax.name}-${idx}`}>
+                      <line
+                        x1={tick.x1}
+                        y1={tick.y1}
+                        x2={tick.x2}
+                        y2={tick.y2}
+                        stroke={ax.color}
+                        strokeWidth={1 * scaleFactor}
+                      />
+                      {idx % 2 === 0 && (
+                        <text
+                          x={tick.x2 + 4 * scaleFactor}
+                          y={tick.y2 + 4 * scaleFactor}
+                          fill={ax.color}
+                          fontSize={10 * scaleFactor}
+                          opacity={0.7}
+                        >
+                          {tick.label}
+                        </text>
+                      )}
+                    </g>
+                  ))}
+                </g>
+              );
             } else {
               const pt = item.data as typeof projectedCore[0];
-              const opacity = interpolate(pt.depth, [-280, 280], [0.95, 0.25], {
+              const opacity = interpolate(pt.depth, [-1150, 1150], [0.95, 0.22], {
                 extrapolateLeft: 'clamp',
                 extrapolateRight: 'clamp',
               });
@@ -574,14 +765,14 @@ export const QuantumHologramCore: React.FC = () => {
                     cy={pt.y}
                     r={pt.radius * 2.2 * pt.scale}
                     fill={pt.color}
-                    opacity={0.25}
+                    opacity={pt.isCentral ? 0.35 : 0.25}
                   />
                   {/* Core solid sphere */}
                   <circle
                     cx={pt.x}
                     cy={pt.y}
                     r={pt.radius * pt.scale}
-                    fill={pt.isInner ? colors.white : pt.color}
+                    fill={pt.isInner ? (pt.isCentral ? colors.green : colors.white) : pt.color}
                   />
                 </g>
               );

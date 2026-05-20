@@ -1,5 +1,4 @@
 import React from 'react';
-import { interpolate } from 'remotion';
 
 interface CandleProps {
     open: number;
