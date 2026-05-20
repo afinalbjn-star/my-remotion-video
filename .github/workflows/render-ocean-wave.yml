@@ -1,12 +1,6 @@
 name: Render Cyber Ocean Wave 4K Video
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'src/CyberOceanWave.tsx'
-      - 'src/Root.tsx'
   workflow_dispatch:
     inputs:
       resolution:
