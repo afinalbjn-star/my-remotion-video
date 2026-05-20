@@ -1,4 +1,4 @@
-name: Render Distributed Orchestrator 4K Video
+name: Render Pathogen Microverse 4K Video
 
 on:
   push:
@@ -22,7 +22,7 @@ on:
 
 jobs:
   render:
-    name: Render and Deploy Distributed Orchestrator
+    name: Render and Deploy Pathogen Microverse
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
@@ -48,17 +48,17 @@ jobs:
         run: |
           RESOLUTION="${{ github.event.inputs.resolution || '4K' }}"
           CRF="${{ github.event.inputs.crf || '16' }}"
-          
+
           mkdir -p out
-          
+
           if [ "$RESOLUTION" = "1080p" ]; then
             echo "Rendering at 1080p Full HD..."
-            npx remotion render DistributedOrchestrator-4K out/DistributedOrchestrator-1080p.mp4 --width=1920 --height=1080 --crf=$CRF
-            echo "VIDEO_FILE=DistributedOrchestrator-1080p.mp4" >> $GITHUB_ENV
+            npx remotion render PathogenMicroverse-4K out/PathogenMicroverse-1080p.mp4 --width=1920 --height=1080 --crf=$CRF
+            echo "VIDEO_FILE=PathogenMicroverse-1080p.mp4" >> $GITHUB_ENV
           else
             echo "Rendering at 4K UHD..."
-            npx remotion render DistributedOrchestrator-4K out/DistributedOrchestrator-4K.mp4 --crf=$CRF
-            echo "VIDEO_FILE=DistributedOrchestrator-4K.mp4" >> $GITHUB_ENV
+            npx remotion render PathogenMicroverse-4K out/PathogenMicroverse-4K.mp4 --crf=$CRF
+            echo "VIDEO_FILE=PathogenMicroverse-4K.mp4" >> $GITHUB_ENV
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -66,7 +66,7 @@ jobs:
       - name: Commit and Push Rendered Video
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Rendered Distributed Orchestrator Video [GitHub Actions]"
+          commit_message: "Rendered Pathogen Microverse Video [GitHub Actions]"
           branch: rendered-videos
           file_pattern: "out/*.mp4"
           create_branch: true
@@ -75,5 +75,5 @@ jobs:
       - name: Upload Rendered Video as Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: distributed-orchestrator-video
+          name: pathogen-microverse-video
           path: out/${{ env.VIDEO_FILE }}

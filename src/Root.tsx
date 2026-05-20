@@ -5,6 +5,7 @@ import { AITechnologyTunnel } from './AITechnologyTunnel';
 import { CyberOceanWave } from './CyberOceanWave';
 import { QuantumHologramCore } from './QuantumHologramCore';
 import { DistributedOrchestrator } from './DistributedOrchestrator';
+import { PathogenMicroverse } from './PathogenMicroverse';
 import { autoLoadFont } from './AssetManager';
 
 export const RemotionRoot: React.FC = () => {
@@ -13,6 +14,14 @@ export const RemotionRoot: React.FC = () => {
 
   return (
     <>
+      <Composition
+        id="PathogenMicroverse-4K"
+        component={PathogenMicroverse}
+        durationInFrames={600} // 10 detik @ 60fps
+        fps={60}
+        width={3840}
+        height={2160}
+      />
       <Composition
         id="DistributedOrchestrator-4K"
         component={DistributedOrchestrator}
