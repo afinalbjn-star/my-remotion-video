@@ -8,7 +8,7 @@ import {
     random,
 } from 'remotion';
 
-// Palet Warna (Cerah & Bersemangat)
+// Palet Warna Science (Cerah & Kontras)
 const QUANTUM_COLORS = {
     electricBlue: '#00F2FF',
     quantumPurple: '#9D00FF',
@@ -24,17 +24,17 @@ export const QuantumFlux: React.FC = () => {
     const { width, height, durationInFrames } = useVideoConfig();
 
     // Progress loop setiap 10 detik (600 frame pada 60fps)
-    const loopFrames = 600;
-    const progress = (frame % loopFrames) / loopFrames; // 0 to 1
+    const progress = (frame % durationInFrames) / durationInFrames; // 0 to 1
 
-    // Scale factor for responsive sizing (maintaining aspect ratio for 4K)
+    // Scale factor untuk responsivitas 4K
     const scaleFactor = Math.min(width / 3840, height / 2160);
+    const scale = height / 2160;
 
     // --- Ethereal Orbs (Background, blurred) ---
-    const numOrbs = 25; // Ditambah agar lebih ramai
+    const numOrbs = 30;
     const orbs = Array.from({ length: numOrbs }).map((_, i) => {
         const seed = `orb-${i}`;
-        const offset = random(seed) * 0.5; // Stagger appearance
+        const offset = random(seed);
         const p = (progress + offset) % 1;
 
         // Orb size and blur animate in and out
@@ -53,7 +53,7 @@ export const QuantumFlux: React.FC = () => {
     });
 
     // --- Sparkles (Glinting professional effects) ---
-    const numSparkles = 50;
+    const numSparkles = 60;
     const sparkles = Array.from({ length: numSparkles }).map((_, i) => {
         const seed = `sparkle-${i}`;
         const x = random(`${seed}-x`) * width;
@@ -69,7 +69,7 @@ export const QuantumFlux: React.FC = () => {
     });
 
     // --- Core Flux (Main flowing elements, less blurred but gooey effect) ---
-    const numFluxElements = 12; // Lebih banyak elemen warna
+    const numFluxElements = 15;
     const fluxElements = Array.from({ length: numFluxElements }).map((_, i) => {
         const seed = `flux-${i}`;
         const offset = i / numFluxElements;
@@ -131,9 +131,33 @@ export const QuantumFlux: React.FC = () => {
     const glitchIntensity = interpolate(Math.sin(frame * glitchFrequency), [-1, 1], [0, 0.1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
     const glitchScale = interpolate(Math.sin(frame * glitchFrequency), [-1, 1], [1, 1.05], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' });
 
+    // --- Technical Data Streams ---
+    const numStreams = 8;
+    const dataStreams = Array.from({ length: numStreams }).map((_, i) => {
+        const seed = `stream-${i}`;
+        const x = (random(`${seed}-x`) * width);
+        const speed = 5 + random(`${seed}-s`) * 10;
+        const opacity = 0.1 + random(`${seed}-o`) * 0.3;
+        return { id: i, x, speed, opacity };
+    });
+
     return (
         <AbsoluteFill style={{ backgroundColor: QUANTUM_COLORS.deepSpaceBlack, overflow: 'hidden' }}>
-            {/* Ethereal Orbs (Blurred Background Elements) */}
+            {/* 1. Perspective Technical Grid */}
+            <div
+                style={{
+                    position: 'absolute',
+                    inset: -height,
+                    backgroundImage: `
+                        linear-gradient(rgba(0, 242, 255, 0.15) 1.5px, transparent 1.5px),
+                        linear-gradient(90deg, rgba(0, 242, 255, 0.15) 1.5px, transparent 1.5px)
+                    `,
+                    backgroundSize: `${120 * scale}px ${120 * scale}px`,
+                    transform: `perspective(1200px) rotateX(70deg) translateY(${(frame * 3 * scale) % (120 * scale)}px)`,
+                    maskImage: 'radial-gradient(circle at center, black 30%, transparent 80%)',
+                }}
+            />
+
             {orbs.map((orb) => (
                 <div
                     key={orb.id}
@@ -153,8 +177,6 @@ export const QuantumFlux: React.FC = () => {
                 />
             ))}
 
-            {/* Core Flux (Main Flowing Elements) - Using a gooey container for merging effect */}
-            {/* The blur and contrast filter on this container makes the elements inside merge and flow like liquid. */}
             <div
                 style={{
                     position: 'absolute',
@@ -162,8 +184,7 @@ export const QuantumFlux: React.FC = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    filter: `blur(${15 * scaleFactor}px) contrast(15) brightness(1.2)`, // Gooey filter for merging blobs
-                    // No background color here, allowing the main AbsoluteFill to provide the deep space black
+                    filter: `blur(${15 * scaleFactor}px) contrast(15) brightness(1.1)`,
                 }}
             >
                 {fluxElements.map((flux) => (
@@ -176,12 +197,73 @@ export const QuantumFlux: React.FC = () => {
                             backgroundColor: flux.color,
                             borderRadius: flux.borderRadius,
                             transform: `translate(${flux.translateX}px, ${flux.translateY}px) rotate(${flux.rotation}deg) scale(${flux.scale})`,
-                            boxShadow: `0 0 ${50 * scaleFactor}px ${flux.color}`, // Glowing effect
-                            opacity: 0.8, // Maintain visibility
+                            boxShadow: `0 0 ${50 * scaleFactor}px ${flux.color}`,
+                            opacity: 0.8,
                         }}
                     />
                 ))}
             </div>
+
+            {/* 2. Quantum Reactor Core (SVG Detail) */}
+            <AbsoluteFill style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <svg width={1000 * scale} height={1000 * scale} viewBox="0 0 1000 1000" style={{ filter: 'drop-shadow(0 0 20px #00F2FF)' }}>
+                    <defs>
+                        <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#fff" />
+                            <stop offset="100%" stopColor="#00F2FF" />
+                        </linearGradient>
+                    </defs>
+
+                    {/* Outer Rotating Technical Rings */}
+                    {[0.4, -0.6, 0.8].map((speed, i) => (
+                        <circle
+                            key={i}
+                            cx="500"
+                            cy="500"
+                            r={250 + i * 60}
+                            fill="none"
+                            stroke={QUANTUM_COLORS.electricBlue}
+                            strokeWidth="3"
+                            strokeDasharray={i === 1 ? "10 40 100 40" : "200 80"}
+                            style={{
+                                transformOrigin: 'center',
+                                transform: `rotate(${frame * speed}deg)`,
+                                opacity: 0.6
+                            }}
+                        />
+                    ))}
+
+                    {/* Inner Core Pulse */}
+                    <circle
+                        cx="500"
+                        cy="500"
+                        r={150 + Math.sin(frame * 0.1) * 15}
+                        fill="url(#coreGrad)"
+                        style={{ opacity: 0.9 }}
+                    />
+
+                    {/* Core Frame Lines */}
+                    {Array.from({ length: 12 }).map((_, i) => (
+                        <line
+                            key={i}
+                            x1="500"
+                            y1="320"
+                            x2="500"
+                            y2="280"
+                            stroke="#fff"
+                            strokeWidth="4"
+                            transform={`rotate(${i * 30 + frame * 0.2} 500 500)`}
+                        />
+                    ))}
+                </svg>
+            </AbsoluteFill>
+
+            {/* 3. Data Vertical Streams */}
+            {dataStreams.map((s) => (
+                <div key={s.id} style={{ position: 'absolute', left: s.x, top: (frame * s.speed) % height, color: QUANTUM_COLORS.neonGreen, fontFamily: 'monospace', fontSize: 20 * scale, opacity: s.opacity, writingMode: 'vertical-rl' }}>
+                    {Math.floor(random(s.id + frame) * 1000000).toString(16).toUpperCase()}
+                </div>
+            ))}
 
             {/* Data Tendrils (Sharp, fast-moving elements) */}
             {tendrils.map((tendril) => (
@@ -219,18 +301,32 @@ export const QuantumFlux: React.FC = () => {
                     key={sparkle.id}
                     style={{
                         position: 'absolute',
-                        left: sparkle.x,
-                        top: sparkle.y,
+                        left: sparkle.x + Math.sin(frame * 0.05 + sparkle.id) * 20,
+                        top: sparkle.y + Math.cos(frame * 0.05 + sparkle.id) * 20,
                         width: sparkle.size,
                         height: sparkle.size,
                         backgroundColor: 'white',
                         borderRadius: '50%',
                         opacity: sparkle.opacity,
-                        boxShadow: `0 0 ${sparkle.size * 3}px ${sparkle.color}, 0 0 ${sparkle.size * 6}px white`,
+                        boxShadow: `0 0 ${sparkle.size * 4}px ${sparkle.color}, 0 0 ${sparkle.size * 8}px white`,
                         transform: 'translate(-50%, -50%)',
                     }}
                 />
             ))}
+
+            {/* 4. HUD Technical Overlay */}
+            <div style={{
+                position: 'absolute',
+                bottom: 120 * scale,
+                left: 120 * scale,
+                color: '#fff',
+                fontFamily: 'monospace',
+                borderLeft: `5 * ${scale}px solid ${QUANTUM_COLORS.electricBlue}`,
+                paddingLeft: 30 * scale,
+            }}>
+                <div style={{ fontSize: 32 * scale, fontWeight: 'bold', letterSpacing: 4 * scale }}>QUANTUM_FLUX_CORE: ACTIVE</div>
+                <div style={{ fontSize: 20 * scale, opacity: 0.8 }}>STABILITY_INDEX: {(99.98 + Math.sin(frame * 0.2) * 0.01).toFixed(4)}% // 4K 60FPS</div>
+            </div>
         </AbsoluteFill>
     );
 };

@@ -40,5 +40,9 @@
   },
   "sideEffects": [
     "*.css"
-  ]
+  ],
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "type": "commonjs"
 }

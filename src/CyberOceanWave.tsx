@@ -35,7 +35,7 @@ export const CyberOceanWave: React.FC = () => {
   // Generate 3D grid points dynamically and project them onto 2D viewport (75-Degree Camera)
   const projectedPoints = useMemo(() => {
     const points = [];
-    
+
     // Camera angle: Exactly 75 degrees from above
     const pitch = (75 * Math.PI) / 180;
     const cosP = Math.cos(pitch);
@@ -68,7 +68,7 @@ export const CyberOceanWave: React.FC = () => {
         waves.forEach((w) => {
           const phase = (xRaw * w.kx + zRaw * w.kz) - tVal * w.omega;
           const kMag = Math.sqrt(w.kx * w.kx + w.kz * w.kz);
-          
+
           if (kMag > 0) {
             // Gerstner wave horizontal displacement pulls points towards the crest
             xDisp -= (w.kx / kMag) * w.amp * w.Q * Math.sin(phase);
@@ -135,9 +135,9 @@ export const CyberOceanWave: React.FC = () => {
     });
 
     if (normalizedHeight < 0.5) {
-      return interpolateColor(normalizedHeight * 2, colors.accent, colors.midWater);
+      return interpolateColor(normalizedHeight * 2, [0, 1], [colors.accent, colors.midWater]);
     } else {
-      return interpolateColor((normalizedHeight - 0.5) * 2, colors.midWater, colors.primary);
+      return interpolateColor((normalizedHeight - 0.5) * 2, [0, 1], [colors.midWater, colors.primary]);
     }
   };
 
@@ -176,7 +176,7 @@ export const CyberOceanWave: React.FC = () => {
           {projectedPoints.map((pt) => {
             const nextRight = pointLookup[`${pt.row}_${pt.col + 1}`];
             const nextDown = pointLookup[`${pt.row + 1}_${pt.col}`];
-            
+
             // Depth fading to mimic photographic lens focus fall-off (depth of field)
             const depthFade = interpolate(pt.depth, [-1500, 1500], [0.95, 0.15], {
               extrapolateLeft: 'clamp',
@@ -254,12 +254,12 @@ export const CyberOceanWave: React.FC = () => {
               glowOpacity = 0.85;
             } else if (heightPercent > 0.4) {
               // Mid-water: Luminous Cyan
-              nodeColor = interpolateColor((heightPercent - 0.4) / 0.4, '#00d2ff', '#ffffff');
+              nodeColor = interpolateColor((heightPercent - 0.4) / 0.4, [0, 1], ['#00d2ff', '#ffffff']);
               glowColor = '#00d2ff';
               glowOpacity = 0.55;
             } else {
               // Troughs: Deep Ocean Blue
-              nodeColor = interpolateColor(heightPercent / 0.4, '#0d5fa6', '#00d2ff');
+              nodeColor = interpolateColor(heightPercent / 0.4, [0, 1], ['#0d5fa6', '#00d2ff']);
               glowColor = '#0d5fa6';
               glowOpacity = 0.25;
             }
@@ -280,7 +280,7 @@ export const CyberOceanWave: React.FC = () => {
                     filter: 'blur(3px)',
                   }}
                 />
-                
+
                 {/* Luminous Inner Core Dot */}
                 <circle
                   cx={pt.x}
