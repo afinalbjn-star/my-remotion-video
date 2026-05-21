@@ -10,6 +10,7 @@ import { SocialMediaGrowth } from './SocialMediaGrowth';
 import { MolecularHelix } from './MolecularHelix';
 import { SynapticNetwork } from './SynapticNetwork';
 import { CardioPulse } from './CardioPulse';
+import { AquaBubbleRise } from './AquaBubbleRise';
 import { autoLoadFont } from './AssetManager';
 
 export const RemotionRoot: React.FC = () => {
@@ -18,6 +19,14 @@ export const RemotionRoot: React.FC = () => {
 
   return (
     <>
+      <Composition
+        id="AquaBubbleRise-4K"
+        component={AquaBubbleRise}
+        durationInFrames={600} // 10 detik @ 60fps
+        fps={60}
+        width={3840}
+        height={2160}
+      />
       <Composition
         id="PathogenMicroverse-4K"
         component={PathogenMicroverse}
