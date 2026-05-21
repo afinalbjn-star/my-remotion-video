@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'src/QuantumFlux.tsx'
+      - 'src/Root.tsx'
 
 jobs:
   render:
