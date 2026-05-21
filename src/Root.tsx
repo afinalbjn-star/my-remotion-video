@@ -11,14 +11,33 @@ import { MolecularHelix } from './MolecularHelix';
 import { SynapticNetwork } from './SynapticNetwork';
 import { CardioPulse } from './CardioPulse';
 import { AquaBubbleRise } from './AquaBubbleRise';
-import { autoLoadFont } from './AssetManager';
+import { QuantumFlux } from './QuantumFlux';
+import { NebulaFogLoop } from './NebulaFogLoop';
+import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
+import { loadFont as loadShareTech } from "@remotion/google-fonts/ShareTechMono";
 
 export const RemotionRoot: React.FC = () => {
-  autoLoadFont('Inter'); // Ensure Inter font is loaded
-  autoLoadFont('Share Tech Mono'); // Load technical monospace font
+  loadInter();
+  loadShareTech();
 
   return (
     <>
+      <Composition
+        id="QuantumFlux-4K"
+        component={QuantumFlux}
+        durationInFrames={600}
+        fps={60}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="NebulaFogLoop-4K"
+        component={NebulaFogLoop}
+        durationInFrames={600} // 10 detik @ 60fps
+        fps={60}
+        width={3840}
+        height={2160}
+      />
       <Composition
         id="AquaBubbleRise-4K"
         component={AquaBubbleRise}
