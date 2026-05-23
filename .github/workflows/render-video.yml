@@ -1,4 +1,4 @@
-name: Render Retro Black Hole Video
+name: Render Blood Stream Video
 
 on:
   push:
@@ -24,8 +24,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Render Retro Black Hole Video
-        run: npx remotion render src/index.ts RetroBlackHole-4K out/RetroBlackHole-4K.mp4
+      - name: Render Blood Stream Video
+        run: npx remotion render src/index.ts BloodStream-4K out/BloodStream-4K.mp4
         env:
           # Pastikan Anda memiliki token GitHub dengan izin 'contents:write'
           # Remotion mungkin memerlukan token untuk beberapa fitur atau jika Anda menggunakan API
@@ -34,14 +34,14 @@ jobs:
       - name: Commit and Push Rendered Video
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Rendered Retro Black Hole Video"
+          commit_message: "Rendered Blood Stream Video"
           branch: rendered-videos # Anda bisa mengganti ini dengan branch lain, misalnya 'main' jika Anda ingin langsung ke main
-          file_pattern: "out/RetroBlackHole-4K.mp4" # Pastikan nama file sesuai dengan output render Anda
+          file_pattern: "out/BloodStream-4K.mp4" # Pastikan nama file sesuai dengan output render Anda
           create_branch: true # Buat branch jika belum ada
           push_options: "--force" # Gunakan --force jika Anda ingin menimpa file yang sudah ada
 
       - name: Upload Rendered Video as Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: retro-black-hole-video
-          path: out/RetroBlackHole-4K.mp4
+          name: blood-stream-video
+          path: out/BloodStream-4K.mp4
