@@ -25,13 +25,13 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Render Video
-        run: npx remotion render HoloGeometric-4K out/holo-geometric-4k.mp4 --crf 18
+        run: npx remotion render src/index.ts SimpleVideo out/simple-video.mp4 --crf 18
 
       - name: Upload Video
         uses: actions/upload-artifact@v4
         with:
-          name: render-output
-          path: out/holo-geometric-4k.mp4
+          name: simple-video
+          path: out/simple-video.mp4
