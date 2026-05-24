@@ -1,0 +1,43 @@
+name: render video-ku
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Memungkinkan render manual dari tab Actions
+
+jobs:
+  render:
+    name: Render All Videos
+    runs-on: ubuntu-latest
+    timeout-minutes: 120 # Render 4K memakan waktu lama, kita beri limit 2 jam
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci # Menggunakan npm ci untuk instalasi yang lebih bersih di CI
+
+      - name: Ensure Remotion Browser
+        run: npx remotion browser ensure
+
+      - name: Render All Compositions
+        # Menjalankan kedua script render dari package.json Anda
+        run: |
+          npm run render
+          npm run render-snow
+
+      - name: Upload Video Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-rendered-videos-4k
+          # Mengambil semua file .mp4 yang ada di folder out/
+          path: out/*.mp4
+          retention-days: 7 # File akan otomatis dihapus setelah 7 hari untuk menghemat storage
