@@ -114,7 +114,7 @@ export const InfinitePuzzleZoom: React.FC = () => {
                 // Fade out kepingan yang sudah terlalu besar
                 const opacity = interpolate(
                     layerProgress,
-                    [3, 2.5, 0, -0.5],
+                    [-0.5, 0, 2.5, 3],
                     [0, 1, 1, 0],
                     { extrapolateRight: 'clamp' }
                 );

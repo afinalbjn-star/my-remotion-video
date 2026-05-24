@@ -2,6 +2,7 @@ import React from 'react';
 import { Composition } from 'remotion';
 import { PastelLoading } from './PastelLoading';
 import { InfinitePuzzleZoom } from './InfinitePuzzleZoom';
+import { FloatingGeometricDepth } from './FloatingGeometricDepth';
 
 export const RemotionRoot: React.FC = () => {
     return (
@@ -18,6 +19,14 @@ export const RemotionRoot: React.FC = () => {
                 id="InfinitePuzzleZoom"
                 component={InfinitePuzzleZoom}
                 durationInFrames={600} // 10 detik * 60 fps
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+            <Composition
+                id="FloatingGeometricDepth"
+                component={FloatingGeometricDepth}
+                durationInFrames={600} // 10 detik
                 fps={60}
                 width={3840}
                 height={2160}
