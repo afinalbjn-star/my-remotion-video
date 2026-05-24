@@ -1,0 +1,24 @@
+{
+  "name": "blood-vessel-animation",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "remotion preview",
+    "studio": "remotion studio",
+    "render": "remotion render src/Video.tsx out/video.mp4 --codec=h264 --quality=high"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "remotion": "^4.0.0",
+    "three": "^0.160.0",
+    "@react-three/fiber": "^8.15.1",
+    "@react-three/drei": "^9.90.1"
+  },
+  "devDependencies": {
+    "@remotion/studio": "^4.0.0",
+    "typescript": "^5.2.2",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0"
+  }
+}

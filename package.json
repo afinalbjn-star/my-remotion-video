@@ -6,6 +6,9 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@react-three/drei": "^9.121.4",
+    "@react-three/fiber": "^8.17.14",
+    "@react-three/postprocessing": "^2.16.3",
     "@remotion/cli": "4.0.462",
     "@remotion/cloudrun": "^4.0.462",
     "@remotion/fonts": "^4.0.462",
@@ -17,6 +20,7 @@
     "@remotion/shapes": "^4.0.462",
     "@remotion/tailwind": "^4.0.462",
     "@remotion/tailwind-v4": "4.0.462",
+    "@remotion/three": "4.0.462",
     "@remotion/transitions": "^4.0.462",
     "@types/three": "^0.172.0",
     "react": "19.2.3",
@@ -39,8 +43,8 @@
     "build": "remotion bundle",
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc",
-    "render": "remotion render src/Video.tsx BloodVesselLoop out.mp4 --fps 60 --width 3840 --height 2160",
-    "render-snow": "remotion render src/index.tsx SnowfallSky-4K snowfall-sky.mp4 --codec h264 --crf 16 --fps 60 --width 3840 --height 2160"
+    "render": "remotion render src/index.tsx MasterBackgroundShowcase out/video.mp4 --fps 60 --width 3840 --height 2160",
+    "render-snow": "remotion render src/index.tsx SnowfallSky-4K out/snowfall-sky.mp4 --codec h264 --crf 16 --fps 60 --width 3840 --height 2160"
   },
   "sideEffects": [
     "*.css"
