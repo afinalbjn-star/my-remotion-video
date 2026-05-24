@@ -18,10 +18,12 @@
     "@remotion/tailwind": "^4.0.462",
     "@remotion/tailwind-v4": "4.0.462",
     "@remotion/transitions": "^4.0.462",
+    "@types/three": "^0.172.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "remotion": "4.0.462",
-    "tailwindcss": "4.0.0"
+    "tailwindcss": "4.0.0",
+    "three": "^0.172.0"
   },
   "devDependencies": {
     "@remotion/eslint-config-flat": "4.0.462",
@@ -33,15 +35,17 @@
   },
   "scripts": {
     "start": "remotion studio",
-    "dev": "remotion studio",
+    "dev": "remotion studio --port 3001",
     "build": "remotion bundle",
     "upgrade": "remotion upgrade",
-    "lint": "eslint src && tsc"
+    "lint": "eslint src && tsc",
+    "render": "remotion render src/Video.tsx BloodVesselLoop out.mp4 --fps 60 --width 3840 --height 2160",
+    "render-snow": "remotion render src/index.tsx SnowfallSky-4K snowfall-sky.mp4 --codec h264 --crf 16 --fps 60 --width 3840 --height 2160"
   },
   "sideEffects": [
     "*.css"
   ],
-  "main": "index.js",
+  "main": "src/index.tsx",
   "keywords": [],
   "author": "",
   "type": "commonjs"
