@@ -1,0 +1,29 @@
+name: Render Video Manual
+
+on:
+  workflow_dispatch:
+    inputs:
+      compositionId:
+        description: 'ID Komposisi yang ingin dirender'
+        required: true
+        default: 'PastelLoading'
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm install
+      - uses: remotion-project/render-video@v4
+        with:
+          composition-id: ${{ github.event.inputs.compositionId }}
+          entry-point: src/index.tsx
+          output-location: out/video.mp4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rendered-video
+          path: out/video.mp4

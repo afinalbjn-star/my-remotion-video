@@ -1,39 +1,29 @@
-name: Automated Remotion Render
+name: Manual Render
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch: # Memungkinkan render manual dari tab Actions
+  workflow_dispatch:
 
 jobs:
   render:
-    name: Render Video
     runs-on: ubuntu-latest
-    timeout-minutes: 60
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci
+        run: sudo apt-get update && sudo apt-get install -y xvfb libgbm1 libasound2 && npm install
 
-      - name: Ensure Remotion Browser
-        run: npx remotion browser ensure
+      - name: Render
+        run: xvfb-run npx remotion render Main out/video.mp4
 
-      - name: Render Remotion Video
-        # Menjalankan script 'render' dari package.json Anda
-        run: npm run render
-
-      - name: Upload Video Artifact
+      - name: Upload
         uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: rendered-video-4k
+          name: video
           path: out/video.mp4
-          retention-days: 5
