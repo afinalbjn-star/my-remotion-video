@@ -1,0 +1,39 @@
+name: Automated Remotion Render
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Memungkinkan render manual dari tab Actions
+
+jobs:
+  render:
+    name: Render Video
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Ensure Remotion Browser
+        run: npx remotion browser ensure
+
+      - name: Render Remotion Video
+        # Menjalankan script 'render' dari package.json Anda
+        run: npm run render
+
+      - name: Upload Video Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rendered-video-4k
+          path: out/video.mp4
+          retention-days: 5

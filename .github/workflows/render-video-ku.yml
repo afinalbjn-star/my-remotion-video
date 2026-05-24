@@ -29,9 +29,11 @@ jobs:
         run: npx remotion browser ensure
 
       - name: Render All Compositions
-        # Menjalankan kedua script render dari package.json Anda
+        # Menjalankan semua script render yang telah didefinisikan di package.json
         run: |
           npm run render
+          npm run render-blood
+          npm run render-cyber
           npm run render-snow
 
       - name: Upload Video Artifacts
