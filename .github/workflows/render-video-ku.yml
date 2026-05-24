@@ -23,7 +23,9 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci # Menggunakan npm ci untuk instalasi yang lebih bersih di CI
+        # Menggunakan install dengan --legacy-peer-deps untuk menangani 
+        # potensi konflik dependensi pada React 19/Tailwind v4
+        run: npm install --legacy-peer-deps
 
       - name: Ensure Remotion Browser
         run: npx remotion browser ensure
