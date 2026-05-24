@@ -22,10 +22,12 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y xvfb libgbm1 libasound2
-          npm install
+          npm ci
 
       - name: Render Video (Transparent WebM)
-        run: npx remotion render ${{ github.event.inputs.compositionId }} out/video.webm --codec=vp9
+        run: |
+          mkdir -p out
+          xvfb-run npx remotion render src/index.tsx ${{ github.event.inputs.compositionId }} out/video.webm --codec=vp9
 
       - uses: actions/upload-artifact@v4
         with:
