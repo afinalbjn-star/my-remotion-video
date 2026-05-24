@@ -10,18 +10,22 @@ on:
 
 jobs:
   render:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
+
       - name: Install Dependencies
-        run: sudo apt-get update && sudo apt-get install -y xvfb libgbm1 libasound2 && npm install
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libgbm1 libasound2
+          npm install
 
       - name: Render Video (Transparent WebM)
-        run: xvfb-run npx remotion render src/index.tsx ${{ github.event.inputs.compositionId }} out/video.webm --codec=vp9
+        run: npx remotion render ${{ github.event.inputs.compositionId }} out/video.webm --codec=vp9
 
       - uses: actions/upload-artifact@v4
         with:
