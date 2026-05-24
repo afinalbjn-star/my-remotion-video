@@ -22,21 +22,27 @@ jobs:
           node-version: 20
           cache: 'npm'
 
+      - name: Install System Dependencies
+        # Menginstall library Linux yang dibutuhkan browser untuk mendeteksi komposisi
+        # dan xvfb untuk mendukung rendering WebGL/Three.js di server headless
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgbm1 libasound2 xvfb
+
       - name: Install Dependencies
-        # Menggunakan install dengan --legacy-peer-deps untuk menangani 
-        # potensi konflik dependensi pada React 19/Tailwind v4
         run: npm install --legacy-peer-deps
 
       - name: Ensure Remotion Browser
         run: npx remotion browser ensure
 
       - name: Render All Compositions
-        # Menjalankan semua script render yang telah didefinisikan di package.json
+        # Menggunakan xvfb-run agar Remotion bisa menjalankan browser secara headless 
+        # namun tetap memiliki akses ke display virtual untuk memproses komposisi
         run: |
-          npm run render
-          npm run render-blood
-          npm run render-cyber
-          npm run render-snow
+          xvfb-run npm run render
+          xvfb-run npm run render-blood
+          xvfb-run npm run render-cyber
+          xvfb-run npm run render-snow
 
       - name: Upload Video Artifacts
         uses: actions/upload-artifact@v4
