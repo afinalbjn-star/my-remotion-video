@@ -17,13 +17,13 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-      - run: npm install
-      - uses: remotion-project/render-video@v4
-        with:
-          composition-id: ${{ github.event.inputs.compositionId }}
-          entry-point: src/index.tsx
-          output-location: out/video.mp4
+      - name: Install Dependencies
+        run: sudo apt-get update && sudo apt-get install -y xvfb libgbm1 libasound2 && npm install
+
+      - name: Render Video (Transparent WebM)
+        run: xvfb-run npx remotion render src/index.tsx ${{ github.event.inputs.compositionId }} out/video.webm --codec=vp9
+
       - uses: actions/upload-artifact@v4
         with:
           name: rendered-video
-          path: out/video.mp4
+          path: out/video.webm
