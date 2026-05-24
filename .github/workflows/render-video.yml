@@ -7,6 +7,11 @@ on:
         description: 'ID Komposisi yang ingin dirender'
         required: true
         default: 'PastelLoading'
+      crf:
+        description: 'Tingkat Kualitas (CRF: 0 = Lossless/Terbesar, 15 = Sangat Tinggi, 31 = Standar)'
+        required: true
+        default: '10'
+        type: string
 
 jobs:
   render:
@@ -22,12 +27,13 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y xvfb libgbm1 libasound2
-          npm ci --legacy-peer-deps
+          npm install --legacy-peer-deps
 
       - name: Render Video (Transparent WebM)
         run: |
           mkdir -p out
-          xvfb-run npx remotion render src/index.tsx ${{ github.event.inputs.compositionId }} out/video.webm --codec=vp9
+          CRF_VAL="${{ github.event.inputs.crf || '10' }}"
+          xvfb-run npx remotion render src/index.tsx ${{ github.event.inputs.compositionId }} out/video.webm --codec=vp9 --crf=$CRF_VAL
 
       - uses: actions/upload-artifact@v4
         with:
