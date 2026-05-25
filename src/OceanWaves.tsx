@@ -26,7 +26,7 @@ const Wave: React.FC<WaveLayerProps> = ({ color, opacity, amplitude, frequency, 
 
     const path = useMemo(() => {
         const points: string[] = [];
-        const steps = 120; // Resolusi path lebih tinggi untuk 4K agar tidak terlihat patah-patah
+        const steps = 300; // Resolusi ditingkatkan drastis agar ombak sangat halus (tidak gerigi)
         const stepSize = width / steps;
 
         for (let i = 0; i <= steps; i++) {
@@ -73,15 +73,15 @@ export const OceanWaves: React.FC = () => {
 
     return (
         <AbsoluteFill style={{
-            backgroundColor: '#000814',
+            backgroundColor: '#0f0524',
             overflow: 'hidden',
             transform: `translate(${camX}px, ${camY}px) scale(1.05)`
         }}>
-            {/* Langit Mendung (Sky) */}
+            {/* Langit Retro (Sky) */}
             <div style={{
                 position: 'absolute',
                 inset: 0,
-                background: 'linear-gradient(to bottom, #1a2a3a 0%, #000814 60%)',
+                background: 'linear-gradient(to bottom, #2d0b5a 0%, #0f0524 60%)',
             }} />
 
             {/* Kilat / Flash Cahaya (Ambient Lightning) */}
@@ -89,30 +89,30 @@ export const OceanWaves: React.FC = () => {
                 position: 'absolute',
                 inset: 0,
                 backgroundColor: '#fff',
-                opacity: interpolate(Math.sin(t * 2), [0.9, 1], [0, 0.05], { extrapolateLeft: 'clamp' }),
+                opacity: interpolate(Math.sin(t * 2.5), [0.85, 1], [0, 0.25], { extrapolateLeft: 'clamp' }),
                 pointerEvents: 'none',
             }} />
 
             <svg width={width} height={height} style={{ position: 'absolute', inset: 0 }}>
                 <defs>
                     <linearGradient id="deepWater" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#003566" />
-                        <stop offset="100%" stopColor="#000814" />
+                        <stop offset="0%" stopColor="#00f2ff" />
+                        <stop offset="100%" stopColor="#7000ff" />
                     </linearGradient>
                 </defs>
 
                 {/* Layer Ombak dari Belakang ke Depan */}
                 <Wave
                     seed={1} yBase={0.45} amplitude={70} frequency={0.002} speed={1}
-                    color="#001d3d" opacity={0.6}
+                    color="#3a0ca3" opacity={0.6}
                 />
                 <Wave
                     seed={2} yBase={0.55} amplitude={100} frequency={0.0015} speed={-1}
-                    color="#003566" opacity={0.7}
+                    color="#7209b7" opacity={0.7}
                 />
                 <Wave
                     seed={3} yBase={0.7} amplitude={150} frequency={0.001} speed={2}
-                    color="#001d3d" opacity={0.9}
+                    color="#f72585" opacity={0.8}
                 />
 
                 {/* Layer Paling Depan dengan Gradasi */}
