@@ -43,7 +43,8 @@
     "build": "remotion bundle",
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc",
-    "render": "remotion render src/index.tsx Main out/video.mp4"
+    "render": "remotion render",
+    "render-all": "npx remotion render KembangApi out/KembangApi.mp4 && npx remotion render PolygonalBackground out/PolygonalBackground.mp4 && npx remotion render NeonLinesBackground out/NeonLinesBackground.mp4 && npx remotion render PlexusTunnel out/PlexusTunnel.mp4"
   },
   "sideEffects": [
     "*.css"
