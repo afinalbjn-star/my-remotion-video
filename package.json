@@ -43,10 +43,7 @@
     "build": "remotion bundle",
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc",
-    "render": "remotion render src/index.tsx MasterBackgroundShowcase out/video.mp4 --fps 60 --width 3840 --height 2160",
-    "render-blood": "remotion render src/index.tsx BloodStream-4K out/blood-stream.mp4 --fps 60 --width 3840 --height 2160",
-    "render-cyber": "remotion render src/index.tsx CyberFlow-4K out/cyber-flow.mp4 --fps 60 --width 3840 --height 2160",
-    "render-snow": "remotion render src/index.tsx SnowfallSky-4K out/snowfall-sky.mp4 --codec h264 --crf 16 --fps 60 --width 3840 --height 2160"
+    "render": "remotion render src/index.tsx Main out/video.mp4"
   },
   "sideEffects": [
     "*.css"
