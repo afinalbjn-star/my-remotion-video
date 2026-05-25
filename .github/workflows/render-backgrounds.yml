@@ -1,0 +1,42 @@
+name: Render All Backgrounds
+
+on:
+  workflow_dispatch:
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Render FloatingGeometricDepth
+        run: npx remotion render src/index.tsx FloatingGeometricDepth out/FloatingGeometricDepth.mp4
+
+      - name: Render GlassmorphicFlow
+        run: npx remotion render src/index.tsx GlassmorphicFlow out/GlassmorphicFlow.mp4
+
+      - name: Render GenerativeLiquidWaves
+        run: npx remotion render src/index.tsx GenerativeLiquidWaves out/GenerativeLiquidWaves.mp4
+
+      - name: Render BloodCellFlow
+        run: npx remotion render src/index.tsx BloodCellFlow out/BloodCellFlow.mp4
+
+      - name: Upload rendered videos
+        uses: actions/upload-artifact@v4
+        with:
+          name: background-videos-mp4
+          path: |
+            out/FloatingGeometricDepth.mp4
+            out/GlassmorphicFlow.mp4
+            out/GenerativeLiquidWaves.mp4
+            out/BloodCellFlow.mp4

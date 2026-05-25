@@ -1,0 +1,32 @@
+name: Render Video FloatingGeometricDepth (Manual)
+
+on:
+  workflow_dispatch: # Memungkinkan Anda menjalankan workflow ini secara manual dari GitHub UI
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Sesuaikan dengan versi Node.js yang Anda gunakan
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Remotion CLI
+        run: npm install @remotion/cli
+
+      - name: Render FloatingGeometricDepth video
+        run: npx remotion render src/index.tsx FloatingGeometricDepth out/FloatingGeometricDepth.mp4
+
+      - name: Upload rendered video artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FloatingGeometricDepth-video
+          path: out/FloatingGeometricDepth.mp4
