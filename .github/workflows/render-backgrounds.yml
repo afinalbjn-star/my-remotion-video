@@ -20,16 +20,19 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Render FloatingGeometricDepth
-        run: npx remotion render src/index.tsx FloatingGeometricDepth out/FloatingGeometricDepth.mp4
+        run: npx remotion render src/index.tsx FloatingGeometricDepth out/FloatingGeometricDepth.mp4 --crf 12
 
       - name: Render GlassmorphicFlow
-        run: npx remotion render src/index.tsx GlassmorphicFlow out/GlassmorphicFlow.mp4
+        run: npx remotion render src/index.tsx GlassmorphicFlow out/GlassmorphicFlow.mp4 --crf 12
 
       - name: Render GenerativeLiquidWaves
-        run: npx remotion render src/index.tsx GenerativeLiquidWaves out/GenerativeLiquidWaves.mp4
+        run: npx remotion render src/index.tsx GenerativeLiquidWaves out/GenerativeLiquidWaves.mp4 --crf 12
 
       - name: Render BloodCellFlow
-        run: npx remotion render src/index.tsx BloodCellFlow out/BloodCellFlow.mp4
+        run: npx remotion render src/index.tsx BloodCellFlow out/BloodCellFlow.mp4 --crf 12
+
+      - name: Render OceanWaves
+        run: npx remotion render src/index.tsx OceanWaves out/OceanWaves.mp4 --crf 12
 
       - name: Upload rendered videos
         uses: actions/upload-artifact@v4
@@ -40,3 +43,4 @@ jobs:
             out/GlassmorphicFlow.mp4
             out/GenerativeLiquidWaves.mp4
             out/BloodCellFlow.mp4
+            out/OceanWaves.mp4

@@ -9,7 +9,7 @@ import {
 
 const Card: React.FC<{ seed: number }> = ({ seed }) => {
     const frame = useCurrentFrame();
-    const { fps, width, height } = useVideoConfig();
+    const { fps, width, height, durationInFrames } = useVideoConfig();
 
     const config = useMemo(() => {
         return {
@@ -27,8 +27,10 @@ const Card: React.FC<{ seed: number }> = ({ seed }) => {
         config: { stiffness: 60 },
     });
 
-    const floatY = Math.sin((frame * config.speed) / 20) * 30;
-    const rotate = Math.cos((frame * config.speed) / 25) * 5;
+    // Sinkronisasi dengan durasi untuk seamless loop
+    const t = (frame / durationInFrames) * Math.PI * 2;
+    const floatY = Math.sin(t * Math.floor(config.speed * 2)) * 30;
+    const rotate = Math.cos(t * Math.floor(config.speed)) * 5;
 
     return (
         <div

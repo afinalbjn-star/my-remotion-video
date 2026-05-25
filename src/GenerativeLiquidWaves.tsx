@@ -18,7 +18,7 @@ const WAVES: WaveConfig[] = [
     { amplitude: 150, frequency: 0.001, speed: 1, color: '#93c5fd', opacity: 0.4, offset: 0 },
     { amplitude: 200, frequency: 0.0012, speed: -1, color: '#60a5fa', opacity: 0.3, offset: Math.PI / 2 },
     { amplitude: 120, frequency: 0.0008, speed: 2, color: '#3b82f6', opacity: 0.2, offset: Math.PI },
-    { amplitude: 180, frequency: 0.0015, speed: -1.5, color: '#2563eb', opacity: 0.2, offset: Math.PI * 1.5 },
+    { amplitude: 180, frequency: 0.0015, speed: -2, color: '#2563eb', opacity: 0.2, offset: Math.PI * 1.5 },
 ];
 
 const WaveLayer: React.FC<{ config: WaveConfig; sf: number }> = ({ config, sf }) => {
