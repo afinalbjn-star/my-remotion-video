@@ -20,14 +20,17 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies and system libs
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libgbm1 libasound2 libgl1-mesa-glx
+          npm install --legacy-peer-deps
 
-      - name: Render video
-        run: npx remotion render GiantEye out/video.mp4 --codec=h264
+      - name: Render GiantEye Video
+        run: xvfb-run npx remotion render GiantEye out/GiantEye_4K.mp4 --codec=h264
 
       - name: Upload video
         uses: actions/upload-artifact@v4
         with:
-          name: giant-eye-4k-video
-          path: out/video.mp4
+          name: giant-eye-output
+          path: out/GiantEye_4K.mp4
