@@ -29,7 +29,7 @@ const PLANETS: PlanetConfig[] = [
 ];
 
 const StarField: React.FC = () => {
-    const { width, height } = useVideoConfig();
+    const { width, height, durationInFrames } = useVideoConfig();
 
     const stars = useMemo(() => {
         return new Array(STAR_COUNT).fill(0).map((_, i) => ({
