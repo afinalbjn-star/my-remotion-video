@@ -1,33 +1,25 @@
-name: Render Video
+name: Render Royal Christmas Video
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main # Pastikan ini sesuai dengan nama branch utama Anda
 
 jobs:
   render:
-    name: Render video
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Render Video
+        uses: remotion-project/github-action@v1
         with:
-          node-version: 20
-          cache: 'npm'
+          composition-id: RoyalChristmasBackground
+          output-location: out/royal-christmas.mp4
 
-      - name: Install dependencies and system libs
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y xvfb libgbm1 libasound2 libgl1-mesa-glx
-          npm install --legacy-peer-deps
-
-      - name: Render FallingEyesBackground Video
-        run: xvfb-run npx remotion render src/index.tsx FallingEyesBackground out/FallingEyesBackground.mp4 --codec=h264 --crf=1
-
-      - name: Upload video
+      - name: Upload Video
         uses: actions/upload-artifact@v4
-        with: # Mengubah nama artefak dan path file
-          name: falling-eyes-background-output
-          path: out/FallingEyesBackground.mp4
+        with:
+          name: royal-christmas-video
+          path: out/royal-christmas.mp4

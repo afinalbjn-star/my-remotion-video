@@ -7,6 +7,7 @@ import { PlexusTunnel } from './PlexusTunnel';
 import { FallingEyesBackground } from './FallingEyesBackground'; // Import komponen baru
 import { SolarSystem } from './SolarSystem';
 import { GiantEye } from './GiantEye';
+import { RoyalChristmasBackground } from './RoyalChristmasBackground';
 
 export const RemotionRoot: React.FC = () => {
     return (
@@ -57,6 +58,14 @@ export const RemotionRoot: React.FC = () => {
                 durationInFrames={600} // 10 detik * 60 fps
                 fps={60}
                 width={3840} // Resolusi 4K
+                height={2160}
+            />
+            <Composition
+                id="RoyalChristmasBackground"
+                component={RoyalChristmasBackground}
+                durationInFrames={600} // 10 detik * 60 fps
+                fps={60}
+                width={3840} // 4K Resolution
                 height={2160}
             />
             <Composition
