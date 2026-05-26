@@ -6,7 +6,7 @@ on:
       compositionId:
         description: 'ID Komposisi yang ingin dirender'
         required: true
-        default: 'GiantEye' # Mengatur GiantEye sebagai default
+        default: 'FallingEyesBackground' # Mengatur FallingEyesBackground sebagai default
         type: string
       crf: # Input untuk CRF dipisahkan dan diperbaiki
         description: 'Tingkat Kualitas (CRF: 0 = Lossless/Terbesar, 15 = Sangat Tinggi, 31 = Standar)'

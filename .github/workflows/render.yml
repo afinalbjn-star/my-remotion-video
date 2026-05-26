@@ -23,11 +23,11 @@ jobs:
           sudo apt-get install -y xvfb libgbm1 libasound2 libgl1-mesa-glx
           npm install --legacy-peer-deps
 
-      - name: Render GiantEye Video
-        run: xvfb-run npx remotion render GiantEye out/GiantEye.mp4 --codec=h264 --crf=1
+      - name: Render FallingEyesBackground Video
+        run: xvfb-run npx remotion render src/index.tsx FallingEyesBackground out/FallingEyesBackground.mp4 --codec=h264 --crf=1
 
       - name: Upload video
         uses: actions/upload-artifact@v4
-        with:
-          name: giant-eye-output
-          path: out/GiantEye.mp4
+        with: # Mengubah nama artefak dan path file
+          name: falling-eyes-background-output
+          path: out/FallingEyesBackground.mp4

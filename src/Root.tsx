@@ -4,6 +4,7 @@ import { KembangApi } from './KembangApi';
 import PolygonalBackground from './PolygonalBackground'; // Import komponen baru
 import NeonLinesBackground from './NeonLinesBackground'; // Import komponen baru
 import { PlexusTunnel } from './PlexusTunnel';
+import { FallingEyesBackground } from './FallingEyesBackground'; // Import komponen baru
 import { SolarSystem } from './SolarSystem';
 import { GiantEye } from './GiantEye';
 
@@ -53,6 +54,14 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="GiantEye"
                 component={GiantEye}
+                durationInFrames={600} // 10 detik * 60 fps
+                fps={60}
+                width={3840} // Resolusi 4K
+                height={2160}
+            />
+            <Composition
+                id="FallingEyesBackground"
+                component={FallingEyesBackground}
                 durationInFrames={600} // 10 detik * 60 fps
                 fps={60}
                 width={3840} // Resolusi 4K
