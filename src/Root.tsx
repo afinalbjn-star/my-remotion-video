@@ -5,6 +5,7 @@ import PolygonalBackground from './PolygonalBackground'; // Import komponen baru
 import NeonLinesBackground from './NeonLinesBackground'; // Import komponen baru
 import { PlexusTunnel } from './PlexusTunnel';
 import { SolarSystem } from './SolarSystem';
+import { GiantEye } from './GiantEye';
 
 export const RemotionRoot: React.FC = () => {
     return (
@@ -45,6 +46,14 @@ export const RemotionRoot: React.FC = () => {
                 id="SolarSystem"
                 component={SolarSystem}
                 durationInFrames={900} // 15 detik * 60 fps
+                fps={60}
+                width={3840} // Resolusi 4K
+                height={2160}
+            />
+            <Composition
+                id="GiantEye"
+                component={GiantEye}
+                durationInFrames={600} // 10 detik * 60 fps
                 fps={60}
                 width={3840} // Resolusi 4K
                 height={2160}

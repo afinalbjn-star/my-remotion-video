@@ -1,13 +1,14 @@
-name: Render Videos
+name: Render Video
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   render:
+    name: Render video
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,20 +20,14 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: Install FFmpeg & Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
+      - name: Render video
+        run: npx remotion render GiantEye out/video.mp4 --codec=h264
 
-      - name: Render All Videos
-        run: npm run render-all
-
-      - name: Upload Artifacts
+      - name: Upload video
         uses: actions/upload-artifact@v4
         with:
-          name: rendered-videos
-          path: out/*.mp4
-          retention-days: 5
+          name: giant-eye-4k-video
+          path: out/video.mp4
