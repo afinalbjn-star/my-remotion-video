@@ -24,10 +24,10 @@ jobs:
           npm install --legacy-peer-deps
 
       - name: Render GiantEye Video
-        run: xvfb-run npx remotion render GiantEye out/GiantEye_4K.mp4 --codec=h264 --crf=0
+        run: xvfb-run npx remotion render GiantEye out/GiantEye.mp4 --codec=h264 --crf=1
 
       - name: Upload video
         uses: actions/upload-artifact@v4
         with:
           name: giant-eye-output
-          path: out/GiantEye_4K.mp4
+          path: out/GiantEye.mp4
