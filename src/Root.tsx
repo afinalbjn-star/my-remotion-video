@@ -8,6 +8,7 @@ import { FallingEyesBackground } from './FallingEyesBackground'; // Import kompo
 import { SolarSystem } from './SolarSystem';
 import { GiantEye } from './GiantEye';
 import { RoyalChristmasBackground } from './RoyalChristmasBackground';
+import { RetroPopLoadingBackground } from './RetroPopLoadingBackground';
 
 export const RemotionRoot: React.FC = () => {
     return (
@@ -15,6 +16,14 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="KembangApi"
                 component={KembangApi}
+                durationInFrames={900} // 15 detik * 60 fps
+                fps={60}
+                width={3840} // 4K Resolution
+                height={2160}
+            />
+            <Composition
+                id="RetroPopLoadingBackground"
+                component={RetroPopLoadingBackground}
                 durationInFrames={900} // 15 detik * 60 fps
                 fps={60}
                 width={3840} // 4K Resolution
