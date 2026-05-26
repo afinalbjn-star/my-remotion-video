@@ -11,7 +11,7 @@ on:
       crf: # Input untuk CRF dipisahkan dan diperbaiki
         description: 'Tingkat Kualitas (CRF: 0 = Lossless/Terbesar, 15 = Sangat Tinggi, 31 = Standar)'
         required: true
-        default: '10'
+        default: '0'
         type: string
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
       - name: Render Video (MP4)
         run: |
           mkdir -p out
-          CRF_VAL="${{ github.event.inputs.crf || '10' }}"
+          CRF_VAL="${{ github.event.inputs.crf || '0' }}"
           xvfb-run npx remotion render src/index.tsx ${{ github.event.inputs.compositionId }} out/${{ github.event.inputs.compositionId }}.mp4 --codec=h264 --crf=$CRF_VAL
 
       - uses: actions/upload-artifact@v4

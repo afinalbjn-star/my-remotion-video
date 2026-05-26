@@ -2,9 +2,6 @@ name: Render Video
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 jobs:
   render:
@@ -27,7 +24,7 @@ jobs:
           npm install --legacy-peer-deps
 
       - name: Render GiantEye Video
-        run: xvfb-run npx remotion render GiantEye out/GiantEye_4K.mp4 --codec=h264
+        run: xvfb-run npx remotion render GiantEye out/GiantEye_4K.mp4 --codec=h264 --crf=0
 
       - name: Upload video
         uses: actions/upload-artifact@v4
