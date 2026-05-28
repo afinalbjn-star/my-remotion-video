@@ -48,12 +48,12 @@ jobs:
       - name: Render Composition
         run: |
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            npx remotion render "${{ github.event.inputs.composition_id }}" "out/${{ github.event.inputs.output_filename }}" --codec h264
+            npx remotion render "${{ github.event.inputs.composition_id }}" "out/${{ github.event.inputs.output_filename }}" --codec h264 --crf 28
           else
             # Default render saat melakukan push
             mkdir -p out
-            npx remotion render IsometricNetwork out/isometric_network.mp4 --codec h264
-            npx remotion render HackerCodingBackground out/hacker_coding.mp4 --codec h264
+            npx remotion render IsometricNetwork out/isometric_network.mp4 --codec h264 --crf 28
+            npx remotion render HackerCodingBackground out/hacker_coding.mp4 --codec h264 --crf 28
           fi
 
       - name: Upload Videos
