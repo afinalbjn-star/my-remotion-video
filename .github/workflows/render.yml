@@ -1,4 +1,4 @@
-name: Render Videos
+name: Render Remotion Video
 
 on:
   push:
@@ -43,17 +43,21 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
-      - name: Render Isometric Network
-        run: npx remotion render IsometricNetwork out/isometric_network.mp4
-
-      - name: Render Hacker Coding
-        run: npx remotion render HackerCodingBackground out/hacker_coding.mp4
+      - name: Render Composition
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            npx remotion render "${{ github.event.inputs.composition_id }}" "out/${{ github.event.inputs.output_filename }}"
+          else
+            # Default render saat melakukan push
+            npx remotion render IsometricNetwork out/isometric_network.mp4
+            npx remotion render HackerCodingBackground out/hacker_coding.mp4
+          fi
 
       - name: Upload Videos
         uses: actions/upload-artifact@v4
         with:
-          name: rendered-videos
+          name: rendered-video-${{ github.event.inputs.composition_id || 'push-results' }}
           path: out/*.mp4
           retention-days: 5
