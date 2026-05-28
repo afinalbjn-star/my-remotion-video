@@ -1,9 +1,10 @@
-name: Render Royal Christmas Video
+name: Render Videos
 
 on:
   push:
     branches:
-      - main # Pastikan ini sesuai dengan nama branch utama Anda
+      - main
+  workflow_dispatch:
 
 jobs:
   render:
@@ -12,14 +13,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Render Video
-        uses: remotion-project/github-action@v1
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          composition-id: RoyalChristmasBackground
-          output-location: out/royal-christmas.mp4
+          node-version: 20
+          cache: 'npm'
 
-      - name: Upload Video
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Render Isometric Network
+        run: npx remotion render IsometricNetwork out/isometric_network.mp4
+
+      - name: Render Hacker Coding
+        run: npx remotion render HackerCodingBackground out/hacker_coding.mp4
+
+      - name: Upload Videos
         uses: actions/upload-artifact@v4
         with:
-          name: royal-christmas-video
-          path: out/royal-christmas.mp4
+          name: rendered-videos
+          path: out/*.mp4
+          retention-days: 5

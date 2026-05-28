@@ -12,6 +12,7 @@ import { RetroPopLoadingBackground } from './RetroPopLoadingBackground';
 import { KaleidoscopeFractal } from './KaleidoscopeFractal';
 import { BlueLinesKaleidoscope } from './BlueLinesKaleidoscope';
 import { HackerCodingBackground } from './HackerCodingBackground';
+import { IsometricNetwork } from './IsometricNetwork';
 
 export const RemotionRoot: React.FC = () => {
     return (
@@ -107,6 +108,14 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="HackerCodingBackground"
                 component={HackerCodingBackground}
+                durationInFrames={600} // 10 detik * 60 fps
+                fps={60}
+                width={3840} // Resolusi 4K
+                height={2160}
+            />
+            <Composition
+                id="IsometricNetwork"
+                component={IsometricNetwork}
                 durationInFrames={600} // 10 detik * 60 fps
                 fps={60}
                 width={3840} // Resolusi 4K
