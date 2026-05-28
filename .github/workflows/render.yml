@@ -24,6 +24,7 @@ on:
           - BlueLinesKaleidoscope
           - HackerCodingBackground
           - IsometricNetwork
+          - BreathingLung
       output_filename:
         description: 'Nama File Output (misal: my_video.mp4)'
         required: true
