@@ -1,54 +1,35 @@
-name: Render Video Manual
+name: Render Remotion Video
 
 on:
   workflow_dispatch:
-    inputs:
-      compositionId:
-        description: 'ID Komposisi yang ingin dirender'
-        required: true
-        default: 'KaleidoscopeFractal'
-        type: choice
-        options:
-          - BlueLinesKaleidoscope
-          - KaleidoscopeFractal
-          - FallingEyesBackground
-          - RoyalChristmasBackground
-          - GiantEye
-          - SolarSystem
-          - PlexusTunnel
-          - NeonLinesBackground
-          - PolygonalBackground
-          - RetroPopLoadingBackground
-          - KembangApi
-      crf: # Input untuk CRF dipisahkan dan diperbaiki
-        description: 'Tingkat Kualitas (CRF: 0 = Lossless/Terbesar, 15 = Sangat Tinggi, 31 = Standar)'
-        required: true
-        default: '1'
-        type: string
+  push:
+    branches:
+      - main
 
 jobs:
   render:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
       - name: Install Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y xvfb libgbm1 libasound2 libgl1-mesa-glx
-          npm install --legacy-peer-deps
+        run: npm install
 
-      - name: Render Video (MP4)
-        run: |
-          mkdir -p out
-          CRF_VAL="${{ github.event.inputs.crf || '1' }}"
-          xvfb-run npx remotion render src/index.tsx ${{ github.event.inputs.compositionId }} out/${{ github.event.inputs.compositionId }}.mp4 --codec=h264 --crf=$CRF_VAL
+      - name: Render Video
+        # Menjalankan render untuk komposisi HackerCodingBackground
+        # Output akan disimpan di folder out/
+        run: npx remotion render HackerCodingBackground out/video.mp4 --codec h264
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload Video Artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.event.inputs.compositionId }}-mp4
-          path: out/*.mp4
+          name: hacker-coding-video
+          path: out/video.mp4
+          retention-days: 7
