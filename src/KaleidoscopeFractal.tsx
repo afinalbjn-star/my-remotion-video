@@ -59,7 +59,7 @@ export const KaleidoscopeFractal: React.FC = () => {
     const progress = frame / durationInFrames;
 
     // Loop warna hue (360 derajat dalam 10 detik)
-    const baseHue = (progress * 360);
+    const baseHue = (progress * 360) % 360;
 
     // Menghasilkan irisan kaleidoskop
     const segments = useMemo(() => {
