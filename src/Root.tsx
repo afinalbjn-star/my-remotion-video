@@ -4,6 +4,7 @@ import { NeonTunnel } from './NeonTunnel';
 import { LiquidWaves } from './LiquidWaves';
 import { NeuralGrid } from './NeuralGrid';
 import { FlowFields } from './FlowFields';
+import { FinancialDashboard } from '../FinancialDashboard';
 
 const Main: React.FC = () => {
     return (
@@ -51,6 +52,14 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="FlowFields"
                 component={FlowFields}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+            <Composition
+                id="FinancialDashboard"
+                component={FinancialDashboard}
                 durationInFrames={600}
                 fps={60}
                 width={3840}

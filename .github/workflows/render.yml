@@ -17,6 +17,7 @@ on:
           - NeuralGrid
           - FlowFields
           - Main
+          - FinancialDashboard
       output_filename:
         description: 'Nama File Output (kosongkan untuk otomatis menggunakan nama komposisi)'
         required: false
@@ -24,12 +25,7 @@ on:
       crf:
         description: 'Nilai CRF (Semakin rendah, kualitas & ukuran file semakin besar. Coba 10-15)'
         required: true
-        default: '15'
-        type: string
-      bitrate:
-        description: 'Target Bitrate (Contoh: 100M)'
-        required: true
-        default: '100M'
+        default: '10' # CRF 10 jauh lebih besar ukurannya dibanding 15
         type: string
 
 jobs:
@@ -55,14 +51,13 @@ jobs:
             COMP_ID="${{ github.event.inputs.composition_id }}"
             OUT_NAME="${{ github.event.inputs.output_filename }}"
             CRF_VAL="${{ github.event.inputs.crf }}"
-            BITRATE_VAL="${{ github.event.inputs.bitrate }}"
             # Jika output_filename kosong, gunakan ID komposisi + .mp4
             if [ -z "$OUT_NAME" ]; then
               OUT_NAME="${COMP_ID}.mp4"
             fi
-            npx remotion render src/index.tsx "$COMP_ID" "out/$OUT_NAME" --codec h264 --bitrate "$BITRATE_VAL" --crf "$CRF_VAL" --gl=angle
+            npx remotion render src/index.tsx "$COMP_ID" "out/$OUT_NAME" --codec h264 --crf "$CRF_VAL" --gl=angle
           else
-            npx remotion render src/index.tsx LiquidWaves out/LiquidWaves.mp4 --codec h264 --bitrate 100M --crf 15 --gl=angle
+            npx remotion render src/index.tsx LiquidWaves out/LiquidWaves.mp4 --codec h264 --crf 10 --gl=angle
           fi
 
       - name: Upload Videos
