@@ -48,9 +48,9 @@ jobs:
             if [ -z "$OUT_NAME" ]; then
               OUT_NAME="${COMP_ID}.mp4"
             fi
-            npx remotion render src/index.tsx "$COMP_ID" "out/$OUT_NAME" --codec h264 --bitrate 40M --gl=angle
+            npx remotion render src/index.tsx "$COMP_ID" "out/$OUT_NAME" --codec h264 --bitrate 100M --crf 15 --gl=angle
           else
-            npx remotion render src/index.tsx NeonTunnel out/NeonTunnel.mp4 --codec h264 --bitrate 40M --gl=angle
+            npx remotion render src/index.tsx LiquidWaves out/LiquidWaves.mp4 --codec h264 --bitrate 100M --crf 15 --gl=angle
           fi
 
       - name: Upload Videos
