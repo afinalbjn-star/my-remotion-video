@@ -1,7 +1,6 @@
 import React from 'react';
 import { Composition } from 'remotion';
-import { NeonTunnel } from './NeonTunnel';
-import { CyberGrid } from './CyberGrid';
+import { NeonTunnel } from './NeonTunnel'
 import { LiquidWaves } from './LiquidWaves';
 
 const Main: React.FC = () => {
@@ -32,20 +31,12 @@ export const RemotionRoot: React.FC = () => {
                 height={2160}
             />
             <Composition
-                id="CyberGrid"
-                component={CyberGrid}
-                durationInFrames={300}
-                fps={30}
-                width={1920}
-                height={1080}
-            />
-            <Composition
                 id="LiquidWaves"
                 component={LiquidWaves}
-                durationInFrames={150}
-                fps={30}
-                width={1920}
-                height={1080}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
             />
         </>
     );

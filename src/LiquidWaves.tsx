@@ -18,27 +18,51 @@ export const LiquidWaves: React.FC = () => {
         () => [
             {
                 color: 'url(#grad1)',
-                amplitude: 40,
-                frequency: 0.005,
-                cycles: 2,
-                baseY: height * 0.6,
+                amplitude: 60,
+                frequency: 0.004,
+                cycles: 3,
+                baseY: height * 0.25, // Lebih tinggi di layar
                 opacity: 0.8,
             },
             {
                 color: 'url(#grad2)',
-                amplitude: 60,
+                amplitude: 70,
                 frequency: 0.003,
-                cycles: 1,
-                baseY: height * 0.7,
-                opacity: 0.6,
+                cycles: 2,
+                baseY: height * 0.4,
+                opacity: 0.7,
             },
             {
                 color: 'url(#grad3)',
                 amplitude: 50,
-                frequency: 0.004,
-                cycles: 3,
-                baseY: height * 0.8,
+                frequency: 0.005,
+                cycles: 1,
+                baseY: height * 0.55,
+                opacity: 0.6,
+            },
+            {
+                color: 'url(#grad4)', // Gelombang baru
+                amplitude: 65,
+                frequency: 0.0035,
+                cycles: 2,
+                baseY: height * 0.7,
+                opacity: 0.5,
+            },
+            {
+                color: 'url(#grad5)', // Gelombang baru
+                amplitude: 55,
+                frequency: 0.0045,
+                cycles: 1,
+                baseY: height * 0.85,
                 opacity: 0.4,
+            },
+            {
+                color: 'url(#grad6)', // Gelombang baru
+                amplitude: 45,
+                frequency: 0.006,
+                cycles: 3,
+                baseY: height * 0.95, // Paling bawah
+                opacity: 0.3,
             },
         ],
         [height]
@@ -46,7 +70,7 @@ export const LiquidWaves: React.FC = () => {
 
     const createWavePath = (config: WaveConfig) => {
         const points = [];
-        const step = 20; // Resolusi horizontal
+        const step = 10; // Resolusi horizontal lebih rapat untuk kualitas 4K
         // Progress 0 ke 2PI untuk looping sempurna
         const time = (frame / durationInFrames) * Math.PI * 2 * config.cycles;
 
@@ -74,6 +98,27 @@ export const LiquidWaves: React.FC = () => {
                         <stop offset="0%" stopColor="#091e3a" />
                         <stop offset="50%" stopColor="#2f80ed" />
                         <stop offset="100%" stopColor="#2d9ee0" />
+                    </linearGradient>
+                    {/* Gradasi Warna Tambahan */}
+                    <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#a1ffce" /> {/* Hijau Muda */}
+                        <stop offset="100%" stopColor="#faffd1" /> {/* Kuning Pucat */}
+                    </linearGradient>
+                    <linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#ff9a9e" /> {/* Merah Muda */}
+                        <stop offset="100%" stopColor="#fad0c4" /> {/* Oranye Pucat */}
+                    </linearGradient>
+                    <linearGradient id="grad6" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#ff7e5f" /> {/* Oranye */}
+                        <stop offset="100%" stopColor="#feb47b" /> {/* Peach */}
+                    </linearGradient>
+                    <linearGradient id="grad7" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#8360c3" /> {/* Ungu */}
+                        <stop offset="100%" stopColor="#2ebf91" /> {/* Hijau Teal */}
+                    </linearGradient>
+                    <linearGradient id="grad8" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#f7bb97" /> {/* Kuning */}
+                        <stop offset="100%" stopColor="#f48c71" /> {/* Oranye Kemerahan */}
                     </linearGradient>
 
                     <filter id="liquidBlur">
