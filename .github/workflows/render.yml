@@ -9,26 +9,15 @@ on:
       composition_id:
         description: 'Pilih Komposisi yang Akan Dirender'
         required: true
+        default: 'NeonTunnel'
         type: choice
         options:
-          - KembangApi
-          - RetroPopLoadingBackground
-          - PolygonalBackground
-          - NeonLinesBackground
-          - PlexusTunnel
-          - SolarSystem
-          - GiantEye
-          - RoyalChristmasBackground
-          - FallingEyesBackground
-          - KaleidoscopeFractal
-          - BlueLinesKaleidoscope
-          - HackerCodingBackground
-          - IsometricNetwork
-          - BreathingLung
+          - NeonTunnel
+          - Main
       output_filename:
         description: 'Nama File Output (misal: my_video.mp4)'
         required: true
-        default: 'output.mp4'
+        default: 'NeonTunnel.mp4'
 
 jobs:
   render:
@@ -53,8 +42,7 @@ jobs:
           else
             # Default render saat melakukan push
             mkdir -p out
-            npx remotion render IsometricNetwork out/isometric_network.mp4 --codec h264 --crf 28
-            npx remotion render HackerCodingBackground out/hacker_coding.mp4 --codec h264 --crf 28
+            npx remotion render NeonTunnel out/NeonTunnel.mp4 --codec h264 --crf 28
           fi
 
       - name: Upload Videos
