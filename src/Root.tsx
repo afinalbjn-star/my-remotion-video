@@ -2,6 +2,8 @@ import React from 'react';
 import { Composition } from 'remotion';
 import { NeonTunnel } from './NeonTunnel';
 import { LiquidWaves } from './LiquidWaves';
+import { NeuralGrid } from './NeuralGrid';
+import { FlowFields } from './FlowFields';
 
 const Main: React.FC = () => {
     return (
@@ -33,6 +35,22 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="LiquidWaves"
                 component={LiquidWaves}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+            <Composition
+                id="NeuralGrid"
+                component={NeuralGrid}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+            <Composition
+                id="FlowFields"
+                component={FlowFields}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
