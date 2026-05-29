@@ -17,11 +17,27 @@ export const LiquidWaves: React.FC = () => {
     const waves: WaveConfig[] = useMemo(
         () => [
             {
+                color: 'url(#grad7)',
+                amplitude: 50,
+                frequency: 0.003,
+                cycles: 2,
+                baseY: height * 0.1, // Paling atas
+                opacity: 0.9,
+            },
+            {
+                color: 'url(#grad8)',
+                amplitude: 55,
+                frequency: 0.005,
+                cycles: 1,
+                baseY: height * 0.22,
+                opacity: 0.85,
+            },
+            {
                 color: 'url(#grad1)',
                 amplitude: 60,
                 frequency: 0.004,
                 cycles: 3,
-                baseY: height * 0.25, // Lebih tinggi di layar
+                baseY: height * 0.34,
                 opacity: 0.8,
             },
             {
@@ -29,7 +45,7 @@ export const LiquidWaves: React.FC = () => {
                 amplitude: 70,
                 frequency: 0.003,
                 cycles: 2,
-                baseY: height * 0.4,
+                baseY: height * 0.46,
                 opacity: 0.7,
             },
             {
@@ -37,11 +53,11 @@ export const LiquidWaves: React.FC = () => {
                 amplitude: 50,
                 frequency: 0.005,
                 cycles: 1,
-                baseY: height * 0.55,
+                baseY: height * 0.58,
                 opacity: 0.6,
             },
             {
-                color: 'url(#grad4)', // Gelombang baru
+                color: 'url(#grad4)',
                 amplitude: 65,
                 frequency: 0.0035,
                 cycles: 2,
@@ -49,19 +65,19 @@ export const LiquidWaves: React.FC = () => {
                 opacity: 0.5,
             },
             {
-                color: 'url(#grad5)', // Gelombang baru
+                color: 'url(#grad5)',
                 amplitude: 55,
                 frequency: 0.0045,
                 cycles: 1,
-                baseY: height * 0.85,
+                baseY: height * 0.82,
                 opacity: 0.4,
             },
             {
-                color: 'url(#grad6)', // Gelombang baru
+                color: 'url(#grad6)',
                 amplitude: 45,
                 frequency: 0.006,
                 cycles: 3,
-                baseY: height * 0.95, // Paling bawah
+                baseY: height * 0.94, // Paling bawah
                 opacity: 0.3,
             },
         ],

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Composition } from 'remotion';
-import { NeonTunnel } from './NeonTunnel'
+import { NeonTunnel } from './NeonTunnel';
 import { LiquidWaves } from './LiquidWaves';
 
 const Main: React.FC = () => {
