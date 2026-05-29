@@ -27,6 +27,11 @@ on:
         required: true
         default: '10' # CRF 10 jauh lebih besar ukurannya dibanding 15
         type: string
+      video_bitrate:
+        description: 'Video Bitrate (Contoh: 50M, 100M). Biarkan kosong jika ingin menggunakan CRF saja.'
+        required: false
+        default: ''
+        type: string
 
 jobs:
   render:
@@ -51,11 +56,20 @@ jobs:
             COMP_ID="${{ github.event.inputs.composition_id }}"
             OUT_NAME="${{ github.event.inputs.output_filename }}"
             CRF_VAL="${{ github.event.inputs.crf }}"
+            BITRATE_VAL="${{ github.event.inputs.video_bitrate }}"
+
             # Jika output_filename kosong, gunakan ID komposisi + .mp4
             if [ -z "$OUT_NAME" ]; then
               OUT_NAME="${COMP_ID}.mp4"
             fi
-            npx remotion render src/index.tsx "$COMP_ID" "out/$OUT_NAME" --codec h264 --crf "$CRF_VAL" --gl=angle
+
+            # Susun argumen render
+            RENDER_ARGS="--codec h264 --crf $CRF_VAL --gl=angle"
+            if [ -n "$BITRATE_VAL" ]; then
+              RENDER_ARGS="$RENDER_ARGS --video-bitrate=$BITRATE_VAL"
+            fi
+
+            npx remotion render src/index.tsx "$COMP_ID" "out/$OUT_NAME" $RENDER_ARGS
           else
             npx remotion render src/index.tsx LiquidWaves out/LiquidWaves.mp4 --codec h264 --crf 10 --gl=angle
           fi
