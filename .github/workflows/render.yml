@@ -64,9 +64,10 @@ jobs:
             fi
 
             # Susun argumen render
-            RENDER_ARGS="--codec h264 --crf $CRF_VAL --gl=angle"
             if [ -n "$BITRATE_VAL" ]; then
-              RENDER_ARGS="$RENDER_ARGS --video-bitrate=$BITRATE_VAL"
+              RENDER_ARGS="--codec h264 --video-bitrate=$BITRATE_VAL --gl=angle"
+            else
+              RENDER_ARGS="--codec h264 --crf $CRF_VAL --gl=angle"
             fi
 
             npx remotion render src/index.tsx "$COMP_ID" "out/$OUT_NAME" $RENDER_ARGS

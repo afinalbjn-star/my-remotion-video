@@ -14,4 +14,3 @@ Config.overrideWebpackConfig(enableTailwind);
 
 // Spesifikasi Master Quality 4K
 Config.setCodec("h264");
-Config.setCrf(15); // Kualitas sangat tinggi (Bitrate > 50Mbps pada 4K)
