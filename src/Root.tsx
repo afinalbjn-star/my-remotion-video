@@ -5,6 +5,8 @@ import { LiquidWaves } from './LiquidWaves';
 import { NeuralGrid } from './NeuralGrid';
 import { FlowFields } from './FlowFields';
 import { FinancialDashboard } from '../FinancialDashboard';
+import { QuantumCore } from '../QuantumCore';
+import { GlassPrismWaves } from '../GlassPrismWaves';
 
 const Main: React.FC = () => {
     return (
@@ -60,6 +62,22 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="FinancialDashboard"
                 component={FinancialDashboard}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+            <Composition
+                id="QuantumCore"
+                component={QuantumCore}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+            <Composition
+                id="GlassPrismWaves"
+                component={GlassPrismWaves}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
