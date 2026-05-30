@@ -9,6 +9,7 @@ import { QuantumCore } from '../QuantumCore';
 import { GlassPrismWaves } from '../GlassPrismWaves';
 import { MinimalistGrid } from '../MinimalistGrid';
 import { IsometricCubeGrid } from '../IsometricCubeGrid';
+import { TechDataFlow } from '../TechDataFlow';
 
 const Main: React.FC = () => {
     return (
@@ -96,6 +97,14 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="IsometricCubeGrid"
                 component={IsometricCubeGrid}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+            <Composition
+                id="TechDataFlow"
+                component={TechDataFlow}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
