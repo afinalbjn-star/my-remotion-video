@@ -7,6 +7,7 @@ import { FlowFields } from './FlowFields';
 import { FinancialDashboard } from '../FinancialDashboard';
 import { QuantumCore } from '../QuantumCore';
 import { GlassPrismWaves } from '../GlassPrismWaves';
+import { MinimalistGrid } from '../MinimalistGrid';
 
 const Main: React.FC = () => {
     return (
@@ -78,6 +79,14 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="GlassPrismWaves"
                 component={GlassPrismWaves}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+            <Composition
+                id="MinimalistGrid"
+                component={MinimalistGrid}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
