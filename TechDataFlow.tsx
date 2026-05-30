@@ -69,7 +69,7 @@ export const TechDataFlow: React.FC = () => {
                 {/* Cahaya biru tipis yang memantul di grid */}
                 <pointLight position={[0, 10, 0]} distance={50} intensity={2} color="#00f2ff" />
 
-                <group rotation={[0, frame * 0.001, 0]}>
+                <group rotation={[0, (frame / durationInFrames) * Math.PI * 2, 0]}>
                     {cubes}
                 </group>
                 <fog attach="fog" args={['#050505', 40, 120]} />
