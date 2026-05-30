@@ -70,14 +70,14 @@ jobs:
 
             # Susun argumen render
             if [ -n "$BITRATE_VAL" ]; then
-              RENDER_ARGS="--codec h264 --video-bitrate=$BITRATE_VAL --gl=egl --ignore-gpu-blocklist"
+              RENDER_ARGS="--codec h264 --video-bitrate=$BITRATE_VAL --gl=swiftshader --ignore-gpu-blocklist --no-sandbox"
             else
-              RENDER_ARGS="--codec h264 --crf $CRF_VAL --gl=egl --ignore-gpu-blocklist"
+              RENDER_ARGS="--codec h264 --crf $CRF_VAL --gl=swiftshader --ignore-gpu-blocklist --no-sandbox"
             fi
 
             npx remotion render src/index.tsx "$COMP_ID" "out/$OUT_NAME" $RENDER_ARGS
           else
-            npx remotion render src/index.tsx LiquidWaves out/LiquidWaves.mp4 --codec h264 --crf 10 --gl=egl --ignore-gpu-blocklist
+            npx remotion render src/index.tsx LiquidWaves out/LiquidWaves.mp4 --codec h264 --crf 10 --gl=swiftshader --ignore-gpu-blocklist --no-sandbox
           fi
 
       - name: Upload Videos
