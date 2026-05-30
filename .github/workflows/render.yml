@@ -21,6 +21,7 @@ on:
           - QuantumCore
           - GlassPrismWaves
           - MinimalistGrid
+          - IsometricCubeGrid
       output_filename:
         description: 'Nama File Output (kosongkan untuk otomatis menggunakan nama komposisi)'
         required: false

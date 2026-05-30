@@ -8,6 +8,7 @@ import { FinancialDashboard } from '../FinancialDashboard';
 import { QuantumCore } from '../QuantumCore';
 import { GlassPrismWaves } from '../GlassPrismWaves';
 import { MinimalistGrid } from '../MinimalistGrid';
+import { IsometricCubeGrid } from '../IsometricCubeGrid';
 
 const Main: React.FC = () => {
     return (
@@ -87,6 +88,14 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="MinimalistGrid"
                 component={MinimalistGrid}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+            <Composition
+                id="IsometricCubeGrid"
+                component={IsometricCubeGrid}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
