@@ -1,37 +1,19 @@
 name: Render Video
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
-    inputs:
-      composition:
-        description: 'Pilih ID Komposisi yang ingin di-render'
-        required: true
-        default: 'AnimatedBackground'
-        type: choice
-        options:
-          - Main
-          - AnimatedBackground
-          - LuxuryBackground
-          - TechnologyGrid
-          - TechBackground
-          - AdvancedTechBackground
-      crf:
-        description: 'Constant Rate Factor (0-51, default 16). Angka lebih rendah = kualitas lebih tinggi.'
-        required: false
-        default: '16'
-      bitrate:
-        description: 'Target Bitrate (contoh: 20M, 5000k). Kosongkan jika ingin menggunakan CRF.'
-        required: false
-        default: ''
 
 jobs:
   render:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -41,15 +23,10 @@ jobs:
         run: npm install
 
       - name: Render Video
-        run: |
-          ARGS="--crf=${{ github.event.inputs.crf }} --gl=swiftshader --ignore-gpu-blocklist --no-sandbox"
-          if [ -n "${{ github.event.inputs.bitrate }}" ]; then
-            ARGS="$ARGS --bitrate=${{ github.event.inputs.bitrate }}"
-          fi
-          npx remotion render src/Root.tsx ${{ github.event.inputs.composition }} out/video.mp4 $ARGS
+        run: npx remotion render FuturisticBackground out/video.mp4
 
-      - name: Upload Video ke Artifacts
+      - name: Upload Video
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.event.inputs.composition }}-video
+          name: futuristic-video
           path: out/video.mp4
