@@ -5,6 +5,7 @@ import { LuxuryTechBackground, LOOP_DURATION } from './LuxuryTechBackground';
 import { AnimatedBackground, VIDEO_CONFIG } from './AnimatedBackground';
 import { TechBackground } from './TechBackground';
 import { AdvancedTechBackground } from './AdvancedTechBackground';
+import { FuturisticBackground } from './FuturisticBackground';
 
 const Main: React.FC = () => {
     return (
@@ -77,8 +78,15 @@ export const RemotionRoot: React.FC = () => {
                 width={VIDEO_CONFIG.width}
                 height={VIDEO_CONFIG.height}
             />
+
+            <Composition
+                id="FuturisticBackground"
+                component={FuturisticBackground}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
         </>
     );
 };
-
-registerRoot(RemotionRoot);
