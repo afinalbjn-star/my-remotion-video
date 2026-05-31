@@ -4,6 +4,7 @@ import { TechnologyScene } from './Scene';
 import { LuxuryTechBackground, LOOP_DURATION } from './LuxuryTechBackground';
 import { AnimatedBackground, VIDEO_CONFIG } from './AnimatedBackground';
 import { TechBackground } from './TechBackground';
+import { AdvancedTechBackground } from './AdvancedTechBackground';
 
 const Main: React.FC = () => {
     return (
@@ -62,6 +63,15 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="TechBackground"
                 component={TechBackground}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+
+            <Composition
+                id="AdvancedTechBackground"
+                component={AdvancedTechBackground}
                 durationInFrames={VIDEO_CONFIG.durationInFrames}
                 fps={VIDEO_CONFIG.fps}
                 width={VIDEO_CONFIG.width}
