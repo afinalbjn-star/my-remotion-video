@@ -14,3 +14,6 @@ Config.overrideWebpackConfig(enableTailwind);
 
 // Spesifikasi Master Quality 4K
 Config.setCodec("h264");
+
+// Gunakan entrypoint resmi yang memanggil registerRoot()
+Config.setEntryPoint("src/entry.tsx");

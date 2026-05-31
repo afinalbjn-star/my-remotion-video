@@ -1,15 +1,8 @@
 import React from 'react';
 import { Composition } from 'remotion';
-import { NeonTunnel } from './NeonTunnel';
-import { LiquidWaves } from './LiquidWaves';
-import { NeuralGrid } from './NeuralGrid';
-import { FlowFields } from './FlowFields';
-import { FinancialDashboard } from '../FinancialDashboard';
-import { QuantumCore } from '../QuantumCore';
-import { GlassPrismWaves } from '../GlassPrismWaves';
-import { MinimalistGrid } from '../MinimalistGrid';
-import { IsometricCubeGrid } from '../IsometricCubeGrid';
-import { TechDataFlow } from '../TechDataFlow';
+import { TechnologyScene } from './Scene';
+import { LuxuryTechBackground, LOOP_DURATION } from './LuxuryTechBackground';
+import { AnimatedBackground, VIDEO_CONFIG } from './AnimatedBackground';
 
 const Main: React.FC = () => {
     return (
@@ -25,90 +18,40 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="Main"
                 component={Main}
-                durationInFrames={150}
-                fps={30}
+                durationInFrames={120}
+                fps={60}
                 width={1920}
                 height={1080}
             />
+
+            {/* Registrasi untuk Shader Grid Neon */}
             <Composition
-                id="NeonTunnel"
-                component={NeonTunnel}
+                id="TechnologyGrid"
+                component={TechnologyScene}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
                 height={2160}
             />
+
+            {/* Registrasi untuk Luxury Tech Background */}
             <Composition
-                id="LiquidWaves"
-                component={LiquidWaves}
-                durationInFrames={600}
+                id="LuxuryBackground"
+                component={LuxuryTechBackground}
+                durationInFrames={LOOP_DURATION}
                 fps={60}
                 width={3840}
                 height={2160}
             />
+
+            {/* Registrasi untuk Animated Background */}
             <Composition
-                id="NeuralGrid"
-                component={NeuralGrid}
-                durationInFrames={600}
-                fps={60}
-                width={3840}
-                height={2160}
-            />
-            <Composition
-                id="FlowFields"
-                component={FlowFields}
-                durationInFrames={600}
-                fps={60}
-                width={3840}
-                height={2160}
-            />
-            <Composition
-                id="FinancialDashboard"
-                component={FinancialDashboard}
-                durationInFrames={600}
-                fps={60}
-                width={3840}
-                height={2160}
-            />
-            <Composition
-                id="QuantumCore"
-                component={QuantumCore}
-                durationInFrames={600}
-                fps={60}
-                width={3840}
-                height={2160}
-            />
-            <Composition
-                id="GlassPrismWaves"
-                component={GlassPrismWaves}
-                durationInFrames={600}
-                fps={60}
-                width={3840}
-                height={2160}
-            />
-            <Composition
-                id="MinimalistGrid"
-                component={MinimalistGrid}
-                durationInFrames={600}
-                fps={60}
-                width={3840}
-                height={2160}
-            />
-            <Composition
-                id="IsometricCubeGrid"
-                component={IsometricCubeGrid}
-                durationInFrames={600}
-                fps={60}
-                width={3840}
-                height={2160}
-            />
-            <Composition
-                id="TechDataFlow"
-                component={TechDataFlow}
-                durationInFrames={600}
-                fps={60}
-                width={3840}
-                height={2160}
+                id="AnimatedBackground"
+                component={AnimatedBackground}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
             />
         </>
     );

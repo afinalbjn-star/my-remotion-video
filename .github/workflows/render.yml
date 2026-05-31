@@ -9,20 +9,13 @@ on:
       composition_id:
         description: 'Pilih Komposisi yang Akan Dirender'
         required: true
-        default: 'NeonTunnel'
+        default: 'Main'
         type: choice
         options:
-          - NeonTunnel
-          - LiquidWaves
-          - NeuralGrid
-          - FlowFields
           - Main
-          - FinancialDashboard
-          - QuantumCore
-          - GlassPrismWaves
-          - MinimalistGrid
-          - IsometricCubeGrid
-          - TechDataFlow
+          - MercuryFlow
+          - TechnologyBackground
+          - TechGridPreview
       output_filename:
         description: 'Nama File Output (kosongkan untuk otomatis menggunakan nama komposisi)'
         required: false
@@ -77,7 +70,7 @@ jobs:
 
             npx remotion render src/index.tsx "$COMP_ID" "out/$OUT_NAME" $RENDER_ARGS
           else
-            npx remotion render src/index.tsx LiquidWaves out/LiquidWaves.mp4 --codec h264 --crf 10 --gl=swiftshader --ignore-gpu-blocklist --no-sandbox
+            npx remotion render src/index.tsx Main out/Main.mp4 --codec h264 --crf 10 --gl=swiftshader --ignore-gpu-blocklist --no-sandbox
           fi
 
       - name: Upload Videos
