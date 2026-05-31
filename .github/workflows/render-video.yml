@@ -13,6 +13,14 @@ on:
           - AnimatedBackground
           - LuxuryBackground
           - TechnologyGrid
+      crf:
+        description: 'Constant Rate Factor (0-51, default 16). Angka lebih rendah = kualitas lebih tinggi.'
+        required: false
+        default: '16'
+      bitrate:
+        description: 'Target Bitrate (contoh: 20M, 5000k). Kosongkan jika ingin menggunakan CRF.'
+        required: false
+        default: ''
 
 jobs:
   render:
@@ -31,7 +39,12 @@ jobs:
         run: npm install
 
       - name: Render Video
-        run: npx remotion render ${{ github.event.inputs.composition }} out/video.mp4
+        run: |
+          ARGS="--crf=${{ github.event.inputs.crf }}"
+          if [ -n "${{ github.event.inputs.bitrate }}" ]; then
+            ARGS="$ARGS --bitrate=${{ github.event.inputs.bitrate }}"
+          fi
+          npx remotion render ${{ github.event.inputs.composition }} out/video.mp4 $ARGS
 
       - name: Upload Video ke Artifacts
         uses: actions/upload-artifact@v4
