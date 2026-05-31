@@ -1,14 +1,17 @@
 import React from 'react';
-import { Composition } from 'remotion';
+import { Composition, AbsoluteFill } from 'remotion';
 import { TechnologyScene } from './Scene';
 import { LuxuryTechBackground, LOOP_DURATION } from './LuxuryTechBackground';
 import { AnimatedBackground, VIDEO_CONFIG } from './AnimatedBackground';
 
 const Main: React.FC = () => {
     return (
-        <div style={{ flex: 1, backgroundColor: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '80px', fontFamily: 'sans-serif' }}>
-            LEMBARAN BARU
-        </div>
+        <AbsoluteFill>
+            <AnimatedBackground />
+            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '120px', fontFamily: 'sans-serif', color: 'white', fontWeight: 'bold', textShadow: '0 0 20px rgba(0,0,0,0.5)' }}>
+                LEMBARAN BARU
+            </div>
+        </AbsoluteFill>
     );
 };
 
@@ -18,10 +21,10 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="Main"
                 component={Main}
-                durationInFrames={120}
-                fps={60}
-                width={1920}
-                height={1080}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
             />
 
             {/* Registrasi untuk Shader Grid Neon */}
