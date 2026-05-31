@@ -42,11 +42,11 @@ jobs:
 
       - name: Render Video
         run: |
-          ARGS="--crf=${{ github.event.inputs.crf }}"
+          ARGS="--crf=${{ github.event.inputs.crf }} --gl=swiftshader --ignore-gpu-blocklist --no-sandbox"
           if [ -n "${{ github.event.inputs.bitrate }}" ]; then
             ARGS="$ARGS --bitrate=${{ github.event.inputs.bitrate }}"
           fi
-          npx remotion render ${{ github.event.inputs.composition }} out/video.mp4 $ARGS
+          npx remotion render src/Root.tsx ${{ github.event.inputs.composition }} out/video.mp4 $ARGS
 
       - name: Upload Video ke Artifacts
         uses: actions/upload-artifact@v4

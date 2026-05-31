@@ -70,9 +70,9 @@ jobs:
               RENDER_ARGS="--codec h264 --crf $CRF_VAL --gl=swiftshader --ignore-gpu-blocklist --no-sandbox"
             fi
 
-            npx remotion render src/index.tsx "$COMP_ID" "out/$OUT_NAME" $RENDER_ARGS
+            npx remotion render src/Root.tsx "$COMP_ID" "out/$OUT_NAME" $RENDER_ARGS
           else
-            npx remotion render src/index.tsx Main out/Main.mp4 --codec h264 --crf 10 --gl=swiftshader --ignore-gpu-blocklist --no-sandbox
+            npx remotion render src/Root.tsx Main out/Main.mp4 --codec h264 --crf 10 --gl=swiftshader --ignore-gpu-blocklist --no-sandbox
           fi
 
       - name: Upload Videos

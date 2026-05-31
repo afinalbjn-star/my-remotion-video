@@ -1,5 +1,5 @@
 import React from 'react';
-import { Composition, AbsoluteFill } from 'remotion';
+import { registerRoot, Composition, AbsoluteFill } from 'remotion';
 import { TechnologyScene } from './Scene';
 import { LuxuryTechBackground, LOOP_DURATION } from './LuxuryTechBackground';
 import { AnimatedBackground, VIDEO_CONFIG } from './AnimatedBackground';
@@ -80,3 +80,5 @@ export const RemotionRoot: React.FC = () => {
         </>
     );
 };
+
+registerRoot(RemotionRoot);
