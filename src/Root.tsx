@@ -6,6 +6,8 @@ import { AnimatedBackground, VIDEO_CONFIG } from './AnimatedBackground';
 import { TechBackground } from './TechBackground';
 import { AdvancedTechBackground } from './AdvancedTechBackground';
 import { FuturisticBackground } from './FuturisticBackground';
+import { CorporateAbstractBackground } from './CorporateAbstractBackground';
+import { CyberGridTunnel } from './CyberGridTunnel';
 
 const Main: React.FC = () => {
     return (
@@ -86,6 +88,24 @@ export const RemotionRoot: React.FC = () => {
                 fps={VIDEO_CONFIG.fps}
                 width={VIDEO_CONFIG.width}
                 height={VIDEO_CONFIG.height}
+            />
+
+            <Composition
+                id="CorporateAbstractLoop"
+                component={CorporateAbstractBackground}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="CyberGridTunnel"
+                component={CyberGridTunnel}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
             />
         </>
     );
