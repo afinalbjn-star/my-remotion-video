@@ -3,6 +3,7 @@ import { Composition, AbsoluteFill } from 'remotion';
 import { TechnologyScene } from './Scene';
 import { LuxuryTechBackground, LOOP_DURATION } from './LuxuryTechBackground';
 import { AnimatedBackground, VIDEO_CONFIG } from './AnimatedBackground';
+import { TechBackground } from './TechBackground';
 
 const Main: React.FC = () => {
     return (
@@ -51,6 +52,16 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="AnimatedBackground"
                 component={AnimatedBackground}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+
+            {/* Registrasi untuk Tech Background */}
+            <Composition
+                id="TechBackground"
+                component={TechBackground}
                 durationInFrames={VIDEO_CONFIG.durationInFrames}
                 fps={VIDEO_CONFIG.fps}
                 width={VIDEO_CONFIG.width}
