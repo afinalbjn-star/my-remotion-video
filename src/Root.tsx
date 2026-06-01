@@ -22,6 +22,7 @@ import { LiquidGradientMeshLoop } from './LiquidGradientMeshLoop';
 import { CosmicRibbonWaveLoop } from './CosmicRibbonWaveLoop';
 import { QuantumCyberSphereMatrix } from './QuantumCyberSphereMatrix';
 import { AuroraEtherealSilkLoop } from './AuroraEtherealSilkLoop';
+import { MinimalistBokehLoop } from './MinimalistBokehLoop';
 import { AuroraEtherealSilkLoop as AuroraEtherealSilkV3Comp } from './AuroraEtherealSilkV3';
 import LiquidGradientWaves from './LiquidGradientWaves';
 
@@ -63,7 +64,8 @@ export const RemotionRoot: React.FC = () => {
         CosmicRibbonWaveLoop,
         QuantumCyberSphereMatrix,
         AuroraEtherealSilkLoop,
-        AuroraEtherealSilkV3Comp,
+        MinimalistBokehLoop,
+        AuroraEtherealSilkV3Comp, // This was already AuroraEtherealSilkV3Comp, no change needed here.
         LiquidGradientWaves
     };
 
@@ -298,6 +300,16 @@ export const RemotionRoot: React.FC = () => {
                 id="AuroraEtherealSilkLoop"
                 displayName="Aurora Ethereal Silk Loop"
                 component={AuroraEtherealSilkLoop}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="MinimalistBokehLoop"
+                displayName="Minimalist Bokeh Loop"
+                component={MinimalistBokehLoop}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
