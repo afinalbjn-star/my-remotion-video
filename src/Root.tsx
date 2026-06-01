@@ -21,6 +21,9 @@ import { CleanMinimalistIsometricGrid } from './CleanMinimalistIsometricGrid';
 import { LiquidGradientMeshLoop } from './LiquidGradientMeshLoop';
 import { CosmicRibbonWaveLoop } from './CosmicRibbonWaveLoop';
 import { QuantumCyberSphereMatrix } from './QuantumCyberSphereMatrix';
+import { AuroraEtherealSilkLoop } from './AuroraEtherealSilkLoop';
+import { AuroraEtherealSilkLoop as AuroraEtherealSilkV3Comp } from './AuroraEtherealSilkV3';
+import LiquidGradientWaves from './LiquidGradientWaves';
 
 const Main: React.FC = () => {
     return (
@@ -58,7 +61,10 @@ export const RemotionRoot: React.FC = () => {
         CleanMinimalistIsometricGrid,
         LiquidGradientMeshLoop,
         CosmicRibbonWaveLoop,
-        QuantumCyberSphereMatrix
+        QuantumCyberSphereMatrix,
+        AuroraEtherealSilkLoop,
+        AuroraEtherealSilkV3Comp,
+        LiquidGradientWaves
     };
 
     Object.entries(components).forEach(([name, comp]) => {
@@ -282,6 +288,36 @@ export const RemotionRoot: React.FC = () => {
                 id="QuantumCyberSphereMatrix"
                 displayName="Quantum Cyber Sphere Matrix"
                 component={QuantumCyberSphereMatrix}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="AuroraEtherealSilkLoop"
+                displayName="Aurora Ethereal Silk Loop"
+                component={AuroraEtherealSilkLoop}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="AuroraEtherealSilkV3"
+                displayName="Aurora Ethereal Silk V3"
+                component={AuroraEtherealSilkV3Comp}
+                durationInFrames={900}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="LiquidGradientWaves"
+                displayName="Liquid Gradient Waves"
+                component={LiquidGradientWaves}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
