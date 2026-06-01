@@ -30,14 +30,12 @@ import { AbstractCorporateNetwork } from './AbstractCorporateNetwork';
 import { GeometricallyPreciseHoneycomb } from './GeometricallyPreciseHoneycomb';
 import HexagonalWave from './HexagonalWave';
 import NeonLightChase from './NeonLightChase';
+import { LiquidWaveVideo } from './LiquidWaveVideo';
 
 const Main: React.FC = () => {
     return (
         <AbsoluteFill>
             <NeonLightChase />
-            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '120px', fontFamily: 'sans-serif', color: 'white', fontWeight: 'bold', textShadow: '0 0 40px rgba(0,0,0,0.5)' }}>
-                LEMBARAN BARU
-            </div>
         </AbsoluteFill>
     );
 };
@@ -77,6 +75,7 @@ export const RemotionRoot: React.FC = () => {
         GeometricallyPreciseHoneycomb,
         HexagonalWave,
         NeonLightChase,
+        LiquidWaveVideo,
     };
 
     Object.entries(components).forEach(([name, comp]) => {
@@ -394,6 +393,20 @@ export const RemotionRoot: React.FC = () => {
                 fps={60}
                 width={3840}
                 height={2160}
+            />
+
+            <Composition
+                id="LiquidWave"
+                displayName="Liquid Wave Reflow"
+                component={LiquidWaveVideo}
+                durationInFrames={300}
+                fps={30}
+                width={1920}
+                height={1080}
+                defaultProps={{
+                    titleText: 'LIQUID REFLOW',
+                    titleColor: '#ffffff',
+                }}
             />
         </>
     );
