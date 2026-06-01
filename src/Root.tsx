@@ -16,6 +16,8 @@ import { MoireMonolith } from './MoireMonolith';
 import { SeamlessLoopBackground } from './SeamlessLoopBackground';
 import { CelestialVortex } from './CelestialVortex';
 import { CosmosLoop } from './CosmosLoop';
+import { IsometricConveyor } from './IsometricConveyor';
+import { CleanMinimalistIsometricGrid } from './CleanMinimalistIsometricGrid';
 
 const Main: React.FC = () => {
     return (
@@ -48,7 +50,9 @@ export const RemotionRoot: React.FC = () => {
         MoireMonolith,
         SeamlessLoopBackground,
         CelestialVortex,
-        CosmosLoop
+        CosmosLoop,
+        IsometricConveyor,
+        CleanMinimalistIsometricGrid
     };
 
     Object.entries(components).forEach(([name, comp]) => {
@@ -222,6 +226,26 @@ export const RemotionRoot: React.FC = () => {
                 id="CelestialVortex"
                 displayName="Celestial Vortex"
                 component={CelestialVortex}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="IsometricConveyor"
+                displayName="Isometric Tech Conveyor"
+                component={IsometricConveyor}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="CleanMinimalistIsometricGrid"
+                displayName="Clean Minimalist Isometric Grid"
+                component={CleanMinimalistIsometricGrid}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
