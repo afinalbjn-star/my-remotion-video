@@ -18,6 +18,7 @@ import { CelestialVortex } from './CelestialVortex';
 import { CosmosLoop } from './CosmosLoop';
 import { IsometricConveyor } from './IsometricConveyor';
 import { CleanMinimalistIsometricGrid } from './CleanMinimalistIsometricGrid';
+import { LiquidGradientMeshLoop } from './LiquidGradientMeshLoop';
 
 const Main: React.FC = () => {
     return (
@@ -52,7 +53,8 @@ export const RemotionRoot: React.FC = () => {
         CelestialVortex,
         CosmosLoop,
         IsometricConveyor,
-        CleanMinimalistIsometricGrid
+        CleanMinimalistIsometricGrid,
+        LiquidGradientMeshLoop
     };
 
     Object.entries(components).forEach(([name, comp]) => {
@@ -246,6 +248,26 @@ export const RemotionRoot: React.FC = () => {
                 id="CleanMinimalistIsometricGrid"
                 displayName="Clean Minimalist Isometric Grid"
                 component={CleanMinimalistIsometricGrid}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="LiquidGradientMeshLoop"
+                displayName="Liquid Gradient Mesh Loop"
+                component={LiquidGradientMeshLoop}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="LiquidGradientMeshLoop"
+                displayName="Liquid Gradient Mesh Loop"
+                component={LiquidGradientMeshLoop}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
