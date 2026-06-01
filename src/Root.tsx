@@ -25,12 +25,14 @@ import { AuroraEtherealSilkLoop } from './AuroraEtherealSilkLoop';
 import { MinimalistBokehLoop } from './MinimalistBokehLoop';
 import { AuroraEtherealSilkLoop as AuroraEtherealSilkV3Comp } from './AuroraEtherealSilkV3';
 import LiquidGradientWaves from './LiquidGradientWaves';
+import { MinimalistSearchBarUI } from './MinimalistSearchBarUI';
 import { AbstractCorporateNetwork } from './AbstractCorporateNetwork';
+import { GeometricallyPreciseHoneycomb } from './GeometricallyPreciseHoneycomb';
 
 const Main: React.FC = () => {
     return (
         <AbsoluteFill>
-            <AnimatedBackground />
+            <GeometricallyPreciseHoneycomb />
             <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '120px', fontFamily: 'sans-serif', color: 'white', fontWeight: 'bold', textShadow: '0 0 40px rgba(0,0,0,0.5)' }}>
                 LEMBARAN BARU
             </div>
@@ -68,7 +70,9 @@ export const RemotionRoot: React.FC = () => {
         MinimalistBokehLoop,
         AuroraEtherealSilkV3Comp, // This was already AuroraEtherealSilkV3Comp, no change needed here.
         LiquidGradientWaves,
+        MinimalistSearchBarUI,
         AbstractCorporateNetwork,
+        GeometricallyPreciseHoneycomb,
     };
 
     Object.entries(components).forEach(([name, comp]) => {
@@ -342,6 +346,26 @@ export const RemotionRoot: React.FC = () => {
                 id="AbstractCorporateNetwork"
                 displayName="Abstract Corporate Network"
                 component={AbstractCorporateNetwork}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="MinimalistSearchBarUI"
+                displayName="Minimalist Search Bar UI"
+                component={MinimalistSearchBarUI}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="GeometricallyPreciseHoneycomb"
+                displayName="Geometrically Precise Honeycomb"
+                component={GeometricallyPreciseHoneycomb}
                 durationInFrames={600}
                 fps={60}
                 width={3840}

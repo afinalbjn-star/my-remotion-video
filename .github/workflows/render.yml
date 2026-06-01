@@ -12,6 +12,7 @@ on:
         description: 'Pilih ID Komposisi yang ingin dirender'
         required: true
         options:
+          - GeometricallyPreciseHoneycomb
           - Main
           - TechnologyGrid
           - LuxuryBackground
@@ -36,6 +37,8 @@ on:
           - QuantumCyberSphereMatrix
           - LiquidGradientWaves
           - MinimalistBokehLoop
+          - AuroraEtherealSilkV3
+          - MinimalistSearchBarUI
           - AbstractCorporateNetwork
       crf:
         description: 'Kualitas Video / CRF (0-51, makin rendah makin tajam, default: 16)'
@@ -64,7 +67,7 @@ jobs:
 
       - name: Render Video
         run: |
-          COMP_ID="${{ github.event.inputs.compositionId || 'KineticMoireMonolith' }}"
+          COMP_ID="${{ github.event.inputs.compositionId || 'GeometricallyPreciseHoneycomb' }}"
           CRF="${{ github.event.inputs.crf || '16' }}"
           BITRATE="${{ github.event.inputs.bitrate || '' }}"
           EXTRA_ARGS="--crf=$CRF"
