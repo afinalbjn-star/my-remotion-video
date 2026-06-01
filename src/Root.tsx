@@ -11,6 +11,7 @@ import { CyberGridTunnel } from './CyberGridTunnel';
 import { GradientTechWaves } from './GradientTechWaves';
 import { ComplexVoronoi } from './ComplexVoronoi';
 import { ChronoCosmicScene } from './ChronoCosmicScene';
+import { IridescentSilk } from './IridescentSilk';
 
 const Main: React.FC = () => {
     return (
@@ -142,6 +143,16 @@ export const RemotionRoot: React.FC = () => {
                 id="ChronoCosmicLattice"
                 displayName="Chrono Cosmic Lattice"
                 component={ChronoCosmicScene}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="SilkFlowScene"
+                displayName="Iridescent Silk Flow"
+                component={IridescentSilk}
                 durationInFrames={600}
                 fps={60}
                 width={3840}

@@ -40,11 +40,11 @@
   },
   "scripts": {
     "start": "remotion studio",
-    "dev": "remotion studio --port 3001",
-    "build": "remotion bundle",
+    "dev": "remotion studio",
+    "build": "remotion build",
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc",
-    "render": "remotion render",
+    "render": "remotion render src/Root.tsx SilkFlowScene out/silk-flow-4k.mp4",
     "render-all": "npx remotion render KembangApi out/KembangApi.mp4 && npx remotion render PolygonalBackground out/PolygonalBackground.mp4 && npx remotion render NeonLinesBackground out/NeonLinesBackground.mp4 && npx remotion render PlexusTunnel out/PlexusTunnel.mp4"
   },
   "sideEffects": [
