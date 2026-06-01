@@ -263,16 +263,6 @@ export const RemotionRoot: React.FC = () => {
                 width={3840}
                 height={2160}
             />
-
-            <Composition
-                id="LiquidGradientMeshLoop"
-                displayName="Liquid Gradient Mesh Loop"
-                component={LiquidGradientMeshLoop}
-                durationInFrames={600}
-                fps={60}
-                width={3840}
-                height={2160}
-            />
         </>
     );
 };
