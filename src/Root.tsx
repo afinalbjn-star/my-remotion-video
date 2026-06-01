@@ -20,6 +20,7 @@ import { IsometricConveyor } from './IsometricConveyor';
 import { CleanMinimalistIsometricGrid } from './CleanMinimalistIsometricGrid';
 import { LiquidGradientMeshLoop } from './LiquidGradientMeshLoop';
 import { CosmicRibbonWaveLoop } from './CosmicRibbonWaveLoop';
+import { QuantumCyberSphereMatrix } from './QuantumCyberSphereMatrix';
 
 const Main: React.FC = () => {
     return (
@@ -56,7 +57,8 @@ export const RemotionRoot: React.FC = () => {
         IsometricConveyor,
         CleanMinimalistIsometricGrid,
         LiquidGradientMeshLoop,
-        CosmicRibbonWaveLoop
+        CosmicRibbonWaveLoop,
+        QuantumCyberSphereMatrix
     };
 
     Object.entries(components).forEach(([name, comp]) => {
@@ -270,6 +272,16 @@ export const RemotionRoot: React.FC = () => {
                 id="CosmicRibbonWaveLoop"
                 displayName="Cosmic Ribbon Wave Loop"
                 component={CosmicRibbonWaveLoop}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="QuantumCyberSphereMatrix"
+                displayName="Quantum Cyber Sphere Matrix"
+                component={QuantumCyberSphereMatrix}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
