@@ -12,6 +12,7 @@ import { GradientTechWaves } from './GradientTechWaves';
 import { ComplexVoronoi } from './ComplexVoronoi';
 import { ChronoCosmicScene } from './ChronoCosmicScene';
 import { IridescentSilk } from './IridescentSilk';
+import { MoireMonolith } from './MoireMonolith';
 
 const Main: React.FC = () => {
     return (
@@ -153,6 +154,16 @@ export const RemotionRoot: React.FC = () => {
                 id="SilkFlowScene"
                 displayName="Iridescent Silk Flow"
                 component={IridescentSilk}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="KineticMoireMonolith"
+                displayName="Kinetic Moiré Monolith"
+                component={MoireMonolith}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
