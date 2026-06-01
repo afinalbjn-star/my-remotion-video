@@ -10,6 +10,7 @@ import { CorporateAbstractBackground } from './CorporateAbstractBackground';
 import { CyberGridTunnel } from './CyberGridTunnel';
 import { GradientTechWaves } from './GradientTechWaves';
 import { ComplexVoronoi } from './ComplexVoronoi';
+import { ChronoCosmicScene } from './ChronoCosmicScene';
 
 const Main: React.FC = () => {
     return (
@@ -133,6 +134,16 @@ export const RemotionRoot: React.FC = () => {
                 component={ComplexVoronoi}
                 durationInFrames={600}
                 fps={VIDEO_CONFIG.fps}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="ChronoCosmicLattice"
+                displayName="Chrono Cosmic Lattice"
+                component={ChronoCosmicScene}
+                durationInFrames={600}
+                fps={60}
                 width={3840}
                 height={2160}
             />

@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
     inputs:
       compositionId:
-        description: 'ID Komposisi yang ingin dirender (contoh: CyberGridTunnel, CorporateAbstractLoop)'
+        description: 'ID Komposisi yang ingin dirender (contoh: ChronoCosmicLattice, ComplexVoronoi)'
         required: true
-        default: 'ComplexVoronoi'
+        default: 'ChronoCosmicLattice'
       crf:
         description: 'Kualitas Video / CRF (0-51, makin rendah makin tajam, default: 16)'
         required: false
@@ -38,7 +38,7 @@ jobs:
 
       - name: Render Video
         run: |
-          COMP_ID="${{ github.event.inputs.compositionId || 'ComplexVoronoi' }}"
+          COMP_ID="${{ github.event.inputs.compositionId || 'ChronoCosmicLattice' }}"
           CRF="${{ github.event.inputs.crf || '16' }}"
           BITRATE="${{ github.event.inputs.bitrate || '' }}"
           EXTRA_ARGS="--crf=$CRF"
