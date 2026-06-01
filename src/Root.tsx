@@ -13,12 +13,15 @@ import { ComplexVoronoi } from './ComplexVoronoi';
 import { ChronoCosmicScene } from './ChronoCosmicScene';
 import { IridescentSilk } from './IridescentSilk';
 import { MoireMonolith } from './MoireMonolith';
+import { SeamlessLoopBackground } from './SeamlessLoopBackground';
+import { CelestialVortex } from './CelestialVortex';
+import { CosmosLoop } from './CosmosLoop';
 
 const Main: React.FC = () => {
     return (
         <AbsoluteFill>
             <AnimatedBackground />
-            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '120px', fontFamily: 'sans-serif', color: 'white', fontWeight: 'bold', textShadow: '0 0 20px rgba(0,0,0,0.5)' }}>
+            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '120px', fontFamily: 'sans-serif', color: 'white', fontWeight: 'bold', textShadow: '0 0 40px rgba(0,0,0,0.5)' }}>
                 LEMBARAN BARU
             </div>
         </AbsoluteFill>
@@ -27,6 +30,31 @@ const Main: React.FC = () => {
 
 // Komponen Root yang mendaftarkan semua komposisi
 export const RemotionRoot: React.FC = () => {
+    // Debugging untuk mencari komponen yang undefined
+    const components: Record<string, React.FC<any> | undefined> = {
+        Main,
+        TechnologyScene,
+        LuxuryTechBackground,
+        AnimatedBackground,
+        TechBackground,
+        AdvancedTechBackground,
+        FuturisticBackground,
+        CorporateAbstractBackground,
+        CyberGridTunnel,
+        GradientTechWaves,
+        ComplexVoronoi,
+        ChronoCosmicScene,
+        IridescentSilk,
+        MoireMonolith,
+        SeamlessLoopBackground,
+        CelestialVortex,
+        CosmosLoop
+    };
+
+    Object.entries(components).forEach(([name, comp]) => {
+        if (!comp) console.error(`CRITICAL: Komponen "${name}" bernilai undefined! Periksa file sumbernya.`);
+    });
+
     return (
         <>
             {/* Komposisi Utama */}
@@ -164,6 +192,36 @@ export const RemotionRoot: React.FC = () => {
                 id="KineticMoireMonolith"
                 displayName="Kinetic Moiré Monolith"
                 component={MoireMonolith}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="SeamlessLoopBackground"
+                displayName="Seamless Loop Background"
+                component={SeamlessLoopBackground}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="CosmosLoop"
+                displayName="Cosmos Galaxy Loop"
+                component={CosmosLoop}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="CelestialVortex"
+                displayName="Celestial Vortex"
+                component={CelestialVortex}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
