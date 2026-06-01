@@ -29,11 +29,12 @@ import { MinimalistSearchBarUI } from './MinimalistSearchBarUI';
 import { AbstractCorporateNetwork } from './AbstractCorporateNetwork';
 import { GeometricallyPreciseHoneycomb } from './GeometricallyPreciseHoneycomb';
 import HexagonalWave from './HexagonalWave';
+import NeonLightChase from './NeonLightChase';
 
 const Main: React.FC = () => {
     return (
         <AbsoluteFill>
-            <GeometricallyPreciseHoneycomb />
+            <NeonLightChase />
             <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '120px', fontFamily: 'sans-serif', color: 'white', fontWeight: 'bold', textShadow: '0 0 40px rgba(0,0,0,0.5)' }}>
                 LEMBARAN BARU
             </div>
@@ -75,6 +76,7 @@ export const RemotionRoot: React.FC = () => {
         AbstractCorporateNetwork,
         GeometricallyPreciseHoneycomb,
         HexagonalWave,
+        NeonLightChase,
     };
 
     Object.entries(components).forEach(([name, comp]) => {
@@ -378,6 +380,16 @@ export const RemotionRoot: React.FC = () => {
                 id="HexagonalWave"
                 displayName="Hexagonal Wave"
                 component={HexagonalWave}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="NeonLightChase"
+                displayName="Neon Light Chase"
+                component={NeonLightChase}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
