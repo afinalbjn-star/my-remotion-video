@@ -25,6 +25,7 @@ import { AuroraEtherealSilkLoop } from './AuroraEtherealSilkLoop';
 import { MinimalistBokehLoop } from './MinimalistBokehLoop';
 import { AuroraEtherealSilkLoop as AuroraEtherealSilkV3Comp } from './AuroraEtherealSilkV3';
 import LiquidGradientWaves from './LiquidGradientWaves';
+import { AbstractCorporateNetwork } from './AbstractCorporateNetwork';
 
 const Main: React.FC = () => {
     return (
@@ -66,7 +67,8 @@ export const RemotionRoot: React.FC = () => {
         AuroraEtherealSilkLoop,
         MinimalistBokehLoop,
         AuroraEtherealSilkV3Comp, // This was already AuroraEtherealSilkV3Comp, no change needed here.
-        LiquidGradientWaves
+        LiquidGradientWaves,
+        AbstractCorporateNetwork,
     };
 
     Object.entries(components).forEach(([name, comp]) => {
@@ -330,6 +332,16 @@ export const RemotionRoot: React.FC = () => {
                 id="LiquidGradientWaves"
                 displayName="Liquid Gradient Waves"
                 component={LiquidGradientWaves}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="AbstractCorporateNetwork"
+                displayName="Abstract Corporate Network"
+                component={AbstractCorporateNetwork}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
