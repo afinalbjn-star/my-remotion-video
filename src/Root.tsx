@@ -28,6 +28,7 @@ import LiquidGradientWaves from './LiquidGradientWaves';
 import { MinimalistSearchBarUI } from './MinimalistSearchBarUI';
 import { AbstractCorporateNetwork } from './AbstractCorporateNetwork';
 import { GeometricallyPreciseHoneycomb } from './GeometricallyPreciseHoneycomb';
+import HexagonalWave from './HexagonalWave';
 
 const Main: React.FC = () => {
     return (
@@ -73,6 +74,7 @@ export const RemotionRoot: React.FC = () => {
         MinimalistSearchBarUI,
         AbstractCorporateNetwork,
         GeometricallyPreciseHoneycomb,
+        HexagonalWave,
     };
 
     Object.entries(components).forEach(([name, comp]) => {
@@ -366,6 +368,16 @@ export const RemotionRoot: React.FC = () => {
                 id="GeometricallyPreciseHoneycomb"
                 displayName="Geometrically Precise Honeycomb"
                 component={GeometricallyPreciseHoneycomb}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="HexagonalWave"
+                displayName="Hexagonal Wave"
+                component={HexagonalWave}
                 durationInFrames={600}
                 fps={60}
                 width={3840}
