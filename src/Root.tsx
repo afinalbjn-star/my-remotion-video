@@ -30,7 +30,9 @@ import { AbstractCorporateNetwork } from './AbstractCorporateNetwork';
 import { GeometricallyPreciseHoneycomb } from './GeometricallyPreciseHoneycomb';
 import HexagonalWave from './HexagonalWave';
 import NeonLightChase from './NeonLightChase';
+import { DataStreamConduit } from './DataStreamConduit';
 import { LiquidWaveVideo } from './LiquidWaveVideo';
+import { GeometricClockwork } from './TheGeometricClockwork';
 
 const Main: React.FC = () => {
     return (
@@ -75,7 +77,9 @@ export const RemotionRoot: React.FC = () => {
         GeometricallyPreciseHoneycomb,
         HexagonalWave,
         NeonLightChase,
+        DataStreamConduit,
         LiquidWaveVideo,
+        GeometricClockwork,
     };
 
     Object.entries(components).forEach(([name, comp]) => {
@@ -407,6 +411,26 @@ export const RemotionRoot: React.FC = () => {
                     titleText: 'LIQUID REFLOW',
                     titleColor: '#ffffff',
                 }}
+            />
+
+            <Composition
+                id="DataStreamConduit"
+                displayName="Data Stream Conduit"
+                component={DataStreamConduit}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
+            />
+
+            <Composition
+                id="GeometricClockwork"
+                displayName="The Geometric Clockwork"
+                component={GeometricClockwork}
+                durationInFrames={600}
+                fps={60}
+                width={3840}
+                height={2160}
             />
         </>
     );
