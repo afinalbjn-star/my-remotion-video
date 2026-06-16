@@ -16,7 +16,7 @@
     "@remotion/lottie": "^4.0.462",
     "@remotion/media-utils": "^4.0.462",
     "@remotion/motion-blur": "^4.0.462",
-    "@remotion/noise": "^4.0.462",
+    "@remotion/noise": "^4.0.478",
     "@remotion/shapes": "^4.0.462",
     "@remotion/tailwind": "^4.0.462",
     "@remotion/tailwind-v4": "4.0.462",

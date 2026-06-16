@@ -12,39 +12,9 @@ on:
         description: 'Pilih ID Komposisi yang ingin dirender'
         required: true
         options:
-          - GeometricallyPreciseHoneycomb
           - Main
-          - TechnologyGrid
-          - LuxuryBackground
-          - AnimatedBackground
-          - TechBackground
-          - AdvancedTechBackground
-          - FuturisticBackground
-          - CorporateAbstractLoop
-          - CyberGridTunnel
-          - GradientTechWaves
-          - ComplexVoronoi
-          - ChronoCosmicLattice
-          - SilkFlowScene
-          - KineticMoireMonolith
-          - SeamlessLoopBackground
-          - CosmosLoop
-          - CelestialVortex
-          - IsometricConveyor
-          - CleanMinimalistIsometricGrid
-          - LiquidGradientMeshLoop
-          - CosmicRibbonWaveLoop
-          - QuantumCyberSphereMatrix
-          - LiquidGradientWaves
-          - MinimalistBokehLoop
-          - AuroraEtherealSilkV3
-          - MinimalistSearchBarUI
-          - AbstractCorporateNetwork
-          - HexagonalWave
-          - NeonLightChase
-          - LiquidWave
-          - DataStreamConduit
-          - GeometricClockwork
+          - DataMesh
+          - WinterSky
       crf:
         description: 'Kualitas Video / CRF (0-51, makin rendah makin tajam, default: 16)'
         required: false
@@ -72,7 +42,7 @@ jobs:
 
       - name: Render Video
         run: |
-          COMP_ID="${{ github.event.inputs.compositionId || 'GeometricallyPreciseHoneycomb' }}"
+          COMP_ID="${{ github.event.inputs.compositionId || 'DataMesh' }}"
           CRF="${{ github.event.inputs.crf || '16' }}"
           BITRATE="${{ github.event.inputs.bitrate || '' }}"
           EXTRA_ARGS="--crf=$CRF"
