@@ -2,7 +2,7 @@ import React from 'react';
 import { Composition } from 'remotion';
 import { DataMesh } from './DataMesh';
 import { WinterSkyScene, VIDEO_CONFIG } from './WinterScene';
-import { SineWaveSilk } from './SineWaveSilk'; // Pastikan ini mengarah ke file .tsx yang baru diganti
+import SineWaveSilk from './SineWaveSilk'; // Menggunakan default import agar lebih stabil
 
 // Komponen Root yang mendaftarkan semua komposisi
 export const RemotionRoot: React.FC = () => {
