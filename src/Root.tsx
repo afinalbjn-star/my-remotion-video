@@ -26,7 +26,7 @@ export const RemotionRoot: React.FC = () => {
             />
             <Composition
                 id="SineWaveSilk"
-                component={SineWaveSilk}
+                component={SineWaveSilk} // Ini akan mengambil SineWaveSilk dari file .tsx
                 durationInFrames={VIDEO_CONFIG.durationInFrames}
                 fps={VIDEO_CONFIG.fps}
                 width={VIDEO_CONFIG.width}
