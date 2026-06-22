@@ -7,6 +7,11 @@ const CONNECT_DISTANCE = 350;
 const BG_COLOR = '#0d0f12';
 const ACCENT_COLOR = '#00f2fe';
 
+const random = (seed: number) => {
+    const value = Math.sin(seed++) * 10000;
+    return value - Math.floor(value);
+};
+
 export const DataMesh: React.FC = () => {
     const frame = useCurrentFrame();
     const { width, height, durationInFrames } = useVideoConfig();
@@ -14,10 +19,10 @@ export const DataMesh: React.FC = () => {
     // Generate stable base positions for the nodes
     const points = useMemo(() => {
         return Array.from({ length: POINTS_COUNT }).map((_, i) => ({
-            x: Math.random() * width,
-            y: Math.random() * height,
+            x: random(i + 1) * width,
+            y: random(i + 2) * height,
             seed: i,
-            speed: 0.2 + Math.random() * 0.5,
+            speed: 0.2 + random(i + 3) * 0.5,
         }));
     }, [width, height]);
 

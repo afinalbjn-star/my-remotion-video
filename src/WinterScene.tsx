@@ -9,8 +9,6 @@ import {
     interpolate,
     useCurrentFrame,
     useVideoConfig,
-    Composition,
-    registerRoot,
 } from 'remotion';
 
 // ============================================================================
