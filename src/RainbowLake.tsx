@@ -13,9 +13,20 @@ import {
  * Dimensi standar untuk video Full HD.
  * Kita definisikan di dalam file ini agar komponen bersifat mandiri (self-contained).
  */
-const VIDEO_WIDTH = 1920;
-const VIDEO_HEIGHT = 1080;
+const VIDEO_WIDTH = 3840;
+const VIDEO_HEIGHT = 2160;
 
+
+/**
+ * Konfigurasi video untuk komposisi RainbowLake.
+ * 4K (3840x2160) pada 60fps, durasi 10 detik (600 frame), seamless loop.
+ */
+export const VIDEO_CONFIG = {
+    width: VIDEO_WIDTH,
+    height: VIDEO_HEIGHT,
+    fps: 60,
+    durationInFrames: 600,
+};
 /**
  * Palet warna dasar untuk lingkungan di luar air pelangi.
  * Menggunakan warna-warna gelap dan deep purple untuk memberikan kontras
@@ -349,7 +360,7 @@ const RainbowWaterCanvas: React.FC = () => {
  * Komponen utama yang menyatukan semua sub-layer grafis.
  * Komponen ini yang perlu dimasukkan ke properti `component` di Remotion <Composition />.
  */
-export const RainbowLakeVideo: React.FC = () => {
+const RainbowLakeVideo: React.FC = () => {
     return (
         <AbsoluteFill style={{ backgroundColor: '#000000', overflow: 'hidden' }}>
             {/* Lapisan Latar Belakang 1: Langit Gradasi & Hamparan Bintang */}
@@ -363,3 +374,4 @@ export const RainbowLakeVideo: React.FC = () => {
         </AbsoluteFill>
     );
 };
+export default RainbowLakeVideo;
