@@ -9,6 +9,7 @@ import RainbowLake, { VIDEO_CONFIG as RainbowLakeConfig } from './RainbowLake';
 import SineWaveSilk from './SineWaveSilk';
 import { TechBackground } from './TechBackground';
 import { TechBackgroundComplex } from './TechBackgroundComplex';
+import TechNexus from './TechNexus';
 import MyVideo from './MyVideo'; // Impor komponen MyVideo
 import { VIDEO_CONFIG } from './index'; // VIDEO_CONFIG dari index untuk komposisi lain
 
@@ -66,6 +67,14 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="TechBackgroundComplex"
                 component={TechBackgroundComplex}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="TechNexus"
+                component={TechNexus}
                 durationInFrames={VIDEO_CONFIG.durationInFrames}
                 fps={VIDEO_CONFIG.fps}
                 width={VIDEO_CONFIG.width}
