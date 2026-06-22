@@ -5,6 +5,7 @@ import { Composition } from 'remotion';
 import { DataMesh } from './DataMesh';
 import { WinterSkyScene, VIDEO_CONFIG as WinterSkyConfig } from './WinterScene';
 import RiverFlow, { VIDEO_CONFIG as RiverFlowConfig } from './RiverFlow';
+import RainbowLake, { VIDEO_CONFIG as RainbowLakeConfig } from './RainbowLake';
 import SineWaveSilk from './SineWaveSilk';
 import { TechBackground } from './TechBackground';
 import { TechBackgroundComplex } from './TechBackgroundComplex';
@@ -37,6 +38,14 @@ export const RemotionRoot: React.FC = () => {
                 fps={RiverFlowConfig.fps}
                 width={RiverFlowConfig.width}
                 height={RiverFlowConfig.height}
+            />
+            <Composition
+                id="RainbowLake"
+                component={RainbowLake}
+                durationInFrames={RainbowLakeConfig.durationInFrames}
+                fps={RainbowLakeConfig.fps}
+                width={RainbowLakeConfig.width}
+                height={RainbowLakeConfig.height}
             />
             <Composition
                 id="SineWaveSilk"
