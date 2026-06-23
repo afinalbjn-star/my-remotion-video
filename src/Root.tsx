@@ -13,6 +13,7 @@ import TechNexus from './TechNexus';
 import MyVideo from './MyVideo'; // Impor komponen MyVideo
 import DarkWaves from './DarkWaves';
 import LakeSurface from './LakeSurface';
+import BioluminescentDeep from './BioluminescentDeep';
 import { VIDEO_CONFIG } from './index'; // VIDEO_CONFIG dari index untuk komposisi lain
 
 export const RemotionRoot: React.FC = () => {
@@ -101,6 +102,14 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="LakeSurface"
                 component={LakeSurface}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="BioluminescentDeep"
+                component={BioluminescentDeep}
                 durationInFrames={VIDEO_CONFIG.durationInFrames}
                 fps={VIDEO_CONFIG.fps}
                 width={VIDEO_CONFIG.width}
