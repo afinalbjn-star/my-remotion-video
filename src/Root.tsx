@@ -11,6 +11,7 @@ import { TechBackground } from './TechBackground';
 import { TechBackgroundComplex } from './TechBackgroundComplex';
 import TechNexus from './TechNexus';
 import MyVideo from './MyVideo'; // Impor komponen MyVideo
+import DarkWaves from './DarkWaves';
 import { VIDEO_CONFIG } from './index'; // VIDEO_CONFIG dari index untuk komposisi lain
 
 export const RemotionRoot: React.FC = () => {
@@ -84,6 +85,14 @@ export const RemotionRoot: React.FC = () => {
                 id="MyVideo"
                 component={MyVideo}
                 durationInFrames={VIDEO_CONFIG.durationInFrames} // 10 detik pada 60fps
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="DarkWaves"
+                component={DarkWaves}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
                 fps={VIDEO_CONFIG.fps}
                 width={VIDEO_CONFIG.width}
                 height={VIDEO_CONFIG.height}
