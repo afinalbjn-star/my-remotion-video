@@ -3,32 +3,27 @@ import { useCurrentFrame, useVideoConfig } from 'remotion';
 
 /**
  * ============================================================================
- * LAKE SURFACE — Top-down view of a pastel-colored lake (v2 — realistic water)
+ * LAKE SURFACE — Top-down view of a pastel-colored lake (v3 — seamless loop)
  *
  * Visual concept:
  *   Camera looks straight down at a calm alpine lake. The water is rich and
  *   saturated with deep pastel tones. Organic wave patterns flow across the
  *   surface, caustic light dances on the bottom, and gentle ripples expand
- *   from multiple sources. The overall feel is a real, living body of water
- *   seen from above — not abstract, not washed out.
+ *   from multiple sources.
  *
- * 5 Pastel Colors (saturated, rich):
- *   1. Deep Teal       #3D9B8F
- *   2. Ocean Blue      #4A90B8
- *   3. Deep Lavender   #7B68AE
- *   4. Warm Coral      #D4845A
- *   5. Rose Water      #C76B98
+ * SEAMLESS LOOP GUARANTEE:
+ *   time = progress * 2π  (ranges 0 → 2π over the video duration)
+ *   Every sin(time * k) / cos(time * k) uses INTEGER k, so at time=0 and
+ *   time=2π all periodic values are identical → perfect loop seam.
  *
  * Layers (back to front):
- *   1. Base fill — deep saturated water color
- *   2. Large-scale color zones — organic blobs of the 5 colors
- *   3. Wave distortion — flowing sine-based wave patterns
- *   4. Ripple rings — concentric expanding rings from multiple sources
- *   5. Caustic network — bright light patterns on the lake floor
- *   6. Surface highlights — specular reflections and shimmer
- *   7. Depth + vignette — dark edges, depth fog
- *
- * Seamless loop: all animations parameterized by (frame/duration) × 2π
+ *   1. Base fill — deep saturated water color (k=1)
+ *   2. Large-scale color zones — warped noise via circular param (inherent loop)
+ *   3. Wave distortion — flowing sine waves (k=1,2,3,4)
+ *   4. Ripple rings — concentric waves (8*k ∈ ℤ)
+ *   5. Caustic network — interference patterns (k=1,2,3)
+ *   6. Surface shimmer — sparkle particles (k=1,2)
+ *   7. Depth + vignette — static + pulse (k=2)
  * ============================================================================
  */
 
@@ -57,7 +52,7 @@ const HIGHLIGHT_COLORS = [
     { r: 235, g: 170, b: 200, name: 'Light Rose' },
 ];
 
-// ─── Hash-based noise (no external dependencies) ───────────────────────────
+// ─── Hash-based noise ───────────────────────────────────────────────────────
 function hash2D(x: number, y: number): number {
     let h = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
     return h - Math.floor(h);
@@ -92,6 +87,7 @@ function fbm(x: number, y: number, octaves: number = 5): number {
 }
 
 // ─── Seamless-loop noise using circular parameterization ────────────────────
+// cos/sin of (progress * 2π) trace a circle → identical at progress 0 and 1
 function loopFbm(x: number, y: number, progress: number, scale: number, octaves: number = 4): number {
     const angle = progress * Math.PI * 2;
     const nx = Math.cos(angle) * scale;
@@ -107,49 +103,51 @@ function warpedNoise(x: number, y: number, progress: number, warpStrength: numbe
 }
 
 // ─── Ripple ring function ───────────────────────────────────────────────────
+// The timeFactor is pre-computed to have integer-period over [0, 2π]
 function rippleRing(
     px: number, py: number,
     cx: number, cy: number,
-    time: number,
+    timeFactor: number,
     wavelength: number,
     decay: number,
 ): number {
     const dx = px - cx;
     const dy = py - cy;
     const dist = Math.sqrt(dx * dx + dy * dy);
-    const wave = Math.sin(dist * wavelength - time * 8.0);
+    const wave = Math.sin(dist * wavelength - timeFactor);
     const attenuation = Math.exp(-dist * decay);
     return wave * attenuation;
 }
 
-// ─── Caustic interference ───────────────────────────────────────────────────
-function causticPattern(x: number, y: number, t: number): number {
-    const s1 = Math.sin(x * 0.004 + t * 0.6) * Math.cos(y * 0.005 + t * 0.4);
-    const s2 = Math.sin(x * 0.006 - t * 0.3 + 1.7) * Math.cos(y * 0.004 + t * 0.7 + 0.9);
-    const s3 = Math.sin((x + y) * 0.003 + t * 0.5 + 3.2);
-    const s4 = Math.cos((x - y) * 0.0035 - t * 0.45 + 1.1);
+// ─── Caustic interference — all time multipliers are integers ───────────────
+function causticPattern(x: number, y: number, time: number): number {
+    const s1 = Math.sin(x * 0.004 + time * 1) * Math.cos(y * 0.005 + time * 2);
+    const s2 = Math.sin(x * 0.006 - time * 1 + 1.7) * Math.cos(y * 0.004 + time * 2 + 0.9);
+    const s3 = Math.sin((x + y) * 0.003 + time * 3 + 3.2);
+    const s4 = Math.cos((x - y) * 0.0035 - time * 1 + 1.1);
     return (s1 + s2 + s3 + s4) / 4.0;
 }
 
 // ─── Ripple source positions ────────────────────────────────────────────────
+// speedFactor * 8 MUST be an integer for seamless loop (see rippleRing usage)
 interface RippleSource {
     xRatio: number;
     yRatio: number;
-    speedFactor: number;
+    speedFactor: number;  // 8 * speedFactor ∈ ℤ
     wavelength: number;
     decay: number;
     phaseOffset: number;
 }
 
 const RIPPLE_SOURCES: RippleSource[] = [
-    { xRatio: 0.25, yRatio: 0.3, speedFactor: 1.0, wavelength: 0.015, decay: 0.0008, phaseOffset: 0 },
-    { xRatio: 0.7, yRatio: 0.2, speedFactor: 0.8, wavelength: 0.012, decay: 0.0006, phaseOffset: 1.5 },
-    { xRatio: 0.5, yRatio: 0.6, speedFactor: 1.2, wavelength: 0.018, decay: 0.001, phaseOffset: 3.0 },
-    { xRatio: 0.15, yRatio: 0.75, speedFactor: 0.9, wavelength: 0.014, decay: 0.0007, phaseOffset: 4.5 },
-    { xRatio: 0.85, yRatio: 0.55, speedFactor: 1.1, wavelength: 0.016, decay: 0.0009, phaseOffset: 2.2 },
-    { xRatio: 0.4, yRatio: 0.15, speedFactor: 0.7, wavelength: 0.013, decay: 0.0005, phaseOffset: 5.8 },
-    { xRatio: 0.6, yRatio: 0.85, speedFactor: 1.0, wavelength: 0.017, decay: 0.0008, phaseOffset: 0.8 },
-    { xRatio: 0.9, yRatio: 0.4, speedFactor: 0.85, wavelength: 0.011, decay: 0.0006, phaseOffset: 3.7 },
+    { xRatio: 0.25, yRatio: 0.30, speedFactor: 1.000, wavelength: 0.015, decay: 0.0008, phaseOffset: 0.0 },
+    { xRatio: 0.70, yRatio: 0.20, speedFactor: 0.750, wavelength: 0.012, decay: 0.0006, phaseOffset: 1.5 },
+    { xRatio: 0.50, yRatio: 0.60, speedFactor: 1.250, wavelength: 0.018, decay: 0.0010, phaseOffset: 3.0 },
+    { xRatio: 0.15, yRatio: 0.75, speedFactor: 0.875, wavelength: 0.014, decay: 0.0007, phaseOffset: 4.5 },
+    { xRatio: 0.85, yRatio: 0.55, speedFactor: 1.125, wavelength: 0.016, decay: 0.0009, phaseOffset: 2.2 },
+    { xRatio: 0.40, yRatio: 0.15, speedFactor: 0.625, wavelength: 0.013, decay: 0.0005, phaseOffset: 5.8 },
+    { xRatio: 0.60, yRatio: 0.85, speedFactor: 1.000, wavelength: 0.017, decay: 0.0008, phaseOffset: 0.8 },
+    { xRatio: 0.90, yRatio: 0.40, speedFactor: 0.500, wavelength: 0.011, decay: 0.0006, phaseOffset: 3.7 },
 ];
 
 // ─── Shimmer sparkle particles ──────────────────────────────────────────────
@@ -158,7 +156,7 @@ interface Sparkle {
     yRatio: number;
     size: number;
     phase: number;
-    speed: number;
+    speed: number; // integer 1-5 for seamless loop
 }
 
 const SPARKLE_COUNT = 150;
@@ -174,13 +172,13 @@ function generateSparkles(): Sparkle[] {
             yRatio: s2,
             size: s3 * 3 + 1,
             phase: s2 * Math.PI * 2,
-            speed: 0.5 + s3 * 1.5,
+            speed: Math.floor(s3 * 5) + 1, // integer 1-5 → seamless
         });
     }
     return sparkles;
 }
 
-// ─── Color interpolation helper ─────────────────────────────────────────────
+// ─── Color interpolation ────────────────────────────────────────────────────
 function lerpColor(
     c1: { r: number; g: number; b: number },
     c2: { r: number; g: number; b: number },
@@ -228,52 +226,33 @@ export const LakeSurface: React.FC = () => {
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        const t = progress;
-        const TAU = Math.PI * 2;
-        const time = t * TAU;
+        // ── All time-dependent animation uses `time ∈ [0, 2π]` ──
+        // Every sin(time*k) / cos(time*k) uses INTEGER k → seamless loop
+        const time = progress * Math.PI * 2;
 
         // ════════════════════════════════════════════════════════════════════
-        // LAYER 1: Deep saturated base fill
+        // LAYER 1: Deep saturated base fill (k=1, seamless)
         // ════════════════════════════════════════════════════════════════════
-        // Rich teal-blue base that looks like real water
-        const baseR = 45 + 15 * Math.sin(time * 0.3);
-        const baseG = 120 + 20 * Math.sin(time * 0.4 + 1.0);
-        const baseB = 145 + 15 * Math.sin(time * 0.5 + 2.0);
+        const baseR = 45 + 15 * Math.sin(time * 1 + 0);
+        const baseG = 120 + 20 * Math.sin(time * 1 + 2.1);
+        const baseB = 145 + 15 * Math.sin(time * 1 + 4.2);
         ctx.fillStyle = `rgb(${Math.round(baseR)}, ${Math.round(baseG)}, ${Math.round(baseB)})`;
         ctx.fillRect(0, 0, width, height);
 
         // ════════════════════════════════════════════════════════════════════
-        // LAYER 2: Large-scale organic color zones
+        // LAYER 2: Large-scale organic color zones (inherent seamless loop)
         // ════════════════════════════════════════════════════════════════════
-        // Big flowing blobs of the 5 colors — like real lake color variation
         const zoneStep = 12;
         for (let ny = 0; ny < height; ny += zoneStep) {
             for (let nx = 0; nx < width; nx += zoneStep) {
                 const nxNorm = nx / width;
                 const nyNorm = ny / height;
 
-                // Domain-warped noise for organic shapes
-                const warpVal = warpedNoise(
-                    nxNorm * 3,
-                    nyNorm * 3,
-                    t,
-                    2.0
-                );
+                const warpVal = warpedNoise(nxNorm * 3, nyNorm * 3, progress, 2.0);
+                const detailNoise = loopFbm(nxNorm * 6 + 10, nyNorm * 6 + 10, progress, 1.5, 4);
 
-                // Second noise layer at different scale
-                const detailNoise = loopFbm(
-                    nxNorm * 6 + 10,
-                    nyNorm * 6 + 10,
-                    t,
-                    1.5,
-                    4
-                );
-
-                // Combine for final color selection
                 const combined = warpVal * 0.65 + detailNoise * 0.35;
                 const color = samplePastelColor(combined);
-
-                // Rich, saturated opacity — this is the main color layer
                 const alpha = 0.55 + 0.15 * detailNoise;
 
                 ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
@@ -282,34 +261,28 @@ export const LakeSurface: React.FC = () => {
         }
 
         // ════════════════════════════════════════════════════════════════════
-        // LAYER 3: Flowing wave patterns — the key water texture
+        // LAYER 3: Flowing wave patterns (k=1,2,3,4 → seamless)
         // ════════════════════════════════════════════════════════════════════
-        // Multiple overlapping sine waves create the illusion of water surface
         const waveStep = 4;
         for (let wy = 0; wy < height; wy += waveStep) {
             for (let wx = 0; wx < width; wx += waveStep) {
                 const x = wx / width;
                 const y = wy / height;
 
-                // 3 wave directions for realistic water surface
-                const wave1 = Math.sin(x * 12 + time * 1.2 + y * 3) * 0.5;
-                const wave2 = Math.sin(y * 10 - time * 0.8 + x * 4 + 2.0) * 0.4;
-                const wave3 = Math.sin((x + y) * 8 + time * 0.6 + 4.0) * 0.3;
-
-                // Diagonal swell
-                const swell = Math.sin((x * 0.7 + y * 0.3) * 15 - time * 1.5) * 0.35;
+                // All time multipliers are integers → seamless
+                const wave1 = Math.sin(x * 12 + time * 1 + y * 3) * 0.5;
+                const wave2 = Math.sin(y * 10 - time * 2 + x * 4 + 2.0) * 0.4;
+                const wave3 = Math.sin((x + y) * 8 + time * 3 + 4.0) * 0.3;
+                const swell  = Math.sin((x * 0.7 + y * 0.3) * 15 - time * 4) * 0.35;
 
                 const totalWave = (wave1 + wave2 + wave3 + swell) / 1.55;
 
-                // Waves create light/dark bands
                 if (totalWave > 0.1) {
-                    // Bright wave crest — lighter color
                     const brightness = (totalWave - 0.1) * 1.2;
                     const waveColor = sampleHighlightColor(0.3 + totalWave * 0.4);
                     ctx.fillStyle = `rgba(${waveColor.r}, ${waveColor.g}, ${waveColor.b}, ${brightness * 0.35})`;
                     ctx.fillRect(wx, wy, waveStep, waveStep);
                 } else if (totalWave < -0.1) {
-                    // Dark wave trough — deeper color
                     const depth = (-totalWave - 0.1) * 1.2;
                     ctx.fillStyle = `rgba(20, 50, 70, ${depth * 0.25})`;
                     ctx.fillRect(wx, wy, waveStep, waveStep);
@@ -318,7 +291,7 @@ export const LakeSurface: React.FC = () => {
         }
 
         // ════════════════════════════════════════════════════════════════════
-        // LAYER 4: Ripple rings — concentric waves from multiple sources
+        // LAYER 4: Ripple rings (8*speedFactor ∈ ℤ → seamless)
         // ════════════════════════════════════════════════════════════════════
         const rippleStep = 6;
         for (let ry = 0; ry < height; ry += rippleStep) {
@@ -328,10 +301,11 @@ export const LakeSurface: React.FC = () => {
                 for (const src of RIPPLE_SOURCES) {
                     const srcX = src.xRatio * width;
                     const srcY = src.yRatio * height;
-                    const rippleTime = time * src.speedFactor + src.phaseOffset;
+                    // timeFactor = time * 8 * speedFactor → integer * 2π at end → seamless
+                    const timeFactor = time * 8 * src.speedFactor + src.phaseOffset;
                     const ripple = rippleRing(
                         rx, ry, srcX, srcY,
-                        rippleTime,
+                        timeFactor,
                         src.wavelength,
                         src.decay,
                     );
@@ -342,7 +316,6 @@ export const LakeSurface: React.FC = () => {
                 const rippleAbs = Math.abs(totalRipple);
 
                 if (rippleAbs > 0.02) {
-                    // Ripple highlights — bright pastel
                     const highlightColor = sampleHighlightColor(0.5 + totalRipple * 0.3);
                     const alpha = rippleAbs * 0.35;
                     ctx.fillStyle = `rgba(${highlightColor.r}, ${highlightColor.g}, ${highlightColor.b}, ${alpha})`;
@@ -352,7 +325,7 @@ export const LakeSurface: React.FC = () => {
         }
 
         // ════════════════════════════════════════════════════════════════════
-        // LAYER 5: Caustic light network — bright patterns on lake floor
+        // LAYER 5: Caustic light network (k=1,2,3 → seamless)
         // ════════════════════════════════════════════════════════════════════
         const causticStep = 8;
         for (let cy2 = 0; cy2 < height; cy2 += causticStep) {
@@ -370,14 +343,15 @@ export const LakeSurface: React.FC = () => {
         }
 
         // ════════════════════════════════════════════════════════════════════
-        // LAYER 6: Surface highlights and shimmer
+        // LAYER 6: Surface shimmer (k=integer speed, k=1 for envelope → seamless)
         // ════════════════════════════════════════════════════════════════════
         for (const sp of sparkles) {
             const sx = sp.xRatio * width;
             const sy = sp.yRatio * height;
 
-            const twinkle = Math.sin(time * sp.speed * 3 + sp.phase);
-            const envelope = 0.5 + 0.5 * Math.sin(time * 0.5 + sp.phase * 2);
+            // sp.speed is integer 1-5 → seamless
+            const twinkle = Math.sin(time * sp.speed + sp.phase);
+            const envelope = 0.5 + 0.5 * Math.sin(time * 1 + sp.phase * 2);
             const brightness = Math.max(0, twinkle) * envelope;
 
             if (brightness > 0.1) {
@@ -397,10 +371,8 @@ export const LakeSurface: React.FC = () => {
         }
 
         // ════════════════════════════════════════════════════════════════════
-        // LAYER 7: Depth fog + vignette
+        // LAYER 7: Depth fog + vignette (static + k=2 pulse → seamless)
         // ════════════════════════════════════════════════════════════════════
-
-        // Strong vignette for depth
         const vignette = ctx.createRadialGradient(
             width * 0.5, height * 0.5, width * 0.15,
             width * 0.5, height * 0.5, width * 0.75
@@ -411,7 +383,7 @@ export const LakeSurface: React.FC = () => {
         ctx.fillStyle = vignette;
         ctx.fillRect(0, 0, width, height);
 
-        // Subtle overall brightness pulse — like sunlight through clouds
+        // k=2 → seamless
         const pulse = 0.03 + 0.02 * Math.sin(time * 2);
         ctx.fillStyle = `rgba(200, 230, 240, ${pulse})`;
         ctx.fillRect(0, 0, width, height);
