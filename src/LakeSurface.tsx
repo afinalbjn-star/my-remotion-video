@@ -185,7 +185,9 @@ function lerpColor(
 
 function samplePastelColor(noiseVal: number): { r: number; g: number; b: number } {
     // Map 0..1 noise to 5 colors with smooth blending
-    const scaled = noiseVal * (PASTEL_COLORS.length - 1);
+    // Clamp noiseVal to [0, 1] to prevent out-of-bounds array access
+    const clamped = Math.max(0, Math.min(1, noiseVal));
+    const scaled = clamped * (PASTEL_COLORS.length - 1);
     const idx = Math.floor(scaled);
     const frac = scaled - idx;
     const c1 = PASTEL_COLORS[Math.min(idx, PASTEL_COLORS.length - 1)];
