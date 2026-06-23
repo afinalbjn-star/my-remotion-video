@@ -24,6 +24,7 @@ on:
           - DarkWaves
           - LakeSurface
           - BioluminescentDeep
+          - CinematicWave
       crf:
         description: 'Kualitas Video / CRF (0-51, makin rendah makin tajam, default: 16)'
         required: false
