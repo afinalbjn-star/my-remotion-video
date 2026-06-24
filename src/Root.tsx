@@ -18,6 +18,14 @@ import { CinematicWave } from './CinematicWave';
 import InkBillow from './InkBillow';
 import SilkWave from './SilkWave';
 import { LiquidMetal } from './LiquidMetal';
+import { AuroraBorealis } from './AuroraBorealis';
+import { CosmicNebula } from './CosmicNebula';
+import { CrystalRain } from './CrystalRain';
+import { PlasmaWave } from './PlasmaWave';
+import { DeepOcean } from './DeepOcean';
+import { StarField } from './StarField';
+import { MysticForest } from './MysticForest';
+import { VolcanicGlass } from './VolcanicGlass';
 import { VIDEO_CONFIG } from './index'; // VIDEO_CONFIG dari index untuk komposisi lain
 
 export const RemotionRoot: React.FC = () => {
@@ -146,6 +154,70 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="LiquidMetal"
                 component={LiquidMetal}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="AuroraBorealis"
+                component={AuroraBorealis}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="CosmicNebula"
+                component={CosmicNebula}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="CrystalRain"
+                component={CrystalRain}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="PlasmaWave"
+                component={PlasmaWave}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="DeepOcean"
+                component={DeepOcean}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="StarField"
+                component={StarField}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="MysticForest"
+                component={MysticForest}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="VolcanicGlass"
+                component={VolcanicGlass}
                 durationInFrames={VIDEO_CONFIG.durationInFrames}
                 fps={VIDEO_CONFIG.fps}
                 width={VIDEO_CONFIG.width}
