@@ -31,6 +31,11 @@ import { QuantumField } from './QuantumField';
 import { FractalDreams } from './FractalDreams';
 import { HyperDimensional } from './HyperDimensional';
 import { ChromaticFluid } from './ChromaticFluid';
+import { MandelbrotPulse } from './MandelbrotPulse';
+import { FlowField3D } from './FlowField3D';
+import { GeometricSacred } from './GeometricSacred';
+import { QuantumEntanglement } from './QuantumEntanglement';
+import { CelestialMechanic } from './CelestialMechanic';
 import { VIDEO_CONFIG } from './index'; // VIDEO_CONFIG dari index untuk komposisi lain
 
 export const RemotionRoot: React.FC = () => {
@@ -263,6 +268,47 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="ChromaticFluid"
                 component={ChromaticFluid}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            {/* ─── NEW: 5 Super Complex Seamless Loop Animations ─── */}
+            <Composition
+                id="MandelbrotPulse"
+                component={MandelbrotPulse}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="FlowField3D"
+                component={FlowField3D}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="GeometricSacred"
+                component={GeometricSacred}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="QuantumEntanglement"
+                component={QuantumEntanglement}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="CelestialMechanic"
+                component={CelestialMechanic}
                 durationInFrames={VIDEO_CONFIG.durationInFrames}
                 fps={VIDEO_CONFIG.fps}
                 width={VIDEO_CONFIG.width}
