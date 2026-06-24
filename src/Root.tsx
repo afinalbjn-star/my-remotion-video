@@ -26,6 +26,11 @@ import { DeepOcean } from './DeepOcean';
 import { StarField } from './StarField';
 import { MysticForest } from './MysticForest';
 import { VolcanicGlass } from './VolcanicGlass';
+import { NebulaVortex } from './NebulaVortex';
+import { QuantumField } from './QuantumField';
+import { FractalDreams } from './FractalDreams';
+import { HyperDimensional } from './HyperDimensional';
+import { ChromaticFluid } from './ChromaticFluid';
 import { VIDEO_CONFIG } from './index'; // VIDEO_CONFIG dari index untuk komposisi lain
 
 export const RemotionRoot: React.FC = () => {
@@ -218,6 +223,46 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="VolcanicGlass"
                 component={VolcanicGlass}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="NebulaVortex"
+                component={NebulaVortex}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="QuantumField"
+                component={QuantumField}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="FractalDreams"
+                component={FractalDreams}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="HyperDimensional"
+                component={HyperDimensional}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="ChromaticFluid"
+                component={ChromaticFluid}
                 durationInFrames={VIDEO_CONFIG.durationInFrames}
                 fps={VIDEO_CONFIG.fps}
                 width={VIDEO_CONFIG.width}

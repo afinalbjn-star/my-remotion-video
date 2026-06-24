@@ -36,6 +36,11 @@ on:
           - StarField
           - MysticForest
           - VolcanicGlass
+          - NebulaVortex
+          - QuantumField
+          - FractalDreams
+          - HyperDimensional
+          - ChromaticFluid
       crf:
         description: 'Kualitas Video / CRF (0-51, makin rendah makin tajam, default: 16)'
         required: false
