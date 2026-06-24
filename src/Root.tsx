@@ -16,6 +16,7 @@ import LakeSurface from './LakeSurface';
 import BioluminescentDeep from './BioluminescentDeep';
 import { CinematicWave } from './CinematicWave';
 import InkBillow from './InkBillow';
+import SilkWave from './SilkWave';
 import { VIDEO_CONFIG } from './index'; // VIDEO_CONFIG dari index untuk komposisi lain
 
 export const RemotionRoot: React.FC = () => {
@@ -128,6 +129,14 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="InkBillow"
                 component={InkBillow}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="SilkWave"
+                component={SilkWave}
                 durationInFrames={VIDEO_CONFIG.durationInFrames}
                 fps={VIDEO_CONFIG.fps}
                 width={VIDEO_CONFIG.width}
