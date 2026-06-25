@@ -36,6 +36,7 @@ import { FlowField3D } from './FlowField3D';
 import { GeometricSacred } from './GeometricSacred';
 import { QuantumEntanglement } from './QuantumEntanglement';
 import { CelestialMechanic } from './CelestialMechanic';
+import { ParticleWave } from './ParticleWave';
 import { VIDEO_CONFIG } from './index'; // VIDEO_CONFIG dari index untuk komposisi lain
 
 export const RemotionRoot: React.FC = () => {
@@ -309,6 +310,14 @@ export const RemotionRoot: React.FC = () => {
             <Composition
                 id="CelestialMechanic"
                 component={CelestialMechanic}
+                durationInFrames={VIDEO_CONFIG.durationInFrames}
+                fps={VIDEO_CONFIG.fps}
+                width={VIDEO_CONFIG.width}
+                height={VIDEO_CONFIG.height}
+            />
+            <Composition
+                id="ParticleWave"
+                component={ParticleWave}
                 durationInFrames={VIDEO_CONFIG.durationInFrames}
                 fps={VIDEO_CONFIG.fps}
                 width={VIDEO_CONFIG.width}
